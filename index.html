@@ -4,83 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tbl_3a9k | Bio</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 </head>
 <body>
-  <div id="language-switch">
-    <button onclick="switchLang('ru')">🇷🇺</button>
-    <button onclick="switchLang('en')">🇺🇸</button>
-  </div>
+  <header id="navbar">
+    <nav>
+      <a href="#hero">🏠</a>
+      <a href="#about">👤</a>
+      <a href="#gallery">🖼️</a>
+      <a href="#socials">📱</a>
+      <button onclick="switchLang('ru')">🇷🇺</button>
+      <button onclick="switchLang('en')">🇺🇸</button>
+    </nav>
+  </header>
 
-  <section class="hero">
-    <div class="overlay"></div>
-    <div class="content">
+  <section class="hero" id="hero">
+    <canvas id="particles-js"></canvas>
+    <div class="hero-content">
       <h1>Tbl_3a9k</h1>
-      <p data-lang="ru">Привет! Я играю в Minecraft и люблю Bed Wars!</p>
-      <p data-lang="en" style="display: none;">Hi! I play Minecraft and love Bed Wars!</p>
+      <p>"Trust me, I got nothing for you, other than love"</p>
     </div>
   </section>
 
-<section class="about">
-  <h2 data-lang="ru">Обо мне</h2>
-  <h2 data-lang="en" style="display: none;">About Me</h2>
-  <p data-lang="ru">Я Tbl_3a9k, обожаю Minecraft, особенно режим Bed Wars! 🛏️🎮<br>
-    Мне 13 лет, я играю на таких серверах как Dexland, FunTime и FunSky.<br>
-    Хочу в будущем собрать мощный ПК, а пока наслаждаюсь своим сетапом с GTX 1660 Ti и i5-10300H. 💻</p>
-  <p data-lang="en" style="display: none;">I’m Tbl_3a9k, I love Minecraft, especially Bed Wars! 🛏️🎮<br>
-    I'm 13 years old, playing on servers like Dexland, FunTime, and FunSky.<br>
-    I dream of getting a new PC someday. For now, I play on a GTX 1660 Ti and i5-10300H setup. 💻</p>
-</section>
- 
-<section class="about-details">
-  <h3 data-lang="ru">Информация</h3>
-  <h3 data-lang="en" style="display: none;">Details</h3>
-  <ul class="info-list">
-    <li data-lang="ru">🏳️ • Страна: Казахстан</li>
-    <li data-lang="en" style="display: none;">🏳️ • Country: Kazakhstan</li>
+  <section class="about" id="about" data-aos="fade-up">
+    <h2 data-lang="ru">Обо мне</h2>
+    <h2 data-lang="en" style="display:none;">About Me</h2>
+    <p data-lang="ru">Привет! Меня зовут Tbl_3a9k. Мне 13 лет, играю только в Minecraft, особенно в Bed Wars 🎮</p>
+    <p data-lang="en" style="display:none;">Hi! I'm Tbl_3a9k. I'm 13 years old, only play Minecraft, especially Bed Wars 🎮</p>
+  </section>
 
-    <li data-lang="ru">👤 • Мне 13 лет</li>
-    <li data-lang="en" style="display: none;">👤 • I am 13 years old</li>
-
-    <li data-lang="ru">💬 • Discord: tbl_3a9k</li>
-    <li data-lang="en" style="display: none;">💬 • Discord username: tbl_3a9k</li>
-
-    <li data-lang="ru">⛏️ • Играю только в Minecraft</li>
-    <li data-lang="en" style="display: none;">⛏️ • Playing only Minecraft</li>
-
-    <li data-lang="ru">🎮 • Серверы: Dexland, FunTime, FunSky</li>
-    <li data-lang="en" style="display: none;">🎮 • Playing on Dexland, FunTime, FunSky</li>
-
-    <li data-lang="ru">💫 • Мечта: новый ПК</li>
-    <li data-lang="en" style="display: none;">💫 • My dream: new PC</li>
-
-    <li data-lang="ru">💻 • Мой ПК: GTX 1660 Ti, i5-10300H</li>
-    <li data-lang="en" style="display: none;">💻 • My setup: GTX 1660 Ti, i5-10300H</li>
-  </ul>
-</section>
-
-  <section class="gallery">
-    <h2 data-lang="ru">Мои скриншоты</h2>
-    <h2 data-lang="en" style="display: none;">My Screenshots</h2>
-    <div class="images">
-      <img src="IMBA2.png" alt="Screenshot 1" />
-      <img src="IMBA.png" alt="Screenshot 2" />
+  <section class="gallery" id="gallery" data-aos="fade-up">
+    <h2 data-lang="ru">Инфо</h2>
+    <h2 data-lang="en" style="display: none;">Details</h2>
+    <div class="info-grid">
+      <p>🏳️ • Country: Kazakhstan</p>
+      <p>💬 • Discord: tbl_3a9k</p>
+      <p>⛏️ • Only Minecraft</p>
+      <p>🎮 • Dexland, FunTime, FunSky</p>
+      <p>💫 • Dream: new PC</p>
+      <p>💻 • Setup: GTX 1660 Ti, i5-10300H</p>
     </div>
   </section>
 
-<div class="quote">
-  <p>"Trust me, I got nothing for you, other than love."</p>
-</div>
-
-  <section class="socials">
+  <section class="socials" id="socials" data-aos="fade-up">
     <h2 data-lang="ru">Мои соцсети</h2>
     <h2 data-lang="en" style="display: none;">My Socials</h2>
     <div class="social-buttons">
       <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" class="social-btn">
-  <img src="images/tiktok.png" alt="TikTok">
-</a>
+        <img src="images/tiktok.png" alt="TikTok">
+      </a>
       <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank" class="social-btn">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" alt="Twitch">
       </a>
@@ -91,42 +64,14 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify">
       </a>
       <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" class="social-btn">
-  <img src="images/roblox.png" alt="Roblox">
-</a>
+        <img src="images/roblox.png" alt="Roblox">
+      </a>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 Tbl_3a9k</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="js/script.js"></script>
 </body>
-<!-- Particles.js контейнер -->
-<div id="particles-js"></div>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-  particlesJS("particles-js", {
-    "particles": {
-      "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-      "color": { "value": "#a54cf2" },
-      "shape": { "type": "circle" },
-      "opacity": { "value": 0.5 },
-      "size": { "value": 3 },
-      "line_linked": { "enable": true, "distance": 150, "color": "#a54cf2", "opacity": 0.4, "width": 1 },
-      "move": { "enable": true, "speed": 2 }
-    },
-    "interactivity": {
-      "events": {
-        "onhover": { "enable": true, "mode": "repulse" },
-        "onclick": { "enable": true, "mode": "push" }
-      },
-      "modes": {
-        "repulse": { "distance": 100 },
-        "push": { "particles_nb": 4 }
-      }
-    },
-    "retina_detect": true
-  });
-</script>
 </html>
