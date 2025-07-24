@@ -20,7 +20,6 @@
       <h1>Tbl_3a9k</h1>
       <p data-lang="ru">Привет! Я играю в Minecraft и люблю Bed Wars!</p>
       <p data-lang="en" style="display: none;">Hi! I play Minecraft and love Bed Wars!</p>
-      <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" class="tiktok-btn">TikTok</a>
     </div>
   </section>
 
@@ -76,7 +75,7 @@
     <h2 data-lang="en" style="display: none;">My Socials</h2>
     <div class="social-buttons">
       <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" class="social-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg" alt="TikTok">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/tiktok--v1.png" alt="TikTok">
       </a>
       <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank" class="social-btn">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" alt="Twitch">
@@ -88,7 +87,7 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify">
       </a>
       <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" class="social-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Roblox_2017_icon_logo.svg" alt="Roblox">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/roblox.png" alt="Roblox">
       </a>
     </div>
   </section>
@@ -99,4 +98,31 @@
 
   <script src="script.js"></script>
 </body>
+<!-- Particles.js контейнер -->
+<div id="particles-js"></div>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+      "color": { "value": "#a54cf2" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.5 },
+      "size": { "value": 3 },
+      "line_linked": { "enable": true, "distance": 150, "color": "#a54cf2", "opacity": 0.4, "width": 1 },
+      "move": { "enable": true, "speed": 2 }
+    },
+    "interactivity": {
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" },
+        "onclick": { "enable": true, "mode": "push" }
+      },
+      "modes": {
+        "repulse": { "distance": 100 },
+        "push": { "particles_nb": 4 }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
 </html>
