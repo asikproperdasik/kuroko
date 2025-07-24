@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Tbl_3a9k — Био</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- Шрифт -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  
-  <!-- Стили -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     html {
       scroll-behavior: smooth;
@@ -22,241 +17,157 @@
       overflow-x: hidden;
     }
 
-    /* Верхняя часть с изображением */
-    .header {
-      background: url('images/IMBA.png') center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      text-align: center;
-      color: white;
-      padding-bottom: 80px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header h1 {
-      font-size: 24px;
-      margin: 0;
-      animation: fadeInDown 1s ease;
-    }
-
-    .header p {
-      font-size: 12px;
-      margin-top: 10px;
-      animation: fadeInUp 1.2s ease;
-    }
-
-    /* Анимированный фон с частицами */
     #particles-js {
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      background: black;
+      height: 100%;
       z-index: 0;
-      overflow: hidden;
+      pointer-events: auto;
     }
 
     #particles-js canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      pointer-events: none;
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .content {
       position: relative;
       z-index: 1;
-      padding: 100px 20px;
-      max-width: 900px;
-      margin: 0 auto;
+      padding: 40px;
     }
 
-    section.about, section.info {
-      margin-bottom: 60px;
-      animation: fadeIn 2s ease;
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
     }
 
-    .about p {
-      margin: 10px 0;
-      font-size: 12px;
+    .header-image {
+      max-width: 300px;
+    }
+
+    .header-text {
+      margin-top: 20px;
+    }
+
+    .about, .info {
+      margin-bottom: 40px;
     }
 
     .info ul {
       list-style: none;
       padding: 0;
-      font-size: 12px;
     }
 
     .info li {
-      margin: 8px 0;
+      margin: 10px 0;
     }
 
-    /* Соцсети */
     .socials {
       display: flex;
       gap: 20px;
-      justify-content: center;
       flex-wrap: wrap;
-      margin-top: 50px;
+      justify-content: center;
     }
 
-    .socials a img {
-      width: 50px;
-      height: 50px;
+    .socials a {
+      display: inline-block;
       border: 2px solid white;
+      padding: 10px;
       border-radius: 10px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .socials a img:hover {
+    .socials a:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 10px white;
+      box-shadow: 0 0 15px white;
     }
 
-    /* Анимации */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .socials img {
+      width: 40px;
+      height: 40px;
     }
 
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Переключатель языка */
-    .lang-toggle {
+    .lang-switch {
       position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 100;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid white;
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 10px;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .lang-switch button {
+      background: black;
+      color: white;
+      border: 2px solid white;
+      font-family: 'Press Start 2P';
+      padding: 5px 10px;
       cursor: pointer;
+    }
+
+    .lang-switch button:hover {
+      background: white;
+      color: black;
     }
   </style>
 </head>
 <body>
+  <div id="particles-js"></div>
 
-  <!-- Переключатель языка -->
-  <div class="lang-toggle" onclick="toggleLang()">EN / RU</div>
-
-  <!-- Верхняя часть -->
-  <div class="header">
-    <h1>Tbl_3a9k bio</h1>
-    <p>Trust me, I got nothing for you, other than love</p>
+  <div class="lang-switch">
+    <button onclick="switchLang('ru')">RU</button>
+    <button onclick="switchLang('en')">EN</button>
   </div>
 
-  <!-- Анимированный фон с контентом -->
-  <div id="particles-js">
-    <div class="content">
-      
-      <!-- Блок "Обо мне" -->
-      <section class="about" data-ru data-en>
-        <h2 data-ru>Привет! Я Tbl_3a9k 👋</h2>
-        <h2 data-en style="display:none">Hi! I'm Tbl_3a9k 👋</h2>
-
-        <p data-ru>Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮</p>
-        <p data-en style="display:none">I'm 13, I live in Kazakhstan and I love playing Minecraft. Especially — Bed Wars 🎮</p>
-
-        <p data-ru>Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻</p>
-        <p data-en style="display:none">My dream is to build a powerful PC, but for now I enjoy my GTX 1660 Ti and i5-10300H 💻</p>
-
-        <p data-ru>Люблю весело проводить время на Dexland, FunTime и FunSky.</p>
-        <p data-en style="display:none">I enjoy playing on Dexland, FunTime and FunSky.</p>
-
-        <p data-ru>Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!</p>
-        <p data-en style="display:none">Add me on Discord — <strong>tbl_3a9k</strong>. See you in game!</p>
-      </section>
-
-      <!-- Блок "Инфо" -->
-      <section class="info">
-        <ul>
-          <li>🏳️ • Country: Kazakhstan</li>
-          <li>👤 • I am 13 years old</li>
-          <li>💬 • Discord username: tbl_3a9k</li>
-          <li>⛏️ • Playing only Minecraft</li>
-          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
-          <li>💫 • My dream: new PC</li>
-          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>
-        </ul>
-      </section>
-
-      <!-- Соцсети -->
-      <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
-        <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
+  <div class="content">
+    <div class="header">
+      <img src="images/IMBA.png" class="header-image" />
+      <div class="header-text">
+        <h1>Tbl_3a9k bio</h1>
+        <p>Trust me, I got nothing for you, other than love</p>
       </div>
+    </div>
 
+    <section class="about" id="about">
+      <h2 data-ru="Привет! Я Tbl_3a9k 👋" data-en="Hi! I'm Tbl_3a9k 👋">Привет! Я Tbl_3a9k 👋</h2>
+      <p data-ru="Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮"
+         data-en="I'm 13, from Kazakhstan and love playing Minecraft — especially Bed Wars 🎮">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮</p>
+      <p data-ru="Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻"
+         data-en="My dream is to build a powerful PC, but for now I enjoy my GTX 1660 Ti and i5-10300H 💻">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻</p>
+      <p data-ru="Люблю весело проводить время на Dexland, FunTime и FunSky."
+         data-en="I love having fun on Dexland, FunTime, and FunSky.">Люблю весело проводить время на Dexland, FunTime и FunSky.</p>
+      <p data-ru="Добавляйся в Discord — tbl_3a9k. До встречи в игре!"
+         data-en="Add me on Discord — tbl_3a9k. See you in game!">Добавляйся в Discord — tbl_3a9k. До встречи в игре!</p>
+    </section>
+
+    <section class="info">
+      <ul>
+        <li data-ru="🏳️ • Страна: Казахстан" data-en="🏳️ • Country: Kazakhstan">🏳️ • Страна: Казахстан</li>
+        <li data-ru="👤 • Мне 13 лет" data-en="👤 • I am 13 years old">👤 • Мне 13 лет</li>
+        <li data-ru="💬 • Discord: tbl_3a9k" data-en="💬 • Discord: tbl_3a9k">💬 • Discord: tbl_3a9k</li>
+        <li data-ru="⛏️ • Играю только в Minecraft" data-en="⛏️ • Playing only Minecraft">⛏️ • Играю только в Minecraft</li>
+        <li data-ru="🎮 • Играю на Dexland, FunTime, FunSky" data-en="🎮 • Playing on Dexland, FunTime, FunSky">🎮 • Играю на Dexland, FunTime, FunSky</li>
+        <li data-ru="💫 • Мечта: новый ПК" data-en="💫 • My dream: new PC">💫 • Мечта: новый ПК</li>
+        <li data-ru="💻 • Мой сетап: GTX 1660 Ti, i5-10300H" data-en="💻 • My setup: GTX 1660 Ti, i5-10300H">💻 • Мой сетап: GTX 1660 Ti, i5-10300H</li>
+      </ul>
+    </section>
+
+    <div class="socials">
+      <a href="https://tiktok.com/@tbl_3a9k" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
+      <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
+      <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
+      <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
+      <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
     </div>
   </div>
 
-  <!-- JS: Particles.js и язык -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80 },
-        color: { value: "#ffffff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.5 },
-        size: { value: 3 },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.4,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 3,
-          attract: { enable: false }
-        }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" }
-        },
-        modes: {
-          repulse: { distance: 100 },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
+    particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js/particles.json');
 
-    // Переключение языка
-    function toggleLang() {
-      document.querySelectorAll('[data-ru]').forEach(el => {
-        if (el.style.display === 'none') {
-          el.style.display = '';
-        } else {
-          el.style.display = 'none';
-        }
-      });
-      document.querySelectorAll('[data-en]').forEach(el => {
-        if (el.style.display === 'none') {
-          el.style.display = '';
-        } else {
-          el.style.display = 'none';
-        }
+    function switchLang(lang) {
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
       });
     }
   </script>

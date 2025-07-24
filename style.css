@@ -1,144 +1,132 @@
+/* ====== ОСНОВНОЙ СТИЛЬ ====== */
 body {
   margin: 0;
-  padding: 0;
-  font-family: 'Press Start 2P', sans-serif;
-  background: radial-gradient(#a23982, #1f1013);
+  font-family: 'Press Start 2P', cursive;
   color: white;
-  text-align: center;
-  overflow-x: hidden;
+  background-color: #000;
+  scroll-behavior: smooth;
 }
 
-/* Верхняя часть */
+* {
+  box-sizing: border-box;
+}
+
 .header {
+  text-align: center;
+  padding: 100px 20px 40px;
+  background: none;
   position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  z-index: 1;
 }
 
 .header-image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+  max-width: 300px;
+  height: auto;
 }
 
 .header-text {
-  z-index: 2;
-  color: white;
-  text-shadow: 2px 2px 10px #000;
-  max-width: 90%;
+  margin-top: 20px;
 }
 
-.header-text h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.header-text p {
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-/* Блок "Обо мне" и "Инфо" */
 .about, .info {
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 40px 20px;
-  font-size: 14px;
-  line-height: 1.6;
+  margin: 20px;
+  border-radius: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.about h2 {
+  margin-top: 0;
 }
 
 .info ul {
   list-style: none;
-  padding: 0;
-  font-size: 13px;
+  padding-left: 0;
 }
 
-/* Соцсети */
+.info li {
+  margin: 10px 0;
+}
+
 .socials {
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin: 40px 0;
   flex-wrap: wrap;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
 }
 
-.socials img {
-  width: 50px;
-  height: 50px;
+.socials a img {
+  width: 60px;
+  height: 60px;
   border: 2px solid white;
   border-radius: 12px;
-  padding: 6px;
-  background-color: rgba(255, 255, 255, 0.08);
-  transition: 0.3s ease;
-  box-shadow: 0 0 10px transparent;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.socials img:hover {
+.socials a img:hover {
   transform: scale(1.1);
-  border-color: #a23982;
-  box-shadow: 0 0 15px #a23982;
+  box-shadow: 0 0 15px white;
 }
 
-/* Анимация световых частиц */
-.light {
-  position: absolute;
-  width: 2px;
-  height: 100px;
-  background-color: white;
-  box-shadow: 0 0 20px white;
-  opacity: 0;
-  top: 100vh;
-  z-index: 0;
+/* ====== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ====== */
+.language-switcher {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 2;
 }
 
-@keyframes floatUp {
-  0% { top: 100vh; opacity: 0; }
-  25% { opacity: 1; }
-  50% { top: 50vh; opacity: 0.8; }
-  75% { opacity: 1; }
-  100% { top: -100vh; opacity: 0; }
+.language-switcher button {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid white;
+  color: white;
+  font-family: inherit;
+  font-size: 12px;
+  margin-left: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.x1 { left: 10%; animation: floatUp 4s infinite linear; }
-.x2 { left: 20%; animation: floatUp 6s infinite linear; }
-.x3 { left: 30%; animation: floatUp 3.5s infinite linear; }
-.x4 { left: 40%; animation: floatUp 5s infinite linear; }
-.x5 { left: 50%; animation: floatUp 7s infinite linear; }
-.x6 { left: 60%; animation: floatUp 4.2s infinite linear; }
-.x7 { left: 70%; animation: floatUp 5.5s infinite linear; }
-.x8 { left: 80%; animation: floatUp 4.8s infinite linear; }
-.x9 { left: 90%; animation: floatUp 3.9s infinite linear; }
+.language-switcher button:hover {
+  background: white;
+  color: black;
+}
 
+/* ====== ФОН С ЧАСТИЦАМИ ====== */
 #particles-js {
-  position: relative;
-  height: 100vh;
+  position: fixed;
   width: 100%;
-  background: black;
+  height: 100%;
   z-index: 0;
-}
-
-#particles-js {
-  position: relative;
-  width: 100%;
-  background: black;
-  z-index: 0;
-  overflow: hidden;
+  top: 0;
+  left: 0;
 }
 
 #particles-js canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto;
 }
 
-#particles-js .content {
-  position: relative;
-  z-index: 1;
-  padding: 100px 20px;
-  color: white;
+/* ====== МЕЛКИЕ АНИМАЦИИ (по вкусу) ====== */
+.about, .info, .socials {
+  animation: fadeInUp 1s ease;
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  } to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
