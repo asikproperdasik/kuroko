@@ -5,6 +5,53 @@
   <title>Tbl_3a9k — Био</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    .header {
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .header-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .header-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -10%); /* немного ниже центра */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .header-text h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header-text p {
+      font-size: 14px;
+    }
+
+    .particles-container {
+      position: relative;
+      background: black;
+      overflow: hidden;
+    }
+
+    .light {
+      position: absolute;
+      width: 4px;
+      height: 100px;
+      background: white;
+      opacity: 0.1;
+      animation: float 6s linear infinite;
+    }
+
+    /* индивидуальные классы x1–x9 и keyframes остаются в style.css */
+  </style>
 </head>
 <body>
 
@@ -48,16 +95,19 @@
     <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
   </div>
 
-  <!-- Световые частицы -->
-  <div class="light x1"></div>
-  <div class="light x2"></div>
-  <div class="light x3"></div>
-  <div class="light x4"></div>
-  <div class="light x5"></div>
-  <div class="light x6"></div>
-  <div class="light x7"></div>
-  <div class="light x8"></div>
-  <div class="light x9"></div>
+  <!-- Частицы только в нижней части -->
+  <div class="particles-container">
+    <div class="light x1"></div>
+    <div class="light x2"></div>
+    <div class="light x3"></div>
+    <div class="light x4"></div>
+    <div class="light x5"></div>
+    <div class="light x6"></div>
+    <div class="light x7"></div>
+    <div class="light x8"></div>
+    <div class="light x9"></div>
+  </div>
 
 </body>
 </html>
+
