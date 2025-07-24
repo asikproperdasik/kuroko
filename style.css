@@ -1,22 +1,18 @@
-/* ====== ОСНОВНОЙ СТИЛЬ ====== */
 body {
   margin: 0;
   font-family: 'Press Start 2P', cursive;
-  color: white;
   background-color: #000;
+  color: white;
+  overflow-x: hidden;
   scroll-behavior: smooth;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 .header {
   text-align: center;
   padding: 100px 20px 40px;
-  background: none;
   position: relative;
   z-index: 1;
+  background: none;
 }
 
 .header-image {
@@ -29,7 +25,7 @@ body {
 }
 
 .about, .info {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 40px 20px;
   margin: 20px;
   border-radius: 10px;
@@ -75,32 +71,7 @@ body {
   box-shadow: 0 0 15px white;
 }
 
-/* ====== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ====== */
-.language-switcher {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 2;
-}
-
-.language-switcher button {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid white;
-  color: white;
-  font-family: inherit;
-  font-size: 12px;
-  margin-left: 5px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.language-switcher button:hover {
-  background: white;
-  color: black;
-}
-
-/* ====== ФОН С ЧАСТИЦАМИ ====== */
+/* Анимированный фон с точками и линиями */
 #particles-js {
   position: fixed;
   width: 100%;
@@ -108,25 +79,11 @@ body {
   z-index: 0;
   top: 0;
   left: 0;
+  pointer-events: auto;
 }
 
 #particles-js canvas {
   width: 100% !important;
   height: 100% !important;
   pointer-events: auto;
-}
-
-/* ====== МЕЛКИЕ АНИМАЦИИ (по вкусу) ====== */
-.about, .info, .socials {
-  animation: fadeInUp 1s ease;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  } to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
