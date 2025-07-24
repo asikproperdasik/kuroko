@@ -87,3 +87,48 @@ section {
   gap: 15px;
   margin-top: 20px;
 }
+/* 🟣 Блок “Инфо” (информация обо мне) */
+.info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.info-grid p {
+  flex: 0 1 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid white;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: left;
+}
+
+/* 🟣 Социальные кнопки — в белых рамках одинакового размера */
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+.social-buttons .social-btn {
+  background: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.social-buttons .social-btn img {
+  width: 40px;
+  height: 40px;
+}
+.social-buttons .social-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
