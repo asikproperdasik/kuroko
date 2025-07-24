@@ -111,3 +111,12 @@ body {
 .x7 { left: 70%; animation: floatUp 5.5s infinite linear; }
 .x8 { left: 80%; animation: floatUp 4.8s infinite linear; }
 .x9 { left: 90%; animation: floatUp 3.9s infinite linear; }
+
+#particles-js {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: black;
+  z-index: 0;
+}
+
