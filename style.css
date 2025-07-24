@@ -1,101 +1,70 @@
-/* Сброс и базовые стили */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Verdana', sans-serif;
 }
-
 body {
   background: linear-gradient(135deg, #0d0d0d, #240046);
   color: white;
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
-
-/* Навбар */
 #navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   backdrop-filter: blur(5px);
   padding: 10px 20px;
-  z-index: 1000;
+  z-index: 100;
   display: flex;
   justify-content: center;
 }
-
-#navbar nav a,
-#navbar nav button {
+#navbar nav a, #navbar nav button {
   margin: 0 10px;
   color: white;
   text-decoration: none;
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  transition: color 0.3s;
 }
-
-#navbar nav a:hover,
-#navbar nav button:hover {
-  color: #a066ff;
-}
-
-/* Герой (главный экран) */
 .hero {
   height: 100vh;
   background: url('images/IMBA2.png') center/cover fixed no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   text-align: center;
-}
-
-.hero-content {
-  z-index: 2;
   position: relative;
+  overflow: hidden;
 }
-
 .hero h1 {
-  font-size: 4rem;
+  font-size: 3.5rem;
   color: white;
+  z-index: 1;
 }
-
 .hero p {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #ccc;
-  margin-top: 10px;
+  z-index: 1;
 }
-
-/* Particles canvas */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
 #particles-js {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 0;
 }
-
-/* Секции */
 section {
   padding: 100px 20px 60px;
   text-align: center;
 }
-
-/* Грид с информацией */
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-  font-size: 18px;
-}
-
-/* Социальные кнопки */
 .social-buttons {
   display: flex;
   justify-content: center;
@@ -103,40 +72,18 @@ section {
   gap: 20px;
   margin-top: 20px;
 }
-
 .social-btn img {
   width: 50px;
   height: 50px;
   filter: drop-shadow(0 0 5px white);
   transition: transform 0.3s ease;
 }
-
 .social-btn img:hover {
   transform: scale(1.1);
 }
-
-/* Заголовки */
-h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero p {
-    font-size: 1rem;
-  }
-
-  #navbar nav a,
-  #navbar nav button {
-    font-size: 14px;
-  }
-
-  .info-grid {
-    font-size: 16px;
-  }
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
 }
