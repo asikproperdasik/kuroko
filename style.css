@@ -123,4 +123,16 @@ footer {
   width: 35px;
   height: 35px;
 }
-
+.about-details {
+  padding: 40px 20px;
+  text-align: center;
+}
+.info-list {
+  list-style: none;
+  padding: 0;
+  font-size: 14px;
+  line-height: 2.2;
+}
+.info-list li {
+  margin-bottom: 4px;
+}
