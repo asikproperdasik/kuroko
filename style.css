@@ -93,3 +93,34 @@ footer {
   font-size: 18px;
   cursor: pointer;
 }
+.socials {
+  padding: 60px 20px;
+  text-align: center;
+}
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+.social-btn {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.social-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #a54cf2;
+}
+.social-btn img {
+  width: 35px;
+  height: 35px;
+}
+
