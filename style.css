@@ -1,26 +1,38 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Press Start 2P', sans-serif;
-  background: radial-gradient(#a23982,#1f1013);
-  overflow: hidden;
+  background: radial-gradient(#a23982, #1f1013);
   color: white;
   text-align: center;
-  padding-bottom: 100px;
+  overflow-x: hidden;
 }
 
-.top-bg img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  display: block;
+/* Верхняя часть */
+.header {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.about, .info {
+.header-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Блок "Обо мне" */
+.about {
+  padding: 40px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Блок "Инфо" */
+.info {
   padding: 20px;
-}
-
-.about p {
-  margin: 10px 0;
 }
 
 .info ul {
@@ -29,6 +41,7 @@ body {
   font-size: 0.9em;
 }
 
+/* Соцсети */
 .socials {
   display: flex;
   justify-content: center;
@@ -51,7 +64,7 @@ body {
   border-color: #a23982;
 }
 
-/* Анимация световых частиц */
+/* Световые частицы */
 .light {
   position: absolute;
   width: 2px;
@@ -60,12 +73,13 @@ body {
   box-shadow: 0 0 20px white;
   opacity: 0;
   top: 100vh;
+  z-index: -1;
 }
 
 @keyframes floatUp {
   0% { top: 100vh; opacity: 0; }
   25% { opacity: 1; }
-  50% { top: 50vh; opacity: .8; }
+  50% { top: 50vh; opacity: 0.8; }
   75% { opacity: 1; }
   100% { top: -100vh; opacity: 0; }
 }
@@ -79,3 +93,5 @@ body {
 .x7 { left: 70%; animation: floatUp 5.5s infinite linear; }
 .x8 { left: 80%; animation: floatUp 4.8s infinite linear; }
 .x9 { left: 90%; animation: floatUp 3.9s infinite linear; }
+
+
