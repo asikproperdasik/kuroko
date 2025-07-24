@@ -120,3 +120,25 @@ body {
   z-index: 0;
 }
 
+#particles-js {
+  position: relative;
+  width: 100%;
+  background: black;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#particles-js canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+#particles-js .content {
+  position: relative;
+  z-index: 1;
+  padding: 100px 20px;
+  color: white;
+}
+

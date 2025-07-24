@@ -1,200 +1,203 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Tbl_3a9k — Bio</title>
+  <meta charset="UTF-8" />
+  <title>Tbl_3a9k — Био</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      background: black;
-      font-family: 'Press Start 2P', sans-serif;
+      box-sizing: border-box;
       scroll-behavior: smooth;
-      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: black;
       color: white;
     }
 
     .header {
-      position: relative;
+      background: url("images/IMBA.png") center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      padding: 20px;
     }
 
-    .header-image {
-      width: 100%;
-      height: auto;
-      display: block;
+    .header h1 {
+      font-size: 24px;
+      animation: fadeInDown 1.2s ease-out;
     }
 
-    .header-text {
-      position: absolute;
-      top: 55%;
-      left: 50%;
-      transform: translate(-50%, -10%);
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-      animation: fadeIn 2s ease forwards;
+    .header p {
+      font-size: 14px;
+      margin-top: 10px;
+      animation: fadeInUp 1.2s ease-out;
     }
 
-    .header-text h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .header-text p {
-      font-size: 12px;
-    }
-
-    section {
-      padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 1s;
-    }
-
-    .info ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .info li {
-      margin-bottom: 0.5rem;
-    }
-
-    .socials {
-      text-align: center;
-      margin-bottom: 3rem;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 2s;
-      opacity: 0;
-    }
-
-    .socials a {
-      display: inline-block;
-      margin: 0 10px;
-      border: 2px solid white;
-      border-radius: 8px;
-      padding: 5px;
-      width: 48px;
-      height: 48px;
-      box-sizing: border-box;
-      transition: transform 0.3s;
-    }
-
-    .socials a:hover {
-      transform: scale(1.1);
-    }
-
-    .socials img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     #particles-js {
       position: relative;
-      height: 100vh;
       width: 100%;
+      min-height: 100vh;
       background: black;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    #particles-js canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       z-index: 0;
     }
 
-    .lang-toggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid white;
-      border-radius: 8px;
-      padding: 5px 10px;
-      color: white;
+    #particles-js .content {
+      position: relative;
+      z-index: 1;
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    section.about, section.info {
+      margin-bottom: 50px;
+    }
+
+    section.about p {
+      margin-top: 15px;
       font-size: 12px;
+      line-height: 1.6;
+    }
+
+    section.info ul {
+      list-style: none;
+      font-size: 12px;
+      padding-left: 0;
+    }
+
+    section.info li {
+      margin-bottom: 10px;
+    }
+
+    .socials {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .socials a img {
+      width: 50px;
+      height: 50px;
+      border: 2px solid white;
+      padding: 5px;
+      border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .socials a img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px white;
+    }
+
+    /* Переключатель языков */
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .lang-switcher button {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      padding: 5px 10px;
+      margin-left: 5px;
       cursor: pointer;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .lang-switcher button:hover {
+      background: white;
+      color: black;
     }
   </style>
 </head>
 <body>
 
-  <!-- Переключатель языка -->
-  <div class="lang-toggle" onclick="toggleLanguage()">🇷🇺 / 🇬🇧</div>
+  <!-- Переключатель языков -->
+  <div class="lang-switcher">
+    <button onclick="setLang('ru')">RU</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
 
   <!-- Верхняя часть -->
   <div class="header">
-    <img src="images/IMBA.png" class="header-image" />
-    <div class="header-text">
-      <h1>Tbl_3a9k bio</h1>
-      <p>Trust me, I got nothing for you, other than love</p>
+    <h1 id="title-text">Tbl_3a9k bio</h1>
+    <p id="subtitle-text">Trust me, I got nothing for you, other than love</p>
+  </div>
+
+  <!-- Нижняя часть с анимированным фоном -->
+  <div id="particles-js">
+    <div class="content">
+      <!-- Блок "Обо мне" -->
+      <section class="about">
+        <h2 id="about-title">Привет! Я Tbl_3a9k 👋</h2>
+        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮</p>
+        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻</p>
+        <p id="about-3">Люблю весело проводить время на Dexland, FunTime и FunSky.</p>
+        <p id="about-4">Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!</p>
+      </section>
+
+      <!-- Блок "Инфо" -->
+      <section class="info">
+        <ul id="info-list">
+          <li>🏳️ • Country: Kazakhstan</li>
+          <li>👤 • I am 13 years old</li>
+          <li>💬 • Discord username: tbl_3a9k</li>
+          <li>⛏️ • Playing only Minecraft</li>
+          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
+          <li>💫 • My dream: new PC</li>
+          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>
+        </ul>
+      </section>
+
+      <!-- Соцсети -->
+      <div class="socials">
+        <a href="https://tiktok.com/@tbl_3a9k" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
+        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
+        <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
+        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
+        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
+      </div>
     </div>
   </div>
 
-  <!-- ОБО МНЕ (две версии) -->
-  <section class="about">
-    <div class="lang lang-ru">
-      <h2>Привет! Я Tbl_3a9k 👋</h2>
-      <p>Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮</p>
-      <p>Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻</p>
-      <p>Люблю весело проводить время на Dexland, FunTime и FunSky.</p>
-      <p>Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!</p>
-    </div>
-    <div class="lang lang-en" style="display: none;">
-      <h2>Hi! I'm Tbl_3a9k 👋</h2>
-      <p>I'm 13 years old, living in Kazakhstan, and I love playing Minecraft — especially Bed Wars 🎮</p>
-      <p>My dream is to build a powerful PC, but for now I'm enjoying my GTX 1660 Ti and i5-10300H 💻</p>
-      <p>I enjoy hanging out on Dexland, FunTime, and FunSky servers.</p>
-      <p>Add me on Discord — <strong>tbl_3a9k</strong>. See you in game!</p>
-    </div>
-  </section>
-
-  <!-- ИНФО -->
-  <section class="info">
-    <ul class="lang lang-ru">
-      <li>🏳️ • Страна: Казахстан</li>
-      <li>👤 • Мне 13 лет</li>
-      <li>💬 • Discord: tbl_3a9k</li>
-      <li>⛏️ • Играю только в Minecraft</li>
-      <li>🎮 • Играю на Dexland, FunTime, FunSky</li>
-      <li>💫 • Мечта: новый ПК</li>
-      <li>💻 • Мой сетап: GTX 1660 Ti, i5-10300H</li>
-    </ul>
-    <ul class="lang lang-en" style="display: none;">
-      <li>🏳️ • Country: Kazakhstan</li>
-      <li>👤 • I am 13 years old</li>
-      <li>💬 • Discord: tbl_3a9k</li>
-      <li>⛏️ • Playing only Minecraft</li>
-      <li>🎮 • Servers: Dexland, FunTime, FunSky</li>
-      <li>💫 • Dream: new PC</li>
-      <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>
-    </ul>
-  </section>
-
-  <!-- СОЦСЕТИ -->
-  <div class="socials">
-    <a href="https://tiktok.com/@tbl_3a9k" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
-    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
-    <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
-    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
-    <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
-  </div>
-
-  <!-- Нижняя анимация -->
-  <div id="particles-js"></div>
-
-  <!-- JS: частицы и язык -->
+  <!-- Скрипт particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
     particlesJS("particles-js", {
       particles: {
         number: { value: 80, density: { enable: true, value_area: 800 } },
         color: { value: "#ffffff" },
-        shape: { type: "circle", stroke: { width: 0, color: "#000000" }},
+        shape: { type: "circle" },
         opacity: { value: 0.5 },
         size: { value: 3, random: true },
         line_linked: {
@@ -208,10 +211,7 @@
           enable: true,
           speed: 2,
           direction: "none",
-          random: false,
-          straight: false,
-          out_mode: "out",
-          bounce: false
+          out_mode: "out"
         }
       },
       interactivity: {
@@ -228,12 +228,58 @@
       },
       retina_detect: true
     });
-
-    function toggleLanguage() {
-      const langs = document.querySelectorAll('.lang');
-      langs.forEach(el => el.style.display = (el.style.display === 'none' ? 'block' : 'none'));
-    }
   </script>
 
+  <!-- Скрипт для переключения языков -->
+  <script>
+    const langData = {
+      ru: {
+        title: "Tbl_3a9k bio",
+        subtitle: "Trust me, I got nothing for you, other than love",
+        aboutTitle: "Привет! Я Tbl_3a9k 👋",
+        about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮",
+        about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻",
+        about3: "Люблю весело проводить время на Dexland, FunTime и FunSky.",
+        about4: "Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!",
+        info: `
+          <li>🏳️ • Страна: Казахстан</li>
+          <li>👤 • Мне 13 лет</li>
+          <li>💬 • Discord: tbl_3a9k</li>
+          <li>⛏️ • Играю только в Minecraft</li>
+          <li>🎮 • Серверы: Dexland, FunTime, FunSky</li>
+          <li>💫 • Мечта: новый ПК</li>
+          <li>💻 • Мой сетап: GTX 1660 Ti, i5-10300H</li>`
+      },
+      en: {
+        title: "Tbl_3a9k bio",
+        subtitle: "Trust me, I got nothing for you, other than love",
+        aboutTitle: "Hey! I'm Tbl_3a9k 👋",
+        about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft, especially Bed Wars 🎮",
+        about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1660 Ti and i5-10300H 💻",
+        about3: "I have fun playing on Dexland, FunTime and FunSky.",
+        about4: "Add me on Discord — <strong>tbl_3a9k</strong>. See you in game!",
+        info: `
+          <li>🏳️ • Country: Kazakhstan</li>
+          <li>👤 • I am 13 years old</li>
+          <li>💬 • Discord username: tbl_3a9k</li>
+          <li>⛏️ • Playing only Minecraft</li>
+          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
+          <li>💫 • My dream: new PC</li>
+          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>`
+      }
+    };
+
+    function setLang(lang) {
+      const data = langData[lang];
+      document.getElementById("title-text").innerText = data.title;
+      document.getElementById("subtitle-text").innerText = data.subtitle;
+      document.getElementById("about-title").innerText = data.aboutTitle;
+      document.getElementById("about-1").innerText = data.about1;
+      document.getElementById("about-2").innerText = data.about2;
+      document.getElementById("about-3").innerText = data.about3;
+      document.getElementById("about-4").innerHTML = data.about4;
+      document.getElementById("info-list").innerHTML = data.info;
+    }
+  </script>
 </body>
 </html>
