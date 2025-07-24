@@ -182,4 +182,18 @@ body, main {
   position: relative;
   z-index: 1;
 }
+.quote {
+  text-align: center;
+  font-style: italic;
+  font-size: 18px;
+  color: #a54cf2;
+  margin: 40px 20px 10px;
+  opacity: 0.85;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 0.85; transform: translateY(0); }
+}
 
