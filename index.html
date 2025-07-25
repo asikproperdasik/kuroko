@@ -1,73 +1,59 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Tbl_3a9k — Био</title>
   <link rel="icon" href="favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    * {
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Press Start 2P', cursive;
-      background: #0d0d0d;
+      background: black;
       color: white;
+      font-family: 'Press Start 2P', cursive;
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top, #1b0033, #000000);
-      z-index: -2;
-    }
-
-    #particles-js {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .container {
-      padding: 60px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      font-size: 24px;
+    .header {
+      background: url('IMBA.png') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      margin-bottom: 20px;
-      text-shadow: 0 0 8px #a64bff;
     }
 
-    .info {
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid #a64bff;
-      border-radius: 16px;
-      padding: 20px;
+    .header h1 {
+      font-size: 24px;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    .content {
+      padding: 40px 20px;
+      background: transparent;
+      position: relative;
+      z-index: 2;
+    }
+
+    .block {
       margin-bottom: 40px;
-      box-shadow: 0 0 20px #a64bff33;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px #8000ff;
     }
 
-    .info ul {
+    .info-list {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
+      margin: 0;
     }
 
-    .info li {
-      margin-bottom: 10px;
+    .info-list li {
+      margin: 10px 0;
     }
 
     .socials {
@@ -75,38 +61,40 @@
       justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
+      margin-top: 20px;
     }
 
     .socials a {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
       border: 2px solid white;
-      border-radius: 12px;
-      padding: 8px 12px;
-      text-decoration: none;
-      color: white;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 0 8px #ffffff33;
+      border-radius: 10px;
+      padding: 5px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: black;
     }
 
     .socials a:hover {
-      background-color: #a64bff;
-      transform: scale(1.05);
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #fff;
+    }
+
+    .socials img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .screenshots {
       padding: 60px 20px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
       text-align: center;
-      position: relative;
-      z-index: 1;
+      background: rgba(0, 0, 0, 0.7);
       animation: fadeInUp 1s ease-out;
     }
 
     .screenshots h2 {
-      font-size: 24px;
+      font-size: 18px;
       margin-bottom: 30px;
       text-shadow: 0 0 5px #00f0ff;
     }
@@ -122,27 +110,14 @@
       width: 100%;
       max-width: 300px;
       border-radius: 16px;
+      cursor: pointer;
       box-shadow: 0 0 15px #00f0ff55;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      opacity: 0;
-      animation: fadeInZoom 1s ease-out forwards;
-      cursor: pointer;
     }
 
     .screenshots img:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px #00f0ffcc, 0 0 10px #00f0ffaa;
-    }
-
-    @keyframes fadeInZoom {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      box-shadow: 0 0 30px #00f0ff;
     }
 
     @keyframes fadeInUp {
@@ -156,128 +131,133 @@
       }
     }
 
-    /* Модальное окно */
-    .modal {
+    /* Lightbox */
+    #lightbox {
       display: none;
       position: fixed;
-      z-index: 999;
-      left: 0;
-      top: 0;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.9);
       justify-content: center;
       align-items: center;
+      z-index: 999;
     }
 
-    .modal img {
+    #lightbox img {
       max-width: 90%;
       max-height: 90%;
-      border: 4px solid white;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #00f0ff;
+      border-radius: 20px;
+      box-shadow: 0 0 30px #00f0ff;
     }
 
-    .modal:target {
+    #lightbox:target {
       display: flex;
     }
 
-    .close {
-      position: absolute;
-      top: 30px;
-      right: 40px;
-      font-size: 32px;
-      color: white;
-      text-decoration: none;
-    }
-
-    .close:hover {
-      color: #a64bff;
+    /* Particle background (must be added via JS or external lib) */
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
   </style>
 </head>
 <body>
   <div id="particles-js"></div>
-  <div class="container">
 
-    <h1>Привет, я Tbl_3a9k 👾</h1>
+  <div class="header">
+    <h1>Добро пожаловать на сайт Tbl_3a9k</h1>
+  </div>
 
-    <div class="info">
-      <p>Моя мечта — мощный ПК! 💻</p>
-      <p>Текущий сетап: GTX 1660 Ti, i5-10300H</p>
-      <ul>
-        <li>🌍 Страна: Казахстан</li>
-        <li>🔞 Мне 13 лет</li>
-        <li>💬 Discord: tbl_3a9k</li>
-        <li>🎮 Играю только Minecraft</li>
-        <li>🕹 Серверы: Dexland, FunTime, FunSky</li>
-        <li>💭 Мечта: новый ПК</li>
-        <li>🖥 Мой сетап: GTX 1660 Ti, i5-10300H</li>
+  <div class="content">
+    <div class="block">
+      <h2>💻 Обо мне</h2>
+      <p>Я мечтаю о мощном ПК. Сейчас у меня GTX 1660 Ti и i5-10300H.</p>
+    </div>
+
+    <div class="block">
+      <h2>📌 Информация</h2>
+      <ul class="info-list">
+        <li>Country: Kazakhstan</li>
+        <li>I am 13 years old</li>
+        <li>Discord: tbl_3a9k</li>
+        <li>Playing only Minecraft</li>
+        <li>Servers: Dexland, FunTime, FunSky</li>
+        <li>My dream: new PC</li>
+        <li>My setup: GTX 1660 Ti, i5-10300H</li>
       </ul>
     </div>
 
     <div class="socials">
-      <a href="#">TikTok</a>
-      <a href="#">Steam</a>
-      <a href="#">Twitch</a>
-      <a href="#">Spotify</a>
-      <a href="#">Roblox</a>
-      <a href="#">FanPay</a>
+      <a href="#"><img src="images/twitchtext.png" alt="Twitch"></a>
+      <a href="#"><img src="images/spotify.png" alt="Spotify"></a>
+      <a href="#"><img src="images/steam.png" alt="Steam"></a>
+      <a href="#"><img src="images/roblox.png" alt="Roblox"></a>
+      <a href="#"><img src="images/fanpay.png" alt="FanPay"></a>
     </div>
 
     <!-- Скриншоты -->
     <section class="screenshots">
       <h2>📸 Мои скриншоты</h2>
       <div class="grid">
-        <a href="#img1"><img src="images/screenshot1.png" alt="Screenshot 1"></a>
-        <a href="#img2"><img src="images/screenshot2.png" alt="Screenshot 2"></a>
-        <a href="#img3"><img src="images/screenshot3.png" alt="Screenshot 3"></a>
-        <a href="#img4"><img src="images/screenshot4.png" alt="Screenshot 4"></a>
+        <a href="#lightbox"><img src="images/screenshot1.png" alt="Screenshot 1"></a>
+        <a href="#lightbox2"><img src="images/screenshot2.png" alt="Screenshot 2"></a>
+        <a href="#lightbox3"><img src="images/screenshot3.png" alt="Screenshot 3"></a>
+        <a href="#lightbox4"><img src="images/screenshot4.png" alt="Screenshot 4"></a>
       </div>
     </section>
   </div>
 
-  <!-- Модальные окна -->
-  <div id="img1" class="modal">
-    <a href="#" class="close">&times;</a>
+  <!-- Lightbox elements -->
+  <div id="lightbox" onclick="location.hash='';">
     <img src="images/screenshot1.png" alt="Full Screenshot 1">
   </div>
-  <div id="img2" class="modal">
-    <a href="#" class="close">&times;</a>
+  <div id="lightbox2" onclick="location.hash='';">
     <img src="images/screenshot2.png" alt="Full Screenshot 2">
   </div>
-  <div id="img3" class="modal">
-    <a href="#" class="close">&times;</a>
+  <div id="lightbox3" onclick="location.hash='';">
     <img src="images/screenshot3.png" alt="Full Screenshot 3">
   </div>
-  <div id="img4" class="modal">
-    <a href="#" class="close">&times;</a>
+  <div id="lightbox4" onclick="location.hash='';">
     <img src="images/screenshot4.png" alt="Full Screenshot 4">
   </div>
 
   <!-- Подключение particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS("particles-js", {
+    particlesJS('particles-js', {
       particles: {
         number: { value: 80 },
-        color: { value: "#a64bff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.6 },
+        color: { value: '#ffffff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5 },
         size: { value: 3 },
         line_linked: {
           enable: true,
-          distance: 120,
-          color: "#a64bff",
+          distance: 150,
+          color: '#ffffff',
           opacity: 0.4,
           width: 1
         },
-        move: { enable: true, speed: 2 }
+        move: {
+          enable: true,
+          speed: 2,
+          direction: 'none',
+          out_mode: 'bounce'
+        }
       },
       interactivity: {
-        detect_on: "canvas",
+        detect_on: 'canvas',
         events: {
-          onhover: { enable: true, mode: "repulse" }
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' }
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
         }
       },
       retina_detect: true
