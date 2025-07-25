@@ -6,278 +6,316 @@
   <link rel="icon" href="favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      background: black;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
+      box-sizing: border-box;
       scroll-behavior: smooth;
-      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: black;
+      color: white;
     }
 
     .header {
-      background: url('IMBA.png') no-repeat center center;
-      background-size: cover;
+      background: url("images/IMBA.png") center/cover no-repeat;
       height: 100vh;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
       text-align: center;
+      padding: 20px;
     }
 
     .header h1 {
       font-size: 24px;
-      text-shadow: 0 0 10px #fff;
+      animation: fadeInDown 1.2s ease-out;
     }
 
-    .content {
-      padding: 40px 20px;
-      background: transparent;
+    .header p {
+      font-size: 14px;
+      margin-top: 10px;
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #particles-js {
       position: relative;
-      z-index: 2;
+      width: 100%;
+      min-height: 100vh;
+      background: black;
+      z-index: 0;
+      overflow: hidden;
     }
 
-    .block {
-      margin-bottom: 40px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px #8000ff;
+    #particles-js canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
     }
 
-    .info-list {
+    #particles-js .content {
+      position: relative;
+      z-index: 1;
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    section.about, section.info, section.screenshots {
+      margin-bottom: 50px;
+    }
+
+    section.about p {
+      margin-top: 15px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    section.info ul {
       list-style: none;
-      padding: 0;
-      margin: 0;
+      font-size: 12px;
+      padding-left: 0;
     }
 
-    .info-list li {
-      margin: 10px 0;
+    section.info li {
+      margin-bottom: 10px;
     }
 
     .socials {
+      margin-top: 30px;
       display: flex;
       justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
-      margin-top: 20px;
     }
 
-    .socials a {
-      display: inline-block;
+    .socials a img {
       width: 50px;
       height: 50px;
       border: 2px solid white;
-      border-radius: 10px;
       padding: 5px;
+      border-radius: 10px;
       transition: transform 0.3s, box-shadow 0.3s;
-      background: black;
     }
 
-    .socials a:hover {
+    .socials a img:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 15px #fff;
+      box-shadow: 0 0 15px white;
     }
 
-    .socials img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .screenshots {
-      padding: 60px 20px;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.7);
-      animation: fadeInUp 1s ease-out;
-    }
-
+    /* Блок скриншотов */
     .screenshots h2 {
-      font-size: 18px;
-      margin-bottom: 30px;
-      text-shadow: 0 0 5px #00f0ff;
+      font-size: 16px;
+      margin-bottom: 20px;
     }
 
     .screenshots .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      justify-items: center;
     }
 
     .screenshots img {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 16px;
+      width: 300px;
+      height: auto;
+      border: 2px solid white;
+      border-radius: 10px;
+    }
+
+    /* Переключатель языков */
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .lang-switcher button {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      padding: 5px 10px;
+      margin-left: 5px;
       cursor: pointer;
-      box-shadow: 0 0 15px #00f0ff55;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .screenshots img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px #00f0ff;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Lightbox */
-    #lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    #lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 20px;
-      box-shadow: 0 0 30px #00f0ff;
-    }
-
-    #lightbox:target {
-      display: flex;
-    }
-
-    /* Particle background (must be added via JS or external lib) */
-    #particles-js {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+    .lang-switcher button:hover {
+      background: white;
+      color: black;
     }
   </style>
 </head>
 <body>
-  <div id="particles-js"></div>
 
+  <!-- Переключатель языков -->
+  <div class="lang-switcher">
+    <button onclick="setLang('ru')">RU</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
+
+  <!-- Верхняя часть -->
   <div class="header">
-    <h1>Добро пожаловать на сайт Tbl_3a9k</h1>
+    <h1 id="title-text">Tbl_3a9k bio</h1>
+    <p id="subtitle-text">Trust me, I got nothing for you, other than love</p>
   </div>
 
-  <div class="content">
-    <div class="block">
-      <h2>💻 Обо мне</h2>
-      <p>Я мечтаю о мощном ПК. Сейчас у меня GTX 1660 Ti и i5-10300H.</p>
+  <!-- Нижняя часть с анимированным фоном -->
+  <div id="particles-js">
+    <div class="content">
+      <!-- Блок "Обо мне" -->
+      <section class="about">
+        <h2 id="about-title">Привет! Я Tbl_3a9k 👋</h2>
+        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮</p>
+        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻</p>
+        <p id="about-3">Люблю весело проводить время на Dexland, FunTime и FunSky.</p>
+        <p id="about-4">Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!</p>
+      </section>
+
+      <!-- Блок "Инфо" -->
+      <section class="info">
+        <ul id="info-list">
+          <li>🏳️ • Country: Kazakhstan</li>
+          <li>👤 • I am 13 years old</li>
+          <li>💬 • Discord username: tbl_3a9k</li>
+          <li>⛏️ • Playing only Minecraft</li>
+          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
+          <li>💫 • My dream: new PC</li>
+          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>
+        </ul>
+      </section>
+
+      <!-- Соцсети -->
+      <div class="socials">
+        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
+        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
+        <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
+        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
+        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
+        <a href="https://funpay.com/users/your_fanpay_id" target="_blank"><img src="images/fanpay.png" alt="FanPay"></a>
+      </div>
+
+      <!-- Скриншоты -->
+      <section class="screenshots">
+        <h2>📸 Мои скриншоты</h2>
+        <div class="grid">
+          <img src="images/screenshot1.png" alt="Screenshot 1">
+          <img src="images/screenshot2.png" alt="Screenshot 2">
+          <img src="images/screenshot3.png" alt="Screenshot 3">
+          <img src="images/screenshot4.png" alt="Screenshot 4">
+          <img src="images/screenshot5.png" alt="Screenshot 5">
+          <img src="images/screenshot6.png" alt="Screenshot 6">
+          <img src="images/screenshot7.png" alt="Screenshot 7">
+        </div>
+      </section>
     </div>
-
-    <div class="block">
-      <h2>📌 Информация</h2>
-      <ul class="info-list">
-        <li>Country: Kazakhstan</li>
-        <li>I am 13 years old</li>
-        <li>Discord: tbl_3a9k</li>
-        <li>Playing only Minecraft</li>
-        <li>Servers: Dexland, FunTime, FunSky</li>
-        <li>My dream: new PC</li>
-        <li>My setup: GTX 1660 Ti, i5-10300H</li>
-      </ul>
-    </div>
-
-    <div class="socials">
-      <a href="#"><img src="images/twitchtext.png" alt="Twitch"></a>
-      <a href="#"><img src="images/spotify.png" alt="Spotify"></a>
-      <a href="#"><img src="images/steam.png" alt="Steam"></a>
-      <a href="#"><img src="images/roblox.png" alt="Roblox"></a>
-      <a href="#"><img src="images/fanpay.png" alt="FanPay"></a>
-    </div>
-<!-- Скриншоты -->
-<section class="screenshots">
-  <h2>📸 Мои скриншоты</h2>
-  <div class="grid">
-    <a href="images/screenshot1.png" target="_blank">
-      <img src="images/screenshot1.png" alt="Screenshot 1">
-    </a>
-    <a href="images/screenshot2.png" target="_blank">
-      <img src="images/screenshot2.png" alt="Screenshot 2">
-    </a>
-    <a href="images/screenshot3.png" target="_blank">
-      <img src="images/screenshot3.png" alt="Screenshot 3">
-    </a>
-    <a href="images/screenshot4.png" target="_blank">
-      <img src="images/screenshot4.png" alt="Screenshot 4">
-    </a>
-    <a href="images/screenshot5.png" target="_blank">
-      <img src="images/screenshot5.png" alt="Screenshot 5">
-    </a>
-    <a href="images/screenshot6.png" target="_blank">
-      <img src="images/screenshot6.png" alt="Screenshot 6">
-    </a>
-    <a href="images/screenshot7.png" target="_blank">
-      <img src="images/screenshot7.png" alt="Screenshot 7">
-    </a>
-  </div>
-</section>
   </div>
 
-  <!-- Lightbox elements -->
-  <div id="lightbox" onclick="location.hash='';">
-    <img src="images/screenshot1.png" alt="Full Screenshot 1">
-  </div>
-  <div id="lightbox2" onclick="location.hash='';">
-    <img src="images/screenshot2.png" alt="Full Screenshot 2">
-  </div>
-  <div id="lightbox3" onclick="location.hash='';">
-    <img src="images/screenshot3.png" alt="Full Screenshot 3">
-  </div>
-  <div id="lightbox4" onclick="location.hash='';">
-    <img src="images/screenshot4.png" alt="Full Screenshot 4">
-  </div>
-
-  <!-- Подключение particles.js -->
+  <!-- particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS('particles-js', {
+    particlesJS("particles-js", {
       particles: {
-        number: { value: 80 },
-        color: { value: '#ffffff' },
-        shape: { type: 'circle' },
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
         opacity: { value: 0.5 },
-        size: { value: 3 },
+        size: { value: 3, random: true },
         line_linked: {
           enable: true,
           distance: 150,
-          color: '#ffffff',
+          color: "#ffffff",
           opacity: 0.4,
           width: 1
         },
         move: {
           enable: true,
           speed: 2,
-          direction: 'none',
-          out_mode: 'bounce'
+          direction: "none",
+          out_mode: "out"
         }
       },
       interactivity: {
-        detect_on: 'canvas',
+        detect_on: "canvas",
         events: {
-          onhover: { enable: true, mode: 'repulse' },
-          onclick: { enable: true, mode: 'push' }
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
         },
         modes: {
-          repulse: { distance: 100 },
+          grab: { distance: 140, line_linked: { opacity: 1 } },
           push: { particles_nb: 4 }
         }
       },
       retina_detect: true
     });
+  </script>
+
+  <!-- Языки -->
+  <script>
+    const langData = {
+      ru: {
+        title: "Tbl_3a9k bio",
+        subtitle: "Trust me, I got nothing for you, other than love",
+        aboutTitle: "Привет! Я Tbl_3a9k 👋",
+        about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮",
+        about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻",
+        about3: "Люблю весело проводить время на Dexland, FunTime и FunSky.",
+        about4: "Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!",
+        info: `
+          <li>🏳️ • Страна: Казахстан</li>
+          <li>👤 • Мне 13 лет</li>
+          <li>💬 • Discord: tbl_3a9k</li>
+          <li>⛏️ • Играю только в Minecraft</li>
+          <li>🎮 • Серверы: Dexland, FunTime, FunSky</li>
+          <li>💫 • Мечта: новый ПК</li>
+          <li>💻 • Мой сетап: GTX 1660 Ti, i5-10300H</li>`
+      },
+      en: {
+        title: "Tbl_3a9k bio",
+        subtitle: "Trust me, I got nothing for you, other than love",
+        aboutTitle: "Hey! I'm Tbl_3a9k 👋",
+        about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft, especially Bed Wars 🎮",
+        about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1660 Ti and i5-10300H 💻",
+        about3: "I have fun playing on Dexland, FunTime and FunSky.",
+        about4: "Add me on Discord — <strong>tbl_3a9k</strong>. See you in game!",
+        info: `
+          <li>🏳️ • Country: Kazakhstan</li>
+          <li>👤 • I am 13 years old</li>
+          <li>💬 • Discord username: tbl_3a9k</li>
+          <li>⛏️ • Playing only Minecraft</li>
+          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
+          <li>💫 • My dream: new PC</li>
+          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>`
+      }
+    };
+
+    function setLang(lang) {
+      const data = langData[lang];
+      document.getElementById("title-text").innerText = data.title;
+      document.getElementById("subtitle-text").innerText = data.subtitle;
+      document.getElementById("about-title").innerText = data.aboutTitle;
+      document.getElementById("about-1").innerText = data.about1;
+      document.getElementById("about-2").innerText = data.about2;
+      document.getElementById("about-3").innerText = data.about3;
+      document.getElementById("about-4").innerHTML = data.about4;
+      document.getElementById("info-list").innerHTML = data.info;
+    }
   </script>
 </body>
 </html>
