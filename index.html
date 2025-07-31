@@ -52,19 +52,19 @@
     }
 
     #particles-js {
-      position: relative;
+      position: fixed;
       width: 100%;
-      min-height: 100vh;
-      background: black;
+      height: 100%;
       z-index: 0;
-      overflow: hidden;
+      top: 0;
+      left: 0;
+      pointer-events: auto;
     }
 
     #particles-js canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
+      width: 100% !important;
+      height: 100% !important;
+      pointer-events: auto;
     }
 
     #particles-js .content {
@@ -74,7 +74,7 @@
       text-align: center;
     }
 
-    section.about, section.info, section.screenshots {
+    section.about, section.info {
       margin-bottom: 50px;
     }
 
@@ -100,14 +100,18 @@
       justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
 
     .socials a img {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border: 2px solid white;
-      padding: 5px;
-      border-radius: 10px;
+      border-radius: 12px;
+      padding: 10px;
+      background-color: rgba(255,255,255,0.05);
       transition: transform 0.3s, box-shadow 0.3s;
     }
 
@@ -117,6 +121,11 @@
     }
 
     /* Блок скриншотов */
+    .screenshots {
+      margin-top: 70px;
+      margin-bottom: 50px;
+    }
+
     .screenshots h2 {
       font-size: 16px;
       margin-bottom: 20px;
