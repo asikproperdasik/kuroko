@@ -74,17 +74,18 @@ body {
 /* Анимированный фон с точками и линиями */
 #particles-js {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
-  top: 0;
-  left: 0;
-  pointer-events: auto;
+  pointer-events: none; /* чтобы не мешал кликам и скроллу */
 }
 
 #particles-js canvas {
   width: 100% !important;
   height: 100% !important;
-  pointer-events: auto;
+  display: block;
+  pointer-events: none; /* тоже отключаем */
 }
 
