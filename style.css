@@ -143,3 +143,15 @@ body {
   background: white;
   color: black;
 }
+#particles-js .content {
+  position: relative;
+  z-index: 1;
+  padding: 100px 20px;
+  text-align: center;
+  pointer-events: none; /* 👈 ВАЖНО! */
+}
+
+#particles-js .content * {
+  pointer-events: auto; /* 👈 чтобы кнопки/ссылки внутри работали */
+}
+
