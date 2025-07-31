@@ -10,45 +10,14 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      scroll-behavior: smooth;
     }
 
     body {
       font-family: 'Press Start 2P', cursive;
-      background-color: black;
+      background: black;
       color: white;
-    }
-
-    .header {
-      background: url("images/IMBA.png") center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .header h1 {
-      font-size: 24px;
-      animation: fadeInDown 1.2s ease-out;
-    }
-
-    .header p {
-      font-size: 14px;
-      margin-top: 10px;
-      animation: fadeInUp 1.2s ease-out;
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to   { opacity: 1; transform: translateY(0); }
+      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
     #particles-js {
@@ -58,272 +27,210 @@
       z-index: 0;
       top: 0;
       left: 0;
-      pointer-events: auto;
     }
 
-    #particles-js canvas {
-      width: 100% !important;
-      height: 100% !important;
-      pointer-events: auto;
-    }
-
-    #particles-js .content {
+    .content {
       position: relative;
       z-index: 1;
       padding: 100px 20px;
       text-align: center;
+      pointer-events: none;
     }
 
-    section.about, section.info {
-      margin-bottom: 50px;
+    .content * {
+      pointer-events: auto;
     }
 
-    section.about p {
-      margin-top: 15px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    section.info ul {
-      list-style: none;
-      font-size: 12px;
-      padding-left: 0;
-    }
-
-    section.info li {
-      margin-bottom: 10px;
-    }
-
-    .socials {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      padding: 40px 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .socials a img {
-      width: 60px;
-      height: 60px;
-      border: 2px solid white;
-      border-radius: 12px;
-      padding: 10px;
-      background-color: rgba(255,255,255,0.05);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .socials a img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px white;
-    }
-
-    /* Блок скриншотов */
-    .screenshots {
-      margin-top: 70px;
-      margin-bottom: 50px;
-    }
-
-    .screenshots h2 {
-      font-size: 16px;
+    h1, h2 {
       margin-bottom: 20px;
     }
 
-    .screenshots .grid {
+    p {
+      margin-bottom: 40px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .social-buttons a {
+      text-decoration: none;
+      color: white;
+      border: 2px solid white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      display: inline-block;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .social-buttons a:hover {
+      background: white;
+      color: black;
+    }
+
+    .language-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+    }
+
+    .language-toggle button {
+      background: black;
+      color: white;
+      border: 2px solid white;
+      padding: 5px 10px;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+    }
+
+    .screenshots {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 10px;
     }
 
     .screenshots img {
       width: 300px;
       height: auto;
       border: 2px solid white;
-      border-radius: 10px;
-    }
-
-    /* Переключатель языков */
-    .lang-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
-
-    .lang-switcher button {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-
-    .lang-switcher button:hover {
-      background: white;
-      color: black;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Переключатель языков -->
-  <div class="lang-switcher">
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('en')">EN</button>
+  <div id="particles-js"></div>
+  <div class="language-toggle">
+    <button onclick="toggleLanguage()">RU / EN</button>
   </div>
 
-  <!-- Верхняя часть -->
-  <div class="header">
-    <h1 id="title-text">Tbl_3a9k bio</h1>
-    <p id="subtitle-text">Trust me, I got nothing for you, other than love</p>
-  </div>
+  <div class="content">
+    <div class="section">
+      <h1 data-lang-ru="Обо мне" data-lang-en="About Me">Обо мне</h1>
+      <p data-lang-ru="Мечтаю о мощном ПК, а пока играю на GTX 1660 Ti и i5-10300H."
+         data-lang-en="Dreaming of a powerful PC, but for now playing on GTX 1660 Ti and i5-10300H.">
+        Мечтаю о мощном ПК, а пока играю на GTX 1660 Ti и i5-10300H.
+      </p>
+    </div>
 
-  <!-- Нижняя часть с анимированным фоном -->
-  <div id="particles-js">
-    <div class="content">
-      <!-- Блок "Обо мне" -->
-      <section class="about">
-        <h2 id="about-title">Привет! Я Tbl_3a9k 👋</h2>
-        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮</p>
-        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻</p>
-        <p id="about-3">Люблю весело проводить время на Dexland, FunTime и FunSky.</p>
-        <p id="about-4">Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!</p>
-      </section>
+    <div class="section">
+      <h2 data-lang-ru="Инфо" data-lang-en="Info">Инфо</h2>
+      <ul class="info-list">
+        <li>Country: Kazakhstan</li>
+        <li data-lang-ru="Мне 13 лет" data-lang-en="I am 13 years old">Мне 13 лет</li>
+        <li>Discord: tbl_3a9k</li>
+        <li data-lang-ru="Играю только в Minecraft" data-lang-en="Playing only Minecraft">Играю только в Minecraft</li>
+        <li>Dexland, FunTime, FunSky</li>
+        <li data-lang-ru="Мечта: новый ПК" data-lang-en="My dream: new PC">Мечта: новый ПК</li>
+        <li>Setup: GTX 1660 Ti, i5-10300H</li>
+      </ul>
+    </div>
 
-      <!-- Блок "Инфо" -->
-      <section class="info">
-        <ul id="info-list">
-          <li>🏳️ • Country: Kazakhstan</li>
-          <li>👤 • I am 13 years old</li>
-          <li>💬 • Discord username: tbl_3a9k</li>
-          <li>⛏️ • Playing only Minecraft</li>
-          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
-          <li>💫 • My dream: new PC</li>
-          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>
-        </ul>
-      </section>
+    <div class="social-buttons">
+      <a href="https://tiktok.com/@tbl_3a9k" target="_blank">TikTok</a>
+      <a href="https://steamcommunity.com/id/tbl_3a9k" target="_blank">Steam</a>
+      <a href="https://twitch.tv/tbl_3a9k" target="_blank">Twitch</a>
+      <a href="https://open.spotify.com/user/tbl_3a9k" target="_blank">Spotify</a>
+      <a href="https://www.roblox.com/users/1234567890/profile" target="_blank">Roblox</a>
+      <a href="https://funpay.com/users/1234567/" target="_blank">FanPay</a>
+    </div>
 
-      <!-- Соцсети -->
-      <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
-        <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
-        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay"></a>
+    <!-- Скриншоты в самом низу -->
+    <div class="section" id="screenshots">
+      <h2 data-lang-ru="Мои скриншоты" data-lang-en="My Screenshots">Мои скриншоты</h2>
+      <div class="screenshots">
+        <img src="screenshot1.png" alt="Screenshot 1">
+        <img src="screenshot2.png" alt="Screenshot 2">
+        <img src="screenshot3.png" alt="Screenshot 3">
       </div>
-
-      <!-- Скриншоты -->
-      <section class="screenshots">
-        <h2>📸 Мои скриншоты</h2>
-        <div class="grid">
-          <img src="images/screenshot1.png" alt="Screenshot 1">
-          <img src="images/screenshot2.png" alt="Screenshot 2">
-          <img src="images/screenshot3.png" alt="Screenshot 3">
-          <img src="images/screenshot4.png" alt="Screenshot 4">
-          <img src="images/screenshot5.png" alt="Screenshot 5">
-          <img src="images/screenshot6.png" alt="Screenshot 6">
-          <img src="images/screenshot7.png" alt="Screenshot 7">
-        </div>
-      </section>
     </div>
   </div>
 
-  <!-- particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
     particlesJS("particles-js", {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: "#ffffff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.5 },
-        size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.4,
-          width: 1
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
         },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: "none",
-          out_mode: "out"
+        "color": { "value": "#ffffff" },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false,
+          "anim": { "enable": false }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": { "enable": false }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 4,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
         }
       },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" },
-          resize: true
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
         },
-        modes: {
-          grab: { distance: 140, line_linked: { opacity: 1 } },
-          push: { particles_nb: 4 }
+        "modes": {
+          "repulse": { "distance": 100 },
+          "push": { "particles_nb": 4 }
         }
       },
-      retina_detect: true
+      "retina_detect": true
     });
-  </script>
 
-  <!-- Языки -->
-  <script>
-    const langData = {
-      ru: {
-        title: "Tbl_3a9k bio",
-        subtitle: "Trust me, I got nothing for you, other than love",
-        aboutTitle: "Привет! Я Tbl_3a9k 👋",
-        about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮",
-        about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻",
-        about3: "Люблю весело проводить время на Dexland, FunTime и FunSky.",
-        about4: "Добавляйся в Discord — <strong>tbl_3a9k</strong>. До встречи в игре!",
-        info: `
-          <li>🏳️ • Страна: Казахстан</li>
-          <li>👤 • Мне 13 лет</li>
-          <li>💬 • Discord: tbl_3a9k</li>
-          <li>⛏️ • Играю только в Minecraft</li>
-          <li>🎮 • Серверы: Dexland, FunTime, FunSky</li>
-          <li>💫 • Мечта: новый ПК</li>
-          <li>💻 • Мой сетап: GTX 1660 Ti, i5-10300H</li>`
-      },
-      en: {
-        title: "Tbl_3a9k bio",
-        subtitle: "Trust me, I got nothing for you, other than love",
-        aboutTitle: "Hey! I'm Tbl_3a9k 👋",
-        about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft, especially Bed Wars 🎮",
-        about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1660 Ti and i5-10300H 💻",
-        about3: "I have fun playing on Dexland, FunTime and FunSky.",
-        about4: "Add me on Discord — <strong>tbl_3a9k</strong>. See you in game!",
-        info: `
-          <li>🏳️ • Country: Kazakhstan</li>
-          <li>👤 • I am 13 years old</li>
-          <li>💬 • Discord username: tbl_3a9k</li>
-          <li>⛏️ • Playing only Minecraft</li>
-          <li>🎮 • Playing on Dexland, FunTime, FunSky</li>
-          <li>💫 • My dream: new PC</li>
-          <li>💻 • My setup: GTX 1660 Ti, i5-10300H</li>`
-      }
-    };
-
-    function setLang(lang) {
-      const data = langData[lang];
-      document.getElementById("title-text").innerText = data.title;
-      document.getElementById("subtitle-text").innerText = data.subtitle;
-      document.getElementById("about-title").innerText = data.aboutTitle;
-      document.getElementById("about-1").innerText = data.about1;
-      document.getElementById("about-2").innerText = data.about2;
-      document.getElementById("about-3").innerText = data.about3;
-      document.getElementById("about-4").innerHTML = data.about4;
-      document.getElementById("info-list").innerHTML = data.info;
+    function toggleLanguage() {
+      const elements = document.querySelectorAll('[data-lang-ru]');
+      const currentLang = document.documentElement.lang;
+      const newLang = currentLang === 'ru' ? 'en' : 'ru';
+      document.documentElement.lang = newLang;
+      elements.forEach(el => {
+        el.textContent = el.getAttribute(`data-lang-${newLang}`);
+      });
     }
   </script>
 </body>
