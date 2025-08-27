@@ -201,17 +201,32 @@
           <img src="images/screenshot7.png" alt="Screenshot 7" />
         </div>
 
-<!-- Кастомный счётчик -->
-<div id="custom-counter" style="text-align:center; color:#fff; font-family: 'Press Start 2P', cursive;">
-  <h3>Посетители из разных стран</h3>
-  <div style="display:flex; justify-content:center; gap:15px; margin-top: 10px;">
-    <img src="https://flagcdn.com/w40/ru.png" alt="Russia" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.1s; border-radius:5px; box-shadow: 0 0 10px #f00;">
-    <img src="https://flagcdn.com/w40/kz.png" alt="Kazakhstan" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.3s; border-radius:5px; box-shadow: 0 0 10px #0f0;">
-    <img src="https://flagcdn.com/w40/us.png" alt="USA" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.5s; border-radius:5px; box-shadow: 0 0 10px #00f;">
-    <img src="https://flagcdn.com/w40/fr.png" alt="France" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.7s; border-radius:5px; box-shadow: 0 0 10px #ff0;">
+<!-- Кастомный стильный флаг-счётчик -->
+<div id="custom-counter" style="text-align: center; margin-top: 40px;">
+  <h3 style="font-size: 12px; margin-bottom: 15px;">🌍 Кто здесь был:</h3>
+  <div style="display: inline-flex; gap: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center; animation: fadeIn 1s ease-in;">
+      <img src="https://flagcdn.com/w40/kz.png" alt="Kazakhstan" width="40" style="border-radius: 4px;" />
+      <span style="font-size: 10px; margin-top: 5px;">KZ</span>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; animation: fadeIn 1s ease-in 0.2s;">
+      <img src="https://flagcdn.com/w40/ru.png" alt="Russia" width="40" style="border-radius: 4px;" />
+      <span style="font-size: 10px; margin-top: 5px;">RU</span>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; animation: fadeIn 1s ease-in 0.4s;">
+      <img src="https://flagcdn.com/w40/us.png" alt="USA" width="40" style="border-radius: 4px;" />
+      <span style="font-size: 10px; margin-top: 5px;">US</span>
+    </div>
   </div>
-  <p style="margin-top: 15px; font-size: 14px;">Уже посетило: <strong>1234</strong></p>
 </div>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
 
 <style>
   @keyframes fadeIn {
@@ -351,6 +366,7 @@
   </script>
 </body>
 </html>
+
 
 
 
