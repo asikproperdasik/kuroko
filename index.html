@@ -203,10 +203,15 @@
 
         <!-- Счётчик просмотров -->
         <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
+          <!-- Рабочий счётчик с glitch.me -->
           <img
             src="https://visitor-badge.glitch.me/badge?page_id=tbl_3a9k.github.io&left_color=black&right_color=lime&left_text=Посетителей"
             alt="Счётчик посещений"
           />
+          <!-- 
+          Альтернативный вариант - просто убрать счётчик или заменить на любой другой.
+          Для удаления, просто закомментируй или удали этот блок.
+          -->
         </div>
       </section>
     </div>
@@ -252,13 +257,86 @@
     });
   </script>
 
-  <!-- Языки -->
+  <!-- Переключение языков -->
   <script>
     const langData = {
       ru: {
-        title: "Tbl_3a9k bio",
-        subtitle: "Trust me, I got nothing for you, other than love",
-        aboutTitle: "Привет! Я Tbl_3a9k 👋",
+        title: "Tbl_3a9k - Обо мне:",
+        subtitle: "Я сочиняю роман, Рома-Рома-Роман..",
+        aboutTitle: "qq, Я Tbl_3a9k 🤠",
         about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft. Особенно — в Bed Wars 🎮",
         about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1660 Ti и i5-10300H 💻",
-        about3: "Люб
+        about3: "Люблю весело проводить время на Dexland, FunTime и FunSky.",
+        about4: "Пообщаться со мной? Discord — tbl_3a9k. гудлак😼",
+        infoList: [
+          "🏳️ • Country: Казахстан",
+          "👤 • Мне 13 лет",
+          "💬 • Discord username: tbl_3a9k",
+          "⛏️ • Играю только в Minecraft",
+          "🎮 • Играю на Dexland, FunTime, FunSky",
+          "💫 • Моя мечта: новый ПК",
+          "💻 • Мой сетап: GTX 1660 Ti, i5-10300H"
+        ],
+        screenshotsTitle: "📸 Мои скриншоты",
+        visitorsText: "Посетителей"
+      },
+      en: {
+        title: "Tbl_3a9k bio",
+        subtitle: "Trust me, I got nothing for you, other than love",
+        aboutTitle: "Hey! I'm Tbl_3a9k 🤠",
+        about1: "I'm 13 years old, live in Kazakhstan, and love playing Minecraft. Especially Bed Wars 🎮",
+        about2: "My dream is to build a powerful PC, but for now I'm rocking my GTX 1660 Ti and i5-10300H 💻",
+        about3: "I love having fun on Dexland, FunTime, and FunSky.",
+        about4: "Wanna chat? Discord — tbl_3a9k. Good luck😼",
+        infoList: [
+          "🏳️ • Country: Kazakhstan",
+          "👤 • I'm 13 years old",
+          "💬 • Discord username: tbl_3a9k",
+          "⛏️ • Playing only Minecraft",
+          "🎮 • Playing on Dexland, FunTime, FunSky",
+          "💫 • My dream: new PC",
+          "💻 • My setup: GTX 1660 Ti, i5-10300H"
+        ],
+        screenshotsTitle: "📸 My screenshots",
+        visitorsText: "Visitors"
+      }
+    };
+
+    function setLang(lang) {
+      if (!langData[lang]) return;
+
+      // Меняем текст в заголовках и абзацах
+      document.getElementById('title-text').textContent = langData[lang].title;
+      document.getElementById('subtitle-text').textContent = langData[lang].subtitle;
+      document.getElementById('about-title').textContent = langData[lang].aboutTitle;
+      document.getElementById('about-1').textContent = langData[lang].about1;
+      document.getElementById('about-2').textContent = langData[lang].about2;
+      document.getElementById('about-3').textContent = langData[lang].about3;
+      document.getElementById('about-4').textContent = langData[lang].about4;
+
+      // Меняем список инфо
+      const infoListEl = document.getElementById('info-list');
+      infoListEl.innerHTML = ''; // очистить список
+      langData[lang].infoList.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        infoListEl.appendChild(li);
+      });
+
+      // Меняем заголовок скриншотов
+      const screenshotsTitleEl = document.querySelector('.screenshots h2');
+      if (screenshotsTitleEl) {
+        screenshotsTitleEl.textContent = langData[lang].screenshotsTitle;
+      }
+
+      // Можно сюда добавить изменение текста возле счётчика, если нужно
+      // (текущий счётчик — картинка, менять её содержимое динамически сложно)
+    }
+
+    // Установим язык по умолчанию при загрузке страницы
+    document.addEventListener('DOMContentLoaded', () => {
+      setLang('ru');
+    });
+  </script>
+</body>
+</html>
