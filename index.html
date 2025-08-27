@@ -201,14 +201,24 @@
           <img src="images/screenshot7.png" alt="Screenshot 7" />
         </div>
 
-<!-- Счётчик просмотров -->
-<div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
-          <!-- Рабочий счётчик с glitch.me -->
-<div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
-  <a href="https://info.flagcounter.com/QnhJ">
-    <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
-  </a>
+<!-- Кастомный счётчик -->
+<div id="custom-counter" style="text-align:center; color:#fff; font-family: 'Press Start 2P', cursive;">
+  <h3>Посетители из разных стран</h3>
+  <div style="display:flex; justify-content:center; gap:15px; margin-top: 10px;">
+    <img src="https://flagcdn.com/w40/ru.png" alt="Russia" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.1s; border-radius:5px; box-shadow: 0 0 10px #f00;">
+    <img src="https://flagcdn.com/w40/kz.png" alt="Kazakhstan" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.3s; border-radius:5px; box-shadow: 0 0 10px #0f0;">
+    <img src="https://flagcdn.com/w40/us.png" alt="USA" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.5s; border-radius:5px; box-shadow: 0 0 10px #00f;">
+    <img src="https://flagcdn.com/w40/fr.png" alt="France" style="opacity:0; animation: fadeIn 1s forwards; animation-delay: 0.7s; border-radius:5px; box-shadow: 0 0 10px #ff0;">
+  </div>
+  <p style="margin-top: 15px; font-size: 14px;">Уже посетило: <strong>1234</strong></p>
 </div>
+
+<style>
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+</style>
+
           <!-- 
           Альтернативный вариант - просто убрать счётчик или заменить на любой другой.
           Для удаления, просто закомментируй или удали этот блок.
@@ -341,6 +351,7 @@
   </script>
 </body>
 </html>
+
 
 
 
