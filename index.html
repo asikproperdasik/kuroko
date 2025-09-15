@@ -10,13 +10,13 @@
     body {
       margin: 0;
       font-family: 'Press Start 2P', cursive;
-      background: #000;
+      background-color: #000;
       color: white;
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
 
-    /* Верхняя часть с картинкой */
+    /* Верхняя часть */
     .header {
       background: url("IMBA.png") no-repeat center center/cover;
       text-align: center;
@@ -34,11 +34,11 @@
     .section {
       text-align: center;
       padding: 50px 20px;
-      position: relative;
-      z-index: 2;
       background-color: rgba(0, 0, 0, 0.8);
       margin: 20px;
       border-radius: 10px;
+      position: relative;
+      z-index: 2;
     }
 
     .section h2 {
@@ -56,33 +56,26 @@
     .socials {
       display: flex;
       justify-content: center;
+      gap: 20px;
       flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 20px;
-      z-index: 1;
+      padding: 40px 20px;
       position: relative;
+      z-index: 2;
     }
 
-    .socials a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .socials a img {
       width: 60px;
       height: 60px;
       border: 2px solid white;
       border-radius: 12px;
-      transition: 0.3s;
-      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      background-color: rgba(255,255,255,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .socials a:hover {
-      box-shadow: 0 0 15px #a020f0;
+    .socials a img:hover {
       transform: scale(1.1);
-    }
-
-    .socials img {
-      width: 30px;
-      height: 30px;
+      box-shadow: 0 0 15px white;
     }
 
     /* Кнопка музыки */
@@ -123,7 +116,7 @@
       box-shadow: 0 0 15px #a020f0;
     }
 
-    /* Частицы на фоне */
+    /* Частицы */
     #particles-js {
       position: fixed;
       bottom: 0;
@@ -223,13 +216,9 @@
       "interactivity": {
         "detect_on": "canvas",
         "events": {
-          "onhover": { "enable": true, "mode": "repulse" },
-          "onclick": { "enable": true, "mode": "push" },
+          "onhover": { "enable": false },
+          "onclick": { "enable": false },
           "resize": true
-        },
-        "modes": {
-          "repulse": { "distance": 120, "duration": 0.4 },
-          "push": { "particles_nb": 4 }
         }
       },
       "retina_detect": true
