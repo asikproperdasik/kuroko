@@ -3,346 +3,202 @@
 <head>
   <meta charset="UTF-8" />
   <title>Tbl_3a9k — Био</title>
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background-color: black;
-      color: white;
-    }
-    .header {
-      background: url("images/screenshot4.png") center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-    .header h1 {
-      font-size: 24px;
-      animation: fadeInDown 1.2s ease-out;
-    }
-    .header p {
-      font-size: 14px;
-      margin-top: 10px;
-      animation: fadeInUp 1.2s ease-out;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Waves section */
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background: #000;
+      color: white;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* верхний блок с картинкой */
+    .header {
+      text-align: center;
+      padding: 100px 20px 40px;
+      position: relative;
+      background: url("screenshot4.png") no-repeat center center/cover;
+      min-height: 100vh;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      background: rgba(0, 0, 0, 0.5);
+      display: inline-block;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    /* блок "Обо мне" */
+    .about {
+      text-align: center;
+      padding: 60px 20px;
+      background: rgba(0,0,0,0.8);
+    }
+
+    .about h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* инфо-блок */
+    .info {
+      background: rgba(20, 0, 40, 0.9);
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .info h2 {
+      margin-bottom: 20px;
+    }
+
+    .info ul {
+      list-style: none;
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    /* соц. кнопки */
+    .socials {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .socials a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 20px;
+      border: 2px solid #fff;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.3s;
+    }
+
+    .socials a:hover {
+      background: white;
+      color: black;
+      box-shadow: 0 0 20px #fff;
+    }
+
+    /* секция с анимированными волнами */
     .waves-section {
       position: relative;
-      min-height: 100vh;
+      height: 100vh;
       background: linear-gradient(to top, #1a002b, #3b0066);
       overflow: hidden;
     }
-    .waves-section .content {
-      position: relative;
-      z-index: 2;
-      padding: 100px 20px;
-      text-align: center;
-    }
-    .wave {
+
+    canvas {
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 200%;
-      height: 200px;
-      background: url("https://svgshare.com/i/11qN.svg") repeat-x;
-      background-size: 50% 100px;
-      opacity: 0.6;
-      animation: waveMove 10s linear infinite;
-    }
-    .wave:nth-child(2) {
-      opacity: 0.4;
-      animation-duration: 15s;
-      animation-direction: reverse;
-    }
-    .wave:nth-child(3) {
-      opacity: 0.2;
-      animation-duration: 20s;
-    }
-    @keyframes waveMove {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      width: 100%;
+      height: 100%;
     }
 
-    section.about, section.info, section.screenshots {
-      margin-bottom: 50px;
-    }
-    section.about p {
-      margin-top: 15px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-    section.info ul {
-      list-style: none;
-      font-size: 12px;
-      padding-left: 0;
-    }
-    section.info li {
-      margin-bottom: 10px;
-    }
-    .socials {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .socials a img {
-      width: 50px;
-      height: 50px;
-      border: 2px solid white;
-      padding: 5px;
-      border-radius: 10px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .socials a img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px white;
-    }
-    .music-btn {
-      margin-top: 30px;
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
-    }
-    .music-btn:hover {
-      background: white;
-      color: black;
-      box-shadow: 0 0 15px white;
-      transform: scale(1.05);
-    }
-    .screenshots h2 {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-    .screenshots .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .screenshots img {
-      width: 300px;
-      height: auto;
-      border: 2px solid white;
-      border-radius: 10px;
-    }
-    .lang-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
-    .lang-switcher button {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-    .lang-switcher button:hover {
-      background: white;
-      color: black;
+    .waves-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding-top: 50px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Переключатель языков -->
-  <div class="lang-switcher">
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('en')">EN</button>
-  </div>
-
-  <!-- Верхняя часть -->
+  <!-- верхний блок -->
   <div class="header">
-    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-    <p id="subtitle-text">я-тень, но даже тень не может существовать без света.🖤</p>
+    <h1>Tbl_3a9k — Био</h1>
   </div>
 
-  <!-- Нижняя часть с волнами -->
+  <!-- обо мне -->
+  <section class="about">
+    <h2>Обо мне</h2>
+    <p>Привет! Я Tbl_3a9k из Казахстана. Мне 13 лет, играю только в Minecraft.<br>
+    Моя мечта — собрать мощный ПК.<br>
+    Сейчас мой сетап: GTX 1660 Ti и i5-10300H.</p>
+  </section>
+
+  <!-- инфо-блок -->
+  <section class="info">
+    <h2>Инфо</h2>
+    <ul>
+      <li>Country: Kazakhstan</li>
+      <li>I am 13 years old</li>
+      <li>Discord: tbl_3a9k</li>
+      <li>Playing only Minecraft</li>
+      <li>Servers: Dexland, FunTime, FunSky</li>
+      <li>My dream: new PC</li>
+      <li>My setup: GTX 1660 Ti, i5-10300H</li>
+    </ul>
+  </section>
+
+  <!-- соц. сети -->
+  <section class="socials">
+    <a href="#">TikTok</a>
+    <a href="#">Steam</a>
+    <a href="#">Twitch</a>
+    <a href="#">Spotify</a>
+    <a href="#">Roblox</a>
+    <a href="#">FanPay</a>
+  </section>
+
+  <!-- секция с волнами -->
   <div class="waves-section">
-    <div class="content">
-      <!-- Блок "Обо мне" -->
-      <section class="about">
-        <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft.🎮</p>
-        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-        <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-      </section>
-
-      <!-- Блок "Инфо" -->
-      <section class="info">
-        <ul id="info-list">
-          <li>🏳️ • Мои цели:</li>
-          <li>👤 • Иметь свой стабильный заработок</li>
-          <li>💬 • Не зависеть от родителей</li>
-          <li>⛏️ • Улучшить свой сетап</li>
-          <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-          <li>💫 • Моя основная мечта: Быть счастливым</li>
-          <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-        </ul>
-      </section>
-
-      <!-- Соцсети -->
-      <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
-        <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
-        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
-      </div>
-
-      <!-- Кнопка музыки -->
-      <button class="music-btn" id="musicButton">▶ Play Music</button>
-      <audio id="mySong">
-        <source src="music.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-      </audio>
-
-      <!-- Скриншоты -->
-      <section class="screenshots">
-        <h2>📸 Мои скриншоты</h2>
-        <div class="grid">
-          <img src="images/screenshot1.png" alt="Screenshot 1" />
-          <img src="images/screenshot2.png" alt="Screenshot 2" />
-          <img src="images/screenshot3.png" alt="Screenshot 3" />
-          <img src="images/screenshot4.png" alt="Screenshot 4" />
-          <img src="images/screenshot5.png" alt="Screenshot 5" />
-          <img src="images/screenshot6.png" alt="Screenshot 6" />
-          <img src="images/screenshot7.png" alt="Screenshot 7" />
-        </div>
-
-        <!-- Счётчик просмотров -->
-        <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
-          <a href="https://info.flagcounter.com/QnhJ">
-            <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
-          </a>
-        </div>
-      </section>
+    <div class="waves-content">
+      <h2>🌊 Живой фон с волнами</h2>
     </div>
-
-    <!-- Волны -->
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
+    <canvas id="waves"></canvas>
   </div>
 
-  <!-- Скрипт для кнопки музыки -->
   <script>
-    const button = document.getElementById("musicButton");
-    const audio = document.getElementById("mySong");
-    let isPlaying = false;
+    const canvas = document.getElementById('waves');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    button.addEventListener("click", () => {
-      if (!isPlaying) {
-        audio.play();
-        button.textContent = "⏸ Pause Music🎶";
-      } else {
-        audio.pause();
-        button.textContent = "▶ Play Music🎶";
+    let step = 0;
+    function drawWave() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      step += 1;
+      const lines = ["rgba(0,150,255,0.5)", "rgba(0,100,200,0.5)", "rgba(0,50,150,0.5)"];
+      for (let j = lines.length - 1; j >= 0; j--) {
+        ctx.fillStyle = lines[j];
+        ctx.beginPath();
+        let angle = (step + j * 50) * Math.PI / 180;
+        let deltaHeight = Math.sin(angle) * 20;
+        let deltaHeightRight = Math.cos(angle) * 20;
+        ctx.moveTo(0, canvas.height / 2 + deltaHeight);
+        ctx.bezierCurveTo(canvas.width / 4, canvas.height / 2 + deltaHeight - 30,
+                          canvas.width / 2, canvas.height / 2 + deltaHeightRight + 30,
+                          canvas.width, canvas.height / 2 + deltaHeightRight);
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.lineTo(0, canvas.height);
+        ctx.closePath();
+        ctx.fill();
       }
-      isPlaying = !isPlaying;
-    });
-  </script>
-
-  <!-- Переключение языков -->
-  <script>
-    const langData = {
-      ru: {
-        title: "Tbl_3a9k - Обо мне:",
-        subtitle: "я-тень, но даже тень не может существовать без света.🖤",
-        aboutTitle: "qq, Я Tbl_3a9k ",
-        about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft.",
-        about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
-        about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-        infoList: [
-          "🏳️ • Мои цели:",
-          "👤 • Иметь свой стабильный заработок",
-          "💬 • Не зависеть от родителей",
-          "⛏️ • Улучшить свой сетап",
-          "🎮 • Зарабатываю благодаря игре Minecraft",
-          "💫 • Моя основная мечта:Быть счастливым",
-          "💻 • Мой первый успех: 11.09.25 --> 61к💲"
-        ],
-        screenshotsTitle: "📸 Мои скриншоты",
-      },
-      en: {
-        title: "Tbl_3a9k bio",
-        subtitle: "I am a shadow, but even a shadow cannot exist without light.🖤",
-        aboutTitle: "Hey! I'm Tbl_3a9k 🤠",
-        about1: "I'm 13 years old, live in Kazakhstan, and love playing Minecraft.",
-        about2: "My dream is to build a powerful PC, but for now I'm rocking my GTX 1070 Ti and i7 💻",
-        about3: "Wanna chat? Discord — tbl_3a9k. Good luck😼",
-        infoList: [
-          "🏳️ • My goals:",
-          "👤 • Have your own stable income",
-          "💬 • Don't depend on your parents",
-          "⛏️ • Upgrade my setup",
-          "🎮 • I earn money by playing Minecraft",
-          "💫 • My main dream: To be happy",
-          "💻 • My first success: 09/11/25 --> 61k💲"
-        ],
-        screenshotsTitle: "📸 My screenshots",
-      }
-    };
-
-    function setLang(lang) {
-      if (!langData[lang]) return;
-
-      document.getElementById('title-text').textContent = langData[lang].title;
-      document.getElementById('subtitle-text').textContent = langData[lang].subtitle;
-      document.getElementById('about-title').textContent = langData[lang].aboutTitle;
-      document.getElementById('about-1').textContent = langData[lang].about1;
-      document.getElementById('about-2').textContent = langData[lang].about2;
-      document.getElementById('about-3').textContent = langData[lang].about3;
-
-      const infoListEl = document.getElementById('info-list');
-      infoListEl.innerHTML = '';
-      langData[lang].infoList.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        infoListEl.appendChild(li);
-      });
-
-      const screenshotsTitleEl = document.querySelector('.screenshots h2');
-      if (screenshotsTitleEl) {
-        screenshotsTitleEl.textContent = langData[lang].screenshotsTitle;
-      }
+      requestAnimationFrame(drawWave);
     }
+    drawWave();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      setLang('ru');
-    });
+    window.onresize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
   </script>
 </body>
 </html>
