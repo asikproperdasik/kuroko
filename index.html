@@ -99,6 +99,25 @@
       transform: scale(1.1);
       box-shadow: 0 0 15px white;
     }
+    /* Кнопка музыки */
+    .music-btn {
+      margin-top: 30px;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
+    }
+    .music-btn:hover {
+      background: white;
+      color: black;
+      box-shadow: 0 0 15px white;
+      transform: scale(1.05);
+    }
     /* Скриншоты */
     .screenshots h2 {
       font-size: 16px;
@@ -188,6 +207,13 @@
         <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
       </div>
 
+      <!-- Кнопка музыки -->
+      <button class="music-btn" id="musicButton">▶ Play Music</button>
+      <audio id="mySong">
+        <source src="music.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+      </audio>
+
       <!-- Скриншоты -->
       <section class="screenshots">
         <h2>📸 Мои скриншоты</h2>
@@ -203,17 +229,10 @@
 
 <!-- Счётчик просмотров -->
 <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
-          <!-- Рабочий счётчик с glitch.me -->
-<div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
   <a href="https://info.flagcounter.com/QnhJ">
     <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
   </a>
 </div>
-          <!-- 
-          Альтернативный вариант - просто убрать счётчик или заменить на любой другой.
-          Для удаления, просто закомментируй или удали этот блок.
-          -->
-        </div>
       </section>
     </div>
   </div>
@@ -255,6 +274,24 @@
         },
       },
       retina_detect: true,
+    });
+  </script>
+
+  <!-- Скрипт для кнопки музыки -->
+  <script>
+    const button = document.getElementById("musicButton");
+    const audio = document.getElementById("mySong");
+    let isPlaying = false;
+
+    button.addEventListener("click", () => {
+      if (!isPlaying) {
+        audio.play();
+        button.textContent = "⏸ Pause Music";
+      } else {
+        audio.pause();
+        button.textContent = "▶ Play Music";
+      }
+      isPlaying = !isPlaying;
     });
   </script>
 
@@ -306,7 +343,6 @@
     function setLang(lang) {
       if (!langData[lang]) return;
 
-      // Меняем текст в заголовках и абзацах
       document.getElementById('title-text').textContent = langData[lang].title;
       document.getElementById('subtitle-text').textContent = langData[lang].subtitle;
       document.getElementById('about-title').textContent = langData[lang].aboutTitle;
@@ -315,32 +351,23 @@
       document.getElementById('about-3').textContent = langData[lang].about3;
       document.getElementById('about-4').textContent = langData[lang].about4;
 
-      // Меняем список инфо
       const infoListEl = document.getElementById('info-list');
-      infoListEl.innerHTML = ''; // очистить список
+      infoListEl.innerHTML = '';
       langData[lang].infoList.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item;
         infoListEl.appendChild(li);
       });
 
-      // Меняем заголовок скриншотов
       const screenshotsTitleEl = document.querySelector('.screenshots h2');
       if (screenshotsTitleEl) {
         screenshotsTitleEl.textContent = langData[lang].screenshotsTitle;
       }
-
-      // Можно сюда добавить изменение текста возле счётчика, если нужно
-      // (текущий счётчик — картинка, менять её содержимое динамически сложно)
     }
 
-    // Установим язык по умолчанию при загрузке страницы
     document.addEventListener('DOMContentLoaded', () => {
       setLang('ru');
     });
   </script>
 </body>
 </html>
-
-
-
