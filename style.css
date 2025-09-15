@@ -1,89 +1,243 @@
-body {
-  margin: 0;
-  font-family: 'Press Start 2P', cursive;
-  background-color: #000;
-  color: white;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tbl_3a9k — Био</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-.header {
-  text-align: center;
-  padding: 100px 20px 40px;
-  position: relative;
-  z-index: 1;
-  background: none;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Press Start 2P', cursive;
+      background: #000;
+      color: white;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
 
-.header-image {
-  max-width: 300px;
-  height: auto;
-}
+    /* Верхняя часть с картинкой */
+    .header {
+      background: url("IMBA.png") no-repeat center center/cover;
+      text-align: center;
+      padding: 150px 20px;
+      position: relative;
+      z-index: 2;
+    }
 
-.header-text {
-  margin-top: 20px;
-}
+    .header h1 {
+      font-size: 28px;
+      text-shadow: 0 0 10px #a020f0;
+    }
 
-.about, .info {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 40px 20px;
-  margin: 20px;
-  border-radius: 10px;
-  position: relative;
-  z-index: 1;
-}
+    /* Блоки */
+    .section {
+      text-align: center;
+      padding: 50px 20px;
+      position: relative;
+      z-index: 2;
+    }
 
-.about h2 {
-  margin-top: 0;
-}
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #a56dff;
+    }
 
-.info ul {
-  list-style: none;
-  padding-left: 0;
-}
+    .section p {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
 
-.info li {
-  margin: 10px 0;
-}
+    /* Соцсети */
+    .socials {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
 
-.socials {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 40px 20px;
-  position: relative;
-  z-index: 1;
-}
+    .socials a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border: 2px solid white;
+      border-radius: 12px;
+      transition: 0.3s;
+      background: rgba(255,255,255,0.05);
+    }
 
-.socials a img {
-  width: 60px;
-  height: 60px;
-  border: 2px solid white;
-  border-radius: 12px;
-  padding: 10px;
-  background-color: rgba(255,255,255,0.05);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+    .socials a:hover {
+      box-shadow: 0 0 15px #a020f0;
+      transform: scale(1.1);
+    }
 
-.socials a img:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px white;
-}
+    .socials img {
+      width: 30px;
+      height: 30px;
+    }
 
-/* Анимированный фон с точками и линиями */
-#particles-js {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  pointer-events: auto;
-}
+    /* Кнопка музыки */
+    .music-btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 20px;
+      border: 2px solid white;
+      border-radius: 12px;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-#particles-js canvas {
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: auto;
-}
+    .music-btn:hover {
+      box-shadow: 0 0 15px #a020f0;
+      transform: scale(1.05);
+    }
+
+    /* Скриншоты */
+    .screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .screenshots img {
+      width: 100%;
+      border-radius: 12px;
+      border: 2px solid white;
+      transition: 0.3s;
+    }
+
+    .screenshots img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #a020f0;
+    }
+
+    /* Частицы на фоне */
+    #particles-js {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50vh;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Верх -->
+  <div class="header">
+    <h1>Tbl_3a9k</h1>
+  </div>
+
+  <!-- Блок обо мне -->
+  <div class="section">
+    <h2>Обо мне</h2>
+    <p>Моя мечта — новый мощный ПК.<br>А пока что мой сетап: GTX 1660 Ti + i5-10300H.</p>
+  </div>
+
+  <!-- Блок информации -->
+  <div class="section">
+    <h2>Инфо</h2>
+    <p>Country: Kazakhstan</p>
+    <p>I am 13 years old</p>
+    <p>Discord: tbl_3a9k</p>
+    <p>Playing only Minecraft</p>
+    <p>Servers: Dexland, FunTime, FunSky</p>
+    <p>My dream: new PC</p>
+    <p>My setup: GTX 1660 Ti, i5-10300H</p>
+  </div>
+
+  <!-- Соцсети -->
+  <div class="section">
+    <h2>Мои соцсети</h2>
+    <div class="socials">
+      <a href="#"><img src="tiktok.png" alt="TikTok"></a>
+      <a href="#"><img src="steam.png" alt="Steam"></a>
+      <a href="#"><img src="twitch.png" alt="Twitch"></a>
+      <a href="#"><img src="spotify.png" alt="Spotify"></a>
+      <a href="#"><img src="roblox.png" alt="Roblox"></a>
+      <a href="#"><img src="fanpay.png" alt="FanPay"></a>
+    </div>
+
+    <!-- Кнопка музыки -->
+    <button class="music-btn" id="musicButton">▶ Play Music</button>
+    <audio id="mySong" loop>
+      <source src="music.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- Скриншоты -->
+  <div class="section">
+    <h2>Мои скриншоты</h2>
+    <div class="screenshots">
+      <img src="screenshot1.png" alt="screenshot">
+      <img src="screenshot2.png" alt="screenshot">
+      <img src="screenshot3.png" alt="screenshot">
+    </div>
+  </div>
+
+  <!-- Частицы -->
+  <div id="particles-js"></div>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 80 },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        },
+        "modes": {
+          "repulse": { "distance": 120, "duration": 0.4 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Музыка
+    const button = document.getElementById("musicButton");
+    const audio = document.getElementById("mySong");
+    let isPlaying = false;
+
+    button.addEventListener("click", () => {
+      if (!isPlaying) {
+        audio.play();
+        button.textContent = "⏸ Pause Music";
+      } else {
+        audio.pause();
+        button.textContent = "▶ Play Music";
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+</body>
+</html>
