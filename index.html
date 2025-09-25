@@ -2,162 +2,57 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Tbl_3a9k — Био🤍</title>
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <title>Tbl_3a9k — Био</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    * {
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      font-family: 'Press Start 2P', cursive;
+      background-color: #000;
+      color: white;
+      overflow-x: hidden;
       scroll-behavior: smooth;
     }
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background-color: black;
-      color: white;
-    }
-    .header {
-      background: url("images/screenshot4.png") center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-    .header h1 {
-      font-size: 24px;
-      animation: fadeInDown 1.2s ease-out;
-    }
-    .header p {
-      font-size: 14px;
-      margin-top: 10px;
-      animation: fadeInUp 1.2s ease-out;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+
+    /* контейнер для анимированного фона */
     #particles-js {
-      position: relative;
+      position: fixed;
       width: 100%;
-      min-height: 100vh;
-      background: black;
-      z-index: 0;
-      overflow: hidden;
-    }
-    #particles-js canvas {
-      position: absolute;
+      height: 100%;
       top: 0;
       left: 0;
-      z-index: 0;
-    }
-    #particles-js .content {
-      position: relative;
-      z-index: 1;
-      padding: 100px 20px;
-      text-align: center;
-    }
-    section.about, section.info, section.screenshots {
-      margin-bottom: 50px;
-    }
-    section.about p {
-      margin-top: 15px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-    section.info ul {
-      list-style: none;
-      font-size: 12px;
-      padding-left: 0;
-    }
-    section.info li {
-      margin-bottom: 10px;
-    }
-    .socials {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .socials a img {
-      width: 50px;
-      height: 50px;
-      border: 2px solid white;
-      padding: 5px;
-      border-radius: 10px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .socials a img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px white;
-    }
-    /* Кнопка музыки */
-    .music-btn {
-      margin-top: 30px;
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
-    }
-    .music-btn:hover {
-      background: white;
-      color: black;
-      box-shadow: 0 0 15px white;
-      transform: scale(1.05);
-    }
-    /* Скриншоты */
-    .screenshots h2 {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-    .screenshots .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .screenshots img {
-      width: 300px;
-      height: auto;
-      border: 2px solid white;
-      border-radius: 10px;
-    }
-    /* Переключатель языков */
-    .lang-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
-    .lang-switcher button {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-    .lang-switcher button:hover {
-      background: white;
-      color: black;
+      z-index: -1;
+      background: #000;
     }
 
-    /* 🔥 Новый блок: Инфо + Личная жизнь рядом */
+    .header {
+      text-align: center;
+      padding: 100px 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header img {
+      max-width: 200px;
+      border-radius: 20px;
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      color: #9d4edd;
+      text-shadow: 0 0 8px #9d4edd;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    /* инфо + личная жизнь */
     .info-life {
       display: flex;
       justify-content: center;
@@ -165,27 +60,29 @@
       flex-wrap: wrap;
       margin-bottom: 50px;
     }
+
     .info, .life {
       flex: 1;
       min-width: 280px;
       max-width: 400px;
       padding: 20px;
       border-radius: 15px;
-      background: rgba(25, 0, 45, 0.7);
-      box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
       text-align: left;
     }
-    .life h2 {
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-    .life ul {
+
+    .info ul, .life ul {
       list-style: none;
+      padding: 0;
       font-size: 12px;
-      padding-left: 0;
-      line-height: 1.6em;
+      line-height: 1.8em;
     }
-    .life li { margin-bottom: 10px; }
+
+    .info li, .life li {
+      margin: 10px 0;
+    }
+
     .life-avatar {
       width: 120px;
       height: 120px;
@@ -194,105 +91,83 @@
       object-fit: cover;
       display: block;
       margin: 0 auto 15px;
-      box-shadow: 0 0 12px #9d4edd;
+      box-shadow: 0 0 12px rgba(255,255,255,0.3);
     }
   </style>
 </head>
 <body>
+  <!-- фон с частицами -->
+  <div id="particles-js"></div>
 
-  <!-- Переключатель языков -->
-  <div class="lang-switcher">
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('en')">EN</button>
-  </div>
+  <!-- Шапка -->
+  <header class="header">
+    <img src="IMBA.png" alt="Header Image">
+    <h1>Tbl_3a9k</h1>
+  </header>
 
-  <!-- Верхняя часть -->
-  <div class="header">
-    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-    <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
-  </div>
+  <!-- Обо мне -->
+  <section>
+    <h2>👾 Обо мне</h2>
+    <p>Я мечтаю о мощном ПК, но пока играю на GTX 1660 Ti и i5-10300H.</p>
+  </section>
 
-  <!-- Нижняя часть с анимированным фоном -->
-  <div id="particles-js">
-    <div class="content">
-      <!-- Блок "Обо мне" -->
-      <section class="about">
-        <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
-        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-        <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-      </section>
-
-      <!-- Инфо + Личная жизнь -->
-      <div class="info-life">
-        <!-- Блок "Инфо" -->
-        <section class="info">
-          <ul id="info-list">
-            <li>🏳️ • Мои цели:</li>
-            <li>👤 • Иметь свой стабильный заработок</li>
-            <li>💬 • Не зависеть от родителей</li>
-            <li>⛏️ • Обновить сетап</li>
-            <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-            <li>💫 • Моя основная мечта: Быть счастливым</li>
-            <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-          </ul>
-        </section>
-
-        <!-- 🔥 Новый блок "Моя личная жизнь" -->
-        <section class="life">
-          <h2>🧩 Моя личная жизнь</h2>
-          <img src="images/avatar.png" alt="Аватар" class="life-avatar">
-          <ul>
-            <li>🎓 Учусь в <b>8 классе</b></li>
-            <li>🏀 Моё хобби — <b>баскетбол</b></li>
-            <li>💞 У меня есть <b>девушка</b></li>
-            <li>💰 У меня есть <b>свой способ заработка</b> в 13 лет</li>
-          </ul>
-        </section>
-      </div>
-
-      <!-- Соцсети -->
-      <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
-        <a href="https://www.twitch.tv/tbl_3a9ka" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
-        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
-      </div>
-
-      <!-- Кнопка музыки -->
-      <button class="music-btn" id="musicButton">▶ Play Music</button>
-      <audio id="mySong">
-        <source src="music.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-      </audio>
-
-      <!-- Скриншоты -->
-      <section class="screenshots">
-        <h2>📸 Мои скриншоты</h2>
-        <div class="grid">
-          <img src="images/screenshot1.png" alt="Screenshot 1" />
-          <img src="images/screenshot2.png" alt="Screenshot 2" />
-          <img src="images/screenshot3.png" alt="Screenshot 3" />
-          <img src="images/screenshot4.png" alt="Screenshot 4" />
-          <img src="images/screenshot5.png" alt="Screenshot 5" />
-          <img src="images/screenshot6.png" alt="Screenshot 6" />
-          <img src="images/screenshot7.png" alt="Screenshot 7" />
-        </div>
-
-        <!-- Счётчик просмотров -->
-        <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
-          <a href="https://info.flagcounter.com/QnhJ">
-            <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
-          </a>
-        </div>
-      </section>
+  <!-- Инфо + Личная жизнь -->
+  <section class="info-life">
+    <!-- Инфо -->
+    <div class="info">
+      <h2>ℹ️ Инфо</h2>
+      <ul>
+        <li>🌍 Country: Kazakhstan</li>
+        <li>🎂 I am 13 years old</li>
+        <li>💬 Discord: tbl_3a9k</li>
+        <li>🎮 Playing only Minecraft</li>
+        <li>🕹️ Playing on Dexland, FunTime, FunSky</li>
+        <li>💭 My dream: new PC</li>
+        <li>💻 My setup: GTX 1660 Ti, i5-10300H</li>
+      </ul>
     </div>
-  </div>
 
-  <!-- particles.js -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <!-- (остальные твои скрипты без изменений) -->
+    <!-- Личная жизнь -->
+    <div class="life">
+      <h2>🧩 Моя личная жизнь</h2>
+      <img src="avatar.png" alt="Аватар" class="life-avatar">
+      <ul>
+        <li>🎓 Учусь в <b>8 классе</b></li>
+        <li>🏀 Иногда играю в <b>баскетбол</b></li>
+        <li>💞 Провожу время с близкими людьми</li>
+        <li>💰 Уже пробую зарабатывать онлайн</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Соцсети -->
+  <section>
+    <h2>🌐 Соцсети</h2>
+    <!-- тут твои соц кнопки -->
+  </section>
+
+  <!-- Мои скриншоты -->
+  <section>
+    <h2>📸 Мои скриншоты</h2>
+    <!-- сюда твои майнкрафт скрины -->
+  </section>
+
+  <!-- particles.js библиотека -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 80 },
+        "size": { "value": 3 },
+        "move": { "speed": 2 },
+        "line_linked": { "enable": true },
+        "interactivity": {
+          "events": {
+            "onhover": { "enable": true, "mode": "repulse" }
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
