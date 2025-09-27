@@ -6,189 +6,74 @@
   <link rel="icon" href="favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background-color: black;
-      color: white;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body { font-family: 'Press Start 2P', cursive; background-color: black; color: white; }
+
     .header {
       background: url("images/screenshot4.png") center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
+      height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 20px;
     }
-    .header h1 {
-      font-size: 24px;
-      animation: fadeInDown 1.2s ease-out;
-    }
-    .header p {
-      font-size: 14px;
-      margin-top: 10px;
-      animation: fadeInUp 1.2s ease-out;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    #particles-js {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      background: black;
-      z-index: 0;
-      overflow: hidden;
-    }
-    #particles-js canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-    #particles-js .content {
-      position: relative;
-      z-index: 1;
-      padding: 100px 20px;
-      text-align: center;
-    }
-    section.about, section.info, section.screenshots {
-      margin-bottom: 50px;
-    }
-    section.about p {
-      margin-top: 15px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-    section.info ul {
-      list-style: none;
-      font-size: 12px;
-      padding-left: 0;
-    }
-    section.info li {
-      margin-bottom: 10px;
-    }
+    .header h1 { font-size: 24px; animation: fadeInDown 1.2s ease-out; }
+    .header p { font-size: 14px; margin-top: 10px; animation: fadeInUp 1.2s ease-out; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* 🔥 Блок инфо + личная жизнь рядом */
-    .info-life {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-    }
+    #particles-js { position: relative; width: 100%; min-height: 100vh; background: black; z-index: 0; overflow: hidden; }
+    #particles-js canvas { position: absolute; top: 0; left: 0; z-index: 0; }
+    #particles-js .content { position: relative; z-index: 1; padding: 100px 20px; text-align: center; }
+
+    section.about, section.info, section.screenshots { margin-bottom: 50px; }
+    section.about p { margin-top: 15px; font-size: 12px; line-height: 1.6; }
+    section.info ul { list-style: none; font-size: 12px; padding-left: 0; }
+    section.info li { margin-bottom: 10px; }
+
+    .info-life { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 50px; }
     .info, .life {
-      flex: 1;
-      min-width: 280px;
-      max-width: 400px;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-      text-align: left;
+      flex: 1; min-width: 280px; max-width: 400px; padding: 20px; border-radius: 15px;
+      background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); text-align: left;
     }
-    .info ul, .life ul {
-      list-style: none;
-      padding: 0;
-      font-size: 12px;
-      line-height: 1.6em;
-    }
-    .life-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 2px solid white;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto 15px;
-      box-shadow: 0 0 12px rgba(255,255,255,0.3);
-    }
+    .info ul, .life ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.6em; }
+    .life-avatar { width: 120px; height: 120px; border-radius: 50%; border: 2px solid white; object-fit: cover;
+      display: block; margin: 0 auto 15px; box-shadow: 0 0 12px rgba(255,255,255,0.3); }
 
-    .socials {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+    .socials { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
     .socials a img {
-      width: 50px;
-      height: 50px;
-      border: 2px solid white;
-      padding: 5px;
-      border-radius: 10px;
+      width: 50px; height: 50px; border: 2px solid white; padding: 5px; border-radius: 10px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .socials a img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px white;
-    }
+    .socials a img:hover { transform: scale(1.1); box-shadow: 0 0 15px white; }
+
     .music-btn {
-      margin-top: 30px;
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
+      margin-top: 30px; background: transparent; border: 2px solid white; color: white;
+      font-family: 'Press Start 2P', cursive; font-size: 10px; padding: 10px 20px; border-radius: 10px;
+      cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
     }
-    .music-btn:hover {
-      background: white;
-      color: black;
-      box-shadow: 0 0 15px white;
-      transform: scale(1.05);
-    }
-    .screenshots h2 {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-    .screenshots .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .screenshots img {
-      width: 300px;
-      height: auto;
-      border: 2px solid white;
-      border-radius: 10px;
-    }
-    .lang-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
+    .music-btn:hover { background: white; color: black; box-shadow: 0 0 15px white; transform: scale(1.05); }
+
+    .screenshots h2 { font-size: 16px; margin-bottom: 20px; }
+    .screenshots .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .screenshots img { width: 300px; height: auto; border: 2px solid white; border-radius: 10px; cursor: pointer; }
+
+    .lang-switcher { position: absolute; top: 20px; right: 20px; z-index: 10; }
     .lang-switcher button {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
+      background: transparent; border: 2px solid white; color: white;
+      font-family: 'Press Start 2P', cursive; font-size: 10px; padding: 5px 10px; margin-left: 5px; cursor: pointer;
     }
-    .lang-switcher button:hover {
-      background: white;
-      color: black;
+    .lang-switcher button:hover { background: white; color: black; }
+
+    /* 🔥 Lightbox */
+    .lightbox {
+      display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9); justify-content: center; align-items: center;
     }
+    .lightbox img { max-width: 90%; max-height: 80%; border: 2px solid white; border-radius: 10px; }
+    .lightbox .close, .lightbox .prev, .lightbox .next {
+      position: absolute; color: white; font-size: 30px; font-weight: bold; cursor: pointer; user-select: none;
+    }
+    .lightbox .close { top: 20px; right: 30px; }
+    .lightbox .prev { left: 5%; top: 50%; transform: translateY(-50%); }
+    .lightbox .next { right: 5%; top: 50%; transform: translateY(-50%); }
   </style>
 </head>
 <body>
@@ -205,10 +90,10 @@
     <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
   </div>
 
-  <!-- Нижняя часть с анимированным фоном -->
+  <!-- Нижняя часть -->
   <div id="particles-js">
     <div class="content">
-      <!-- Блок "Обо мне" -->
+      <!-- Обо мне -->
       <section class="about">
         <h2 id="about-title">qq, Я Tbl_3a9k</h2>
         <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
@@ -216,7 +101,7 @@
         <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
       </section>
 
-      <!-- 🔥 Инфо + Личная жизнь -->
+      <!-- Инфо + Личная жизнь -->
       <section class="info-life">
         <div class="info">
           <ul id="info-list">
@@ -251,12 +136,9 @@
         <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
       </div>
 
-      <!-- Кнопка музыки -->
+      <!-- Музыка -->
       <button class="music-btn" id="musicButton">▶ Play Music</button>
-      <audio id="mySong">
-        <source src="music.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-      </audio>
+      <audio id="mySong"><source src="music.mp3" type="audio/mpeg"></audio>
 
       <!-- Скриншоты -->
       <section class="screenshots">
@@ -271,7 +153,7 @@
           <img src="images/screenshot7.png" alt="Screenshot 7" />
         </div>
 
-        <!-- Счётчик просмотров -->
+        <!-- Счётчик -->
         <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
           <a href="https://info.flagcounter.com/QnhJ">
             <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
@@ -279,6 +161,14 @@
         </div>
       </section>
     </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <span class="prev" onclick="changeSlide(-1)">&#10094;</span>
+    <img id="lightbox-img" src="" alt="lightbox">
+    <span class="next" onclick="changeSlide(1)">&#10095;</span>
   </div>
 
   <!-- particles.js -->
@@ -291,105 +181,91 @@
         shape: { type: "circle" },
         opacity: { value: 0.5 },
         size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.4,
-          width: 1,
-        },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: "none",
-          out_mode: "out",
-        },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", out_mode: "out" },
       },
       interactivity: {
         detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" },
-          resize: true,
-        },
-        modes: {
-          grab: { distance: 140, line_linked: { opacity: 1 } },
-          push: { particles_nb: 4 },
-        },
+        events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+        modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } },
       },
       retina_detect: true,
     });
   </script>
 
-  <!-- Скрипт для кнопки музыки -->
+  <!-- Музыка -->
   <script>
     const button = document.getElementById("musicButton");
     const audio = document.getElementById("mySong");
     let isPlaying = false;
-
     button.addEventListener("click", () => {
-      if (!isPlaying) {
-        audio.play();
-        button.textContent = "⏸ Pause Music";
-      } else {
-        audio.pause();
-        button.textContent = "▶ Play Music";
-      }
+      if (!isPlaying) { audio.play(); button.textContent = "⏸ Pause Music"; }
+      else { audio.pause(); button.textContent = "▶ Play Music"; }
       isPlaying = !isPlaying;
     });
   </script>
 
-  <!-- Переключение языков -->
+  <!-- Lightbox скрипт -->
+  <script>
+    const images = document.querySelectorAll(".screenshots img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    let currentIndex = 0;
+
+    images.forEach((img, i) => {
+      img.addEventListener("click", () => {
+        currentIndex = i;
+        openLightbox(img.src);
+      });
+    });
+
+    function openLightbox(src) {
+      lightbox.style.display = "flex";
+      lightboxImg.src = src;
+    }
+    function closeLightbox() {
+      lightbox.style.display = "none";
+    }
+    function changeSlide(dir) {
+      currentIndex += dir;
+      if (currentIndex < 0) currentIndex = images.length - 1;
+      if (currentIndex >= images.length) currentIndex = 0;
+      lightboxImg.src = images[currentIndex].src;
+    }
+  </script>
+
+  <!-- Языки -->
   <script>
     const langData = {
       ru: {
         title: "Tbl_3a9k - Обо мне:",
-        subtitle: "я чувствовал себя счастливым только благодаря тебе.🤍",
+        subtitle: "Наверное,я больше не смогу сказать "привет" кому то,у кого глаза имеет голубой цвет🤍",
         aboutTitle: "qq, Я Tbl_3a9k ",
         about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
         about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
         about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-        infoList: [
-          "🏳️ • Мои цели:",
-          "👤 • Иметь свой стабильный заработок",
-          "💬 • Не зависеть от родителей",
-          "⛏️ • Обновить сетап",
-          "🎮 • Зарабатываю благодаря игре Minecraft",
-          "💫 • Моя основная мечта: Быть счастливым",
-          "💻 • Мой первый успех: 11.09.25 --> 61к💲"
-        ],
+        infoList: ["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
         screenshotsTitle: "📸 Мои скриншоты"
       },
       en: {
         title: "Tbl_3a9k bio",
-        subtitle: "I felt happy only because of you.🤍",
+        subtitle: "I guess I won't be able to say "hello" to anyone with blue eyes anymore.🤍",
         aboutTitle: "Hey! I'm Tbl_3a9k 🤠",
         about1: "I'm 13 years old, live in Kazakhstan, and love playing Minecraft🎮",
         about2: "My dream is to build a powerful PC, but for now I'm rocking my GTX 1070 Ti and i7 💻",
         about3: "Wanna chat? Discord — tbl_3a9k. Good luck😼",
-        infoList: [
-          "🏳️ • My goals:",
-          "👤 • Have your own stable income",
-          "💬 • Don't depend on your parents",
-          "⛏️ • Upgrade my setup",
-          "🎮 • I earn money by playing Minecraft",
-          "💫 • My main dream: To be happy",
-          "💻 • My first success: 09/11/25 --> 61k💲"
-        ],
+        infoList: ["🏳️ • My goals:","👤 • Have your own stable income","💬 • Don't depend on your parents","⛏️ • Upgrade my setup","🎮 • I earn money by playing Minecraft","💫 • My main dream: To be happy","💻 • My first success: 09/11/25 --> 61k💲"],
         screenshotsTitle: "📸 My screenshots"
       }
     };
-
     function setLang(lang) {
       if (!langData[lang]) return;
-
       document.getElementById('title-text').textContent = langData[lang].title;
       document.getElementById('subtitle-text').textContent = langData[lang].subtitle;
       document.getElementById('about-title').textContent = langData[lang].aboutTitle;
       document.getElementById('about-1').textContent = langData[lang].about1;
       document.getElementById('about-2').textContent = langData[lang].about2;
       document.getElementById('about-3').textContent = langData[lang].about3;
-
       const infoListEl = document.getElementById('info-list');
       infoListEl.innerHTML = '';
       langData[lang].infoList.forEach(item => {
@@ -397,16 +273,10 @@
         li.textContent = item;
         infoListEl.appendChild(li);
       });
-
       const screenshotsTitleEl = document.querySelector('.screenshots h2');
-      if (screenshotsTitleEl) {
-        screenshotsTitleEl.textContent = langData[lang].screenshotsTitle;
-      }
+      if (screenshotsTitleEl) screenshotsTitleEl.textContent = langData[lang].screenshotsTitle;
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      setLang('ru');
-    });
+    document.addEventListener('DOMContentLoaded', () => { setLang('ru'); });
   </script>
 </body>
 </html>
