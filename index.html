@@ -14,9 +14,37 @@
     }
     body {
       font-family: 'Press Start 2P', cursive;
-      background-color: black;
+      background: #000;
       color: white;
+      overflow-x: hidden;
     }
+
+    /* 🔥 Реактивный неоновый фон */
+    #gradient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #6c00ff, #000000 70%);
+      transition: background-position 0.3s ease;
+      animation: gradientShift 10s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background: radial-gradient(circle at 30% 40%, #7000ff, #000000 70%);
+      }
+      50% {
+        background: radial-gradient(circle at 70% 60%, #ff00cc, #000000 70%);
+      }
+      100% {
+        background: radial-gradient(circle at 50% 50%, #6c00ff, #000000 70%);
+      }
+    }
+
+    /* Верхняя часть */
     .header {
       position: relative;
       height: 100vh;
@@ -46,7 +74,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1;
+      z-index: -2;
     }
     .fallback-img {
       position: absolute;
@@ -55,8 +83,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1;
+      z-index: -2;
     }
+
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-40px); }
       to { opacity: 1; transform: translateY(0); }
@@ -66,26 +95,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    #particles-js {
+    /* Контент */
+    #main-content {
       position: relative;
       width: 100%;
       min-height: 100vh;
-      background: black;
-      z-index: 0;
-      overflow: hidden;
-    }
-    #particles-js canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-    #particles-js .content {
-      position: relative;
       z-index: 1;
       padding: 100px 20px;
       text-align: center;
+      background: transparent;
     }
+
     section.about, section.info, section.screenshots {
       margin-bottom: 50px;
     }
@@ -103,7 +123,6 @@
       margin-bottom: 10px;
     }
 
-    /* 🔥 Блок инфо + личная жизнь рядом */
     .info-life {
       display: flex;
       justify-content: center;
@@ -120,6 +139,7 @@
       background: rgba(0, 0, 0, 0.6);
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
       text-align: left;
+      backdrop-filter: blur(8px);
     }
     .info ul, .life ul {
       list-style: none;
@@ -197,7 +217,6 @@
       transform: scale(1.05);
     }
 
-    /* 🔥 Модальное окно для просмотра скриншотов */
     .modal {
       display: none;
       position: fixed;
@@ -206,7 +225,6 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
       background-color: rgba(0,0,0,0.9);
     }
     .modal-content {
@@ -222,10 +240,7 @@
       cursor: pointer;
       user-select: none;
     }
-    .close {
-      top: 20px;
-      right: 35px;
-    }
+    .close { top: 20px; right: 35px; }
     .prev, .next {
       top: 50%;
       transform: translateY(-50%);
@@ -234,6 +249,7 @@
     }
     .prev { left: 10px; }
     .next { right: 10px; }
+
     .lang-switcher {
       position: absolute;
       top: 20px;
@@ -258,271 +274,160 @@
 </head>
 <body>
 
-  <!-- Переключатель языков -->
-  <div class="lang-switcher">
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('en')">EN</button>
-  </div>
+<div id="gradient-bg"></div>
 
-  <!-- Верхняя часть с видеофоном -->
-  <header class="header">
-    <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
-      <source src="video.mp4" type="video/mp4">
-      <img src="IMBA.png" alt="Background" class="fallback-img">
-    </video>
-    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-    <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
-  </header>
+<div class="lang-switcher">
+  <button onclick="setLang('ru')">RU</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
 
-  <!-- Нижняя часть с анимированным фоном -->
-  <div id="particles-js">
-    <div class="content">
-      <!-- Блок "Обо мне" -->
-      <section class="about">
-        <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
-        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-        <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-      </section>
+<header class="header">
+  <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
+    <source src="video.mp4" type="video/mp4">
+    <img src="IMBA.png" alt="Background" class="fallback-img">
+  </video>
+  <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
+  <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
+</header>
 
-      <!-- 🔥 Инфо + Личная жизнь -->
-      <section class="info-life">
-        <div class="info">
-          <ul id="info-list">
-            <li>🏳️ • Мои цели:</li>
-            <li>👤 • Иметь свой стабильный заработок</li>
-            <li>💬 • Не зависеть от родителей</li>
-            <li>⛏️ • Обновить сетап</li>
-            <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-            <li>💫 • Моя основная мечта: Быть счастливым</li>
-            <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-          </ul>
-        </div>
-        <div class="life">
-          <h2>🧩 Моя личная жизнь</h2>
-          <img src="images/avatar.png" alt="Аватар" class="life-avatar">
-          <ul>
-            <li>🎓 Учусь в <b>8 классе</b></li>
-            <li>🏀 Иногда играю в <b>баскетбол</b></li>
-            <li>💞 Провожу время с близкими людьми</li>
-            <li>💰 Уже пробую зарабатывать онлайн</li>
-          </ul>
-        </div>
-      </section>
+<div id="main-content">
+  <section class="about">
+    <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+    <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+    <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+    <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+  </section>
 
-      <!-- Соцсети -->
-      <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
-        <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
-        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
-      </div>
-
-      <!-- Кнопка музыки -->
-      <button class="music-btn" id="musicButton">▶ Play Music</button>
-      <audio id="mySong">
-        <source src="music.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-      </audio>
-
-      <!-- Скриншоты -->
-      <section class="screenshots">
-        <h2>📸 Мои скриншоты</h2>
-        <div class="grid">
-          <img src="images/screenshot1.png" alt="Screenshot 1" />
-          <img src="images/screenshot2.png" alt="Screenshot 2" />
-          <img src="images/screenshot3.png" alt="Screenshot 3" />
-          <img src="images/screenshot4.png" alt="Screenshot 4" />
-          <img src="images/screenshot5.png" alt="Screenshot 5" />
-          <img src="images/screenshot6.png" alt="Screenshot 6" />
-          <img src="images/screenshot7.png" alt="Screenshot 7" />
-        </div>
-
-        <!-- Счётчик просмотров -->
-        <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
-          <a href="https://info.flagcounter.com/QnhJ">
-            <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
-          </a>
-        </div>
-      </section>
+  <section class="info-life">
+    <div class="info">
+      <ul id="info-list">
+        <li>🏳️ • Мои цели:</li>
+        <li>👤 • Иметь свой стабильный заработок</li>
+        <li>💬 • Не зависеть от родителей</li>
+        <li>⛏️ • Обновить сетап</li>
+        <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+        <li>💫 • Моя основная мечта: Быть счастливым</li>
+        <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+      </ul>
     </div>
+    <div class="life">
+      <h2>🧩 Моя личная жизнь</h2>
+      <img src="images/avatar.png" alt="Аватар" class="life-avatar">
+      <ul>
+        <li>🎓 Учусь в <b>8 классе</b></li>
+        <li>🏀 Иногда играю в <b>баскетбол</b></li>
+        <li>💞 Провожу время с близкими людьми</li>
+        <li>💰 Уже пробую зарабатывать онлайн</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="socials">
+    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
+    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
+    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
+    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
+    <a href="https://www.roblox.com/users/3276902015/profile" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
+    <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
   </div>
 
-  <!-- ✅ Модальное окно для скриншотов -->
-  <div id="modal" class="modal">
-    <span class="close">&times;</span>
-    <span class="prev">&#10094;</span>
-    <span class="next">&#10095;</span>
-    <img class="modal-content" id="modal-img">
-  </div>
+  <button class="music-btn" id="musicButton">▶ Play Music</button>
+  <audio id="mySong">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
-  <!-- particles.js -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: "#ffffff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.5 },
-        size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.4,
-          width: 1,
-        },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: "none",
-          out_mode: "out",
-        },
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" },
-          resize: true,
-        },
-        modes: {
-          grab: { distance: 140, line_linked: { opacity: 1 } },
-          push: { particles_nb: 4 },
-        },
-      },
-      retina_detect: true,
-    });
-  </script>
+  <section class="screenshots">
+    <h2>📸 Мои скриншоты</h2>
+    <div class="grid">
+      <img src="images/screenshot1.png" alt="Screenshot 1" />
+      <img src="images/screenshot2.png" alt="Screenshot 2" />
+      <img src="images/screenshot3.png" alt="Screenshot 3" />
+    </div>
+  </section>
+</div>
 
-  <!-- Скрипт для кнопки музыки -->
-  <script>
-    const button = document.getElementById("musicButton");
-    const audio = document.getElementById("mySong");
-    let isPlaying = false;
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+  <img class="modal-content" id="modal-img">
+</div>
 
-    button.addEventListener("click", () => {
-      if (!isPlaying) {
-        audio.play();
-        button.textContent = "⏸ Pause Music";
-      } else {
-        audio.pause();
-        button.textContent = "▶ Play Music";
-      }
-      isPlaying = !isPlaying;
-    });
-  </script>
+<script>
+  // 🔥 Реакция фона на курсор
+  const bg = document.getElementById("gradient-bg");
+  document.addEventListener("mousemove", (e) => {
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    bg.style.background = `radial-gradient(circle at ${x}% ${y}%, #7000ff, #000000 70%)`;
+  });
 
-  <!-- ✅ Скрипт для модального окна скриншотов -->
-  <script>
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modal-img");
-    const images = document.querySelectorAll(".screenshots img");
-    const closeBtn = document.querySelector(".close");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
-    let currentIndex = 0;
-
-    function openModal(index) {
-      currentIndex = index;
-      modal.style.display = "block";
-      modalImg.src = images[index].src;
+  // Музыка
+  const button = document.getElementById("musicButton");
+  const audio = document.getElementById("mySong");
+  let isPlaying = false;
+  button.addEventListener("click", () => {
+    if (!isPlaying) {
+      audio.play();
+      button.textContent = "⏸ Pause Music";
+    } else {
+      audio.pause();
+      button.textContent = "▶ Play Music";
     }
+    isPlaying = !isPlaying;
+  });
 
-    function closeModal() {
-      modal.style.display = "none";
+  // Галерея
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const images = document.querySelectorAll(".screenshots img");
+  const closeBtn = document.querySelector(".close");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
+  let currentIndex = 0;
+  function openModal(index) {
+    currentIndex = index;
+    modal.style.display = "block";
+    modalImg.src = images[index].src;
+  }
+  function closeModal() { modal.style.display = "none"; }
+  function showPrev() { currentIndex = (currentIndex - 1 + images.length) % images.length; modalImg.src = images[currentIndex].src; }
+  function showNext() { currentIndex = (currentIndex + 1) % images.length; modalImg.src = images[currentIndex].src; }
+  images.forEach((img, i) => img.addEventListener("click", () => openModal(i)));
+  closeBtn.addEventListener("click", closeModal);
+  prevBtn.addEventListener("click", showPrev);
+  nextBtn.addEventListener("click", showNext);
+  window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+  // Языки
+  const langData = {
+    ru: {
+      title: "Tbl_3a9k - Обо мне:",
+      subtitle: "я чувствовал себя счастливым только благодаря тебе.🤍",
+      aboutTitle: "qq, Я Tbl_3a9k ",
+      about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+      about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
+      about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+    },
+    en: {
+      title: "Tbl_3a9k - About Me:",
+      subtitle: "I felt happy only because of you.🤍",
+      aboutTitle: "qq, I'm Tbl_3a9k ",
+      about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+      about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
+      about3: "Wanna chat with me? Discord — tbl_3a9k. good luck",
     }
+  };
+  function setLang(lang) {
+    document.getElementById("title-text").textContent = langData[lang].title;
+    document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
+    document.getElementById("about-title").textContent = langData[lang].aboutTitle;
+    document.getElementById("about-1").textContent = langData[lang].about1;
+    document.getElementById("about-2").textContent = langData[lang].about2;
+    document.getElementById("about-3").textContent = langData[lang].about3;
+  }
+  document.addEventListener("DOMContentLoaded", () => setLang("ru"));
+</script>
 
-    function showPrev() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      modalImg.src = images[currentIndex].src;
-    }
-
-    function showNext() {
-      currentIndex = (currentIndex + 1) % images.length;
-      modalImg.src = images[currentIndex].src;
-    }
-
-    images.forEach((img, index) => {
-      img.addEventListener("click", () => openModal(index));
-    });
-
-    closeBtn.addEventListener("click", closeModal);
-    prevBtn.addEventListener("click", showPrev);
-    nextBtn.addEventListener("click", showNext);
-
-    window.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
-  </script>
-
-  <!-- Переключение языков -->
-  <script>
-    const langData = {
-      ru: {
-        title: "Tbl_3a9k - Обо мне:",
-        subtitle: "я чувствовал себя счастливым только благодаря тебе.🤍",
-        aboutTitle: "qq, Я Tbl_3a9k ",
-        about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
-        about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
-        about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-        infoList: [
-          "🏳️ • Мои цели:",
-          "👤 • Иметь свой стабильный заработок",
-          "💬 • Не зависеть от родителей",
-          "⛏️ • Обновить сетап",
-          "🎮 • Зарабатываю благодаря игре Minecraft",
-          "💫 • Моя основная мечта: Быть счастливым",
-          "💻 • Мой первый успех: 11.09.25 --> 61к💲",
-        ],
-        screenshotsTitle: "📸 Мои скриншоты",
-      },
-      en: {
-        title: "Tbl_3a9k - About Me:",
-        subtitle: "I felt happy only because of you.🤍",
-        aboutTitle: "qq, I'm Tbl_3a9k ",
-        about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
-        about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
-        about3: "Wanna chat with me? Discord — tbl_3a9k. good luck",
-        infoList: [
-          "🏳️ • My goals:",
-          "👤 • Have my own stable income",
-          "💬 • Not depend on parents",
-          "⛏️ • Upgrade my setup",
-          "🎮 • Earn money thanks to Minecraft",
-          "💫 • My main dream: To be happy",
-          "💻 • My first success: 11.09.25 --> 61k💲",
-        ],
-        screenshotsTitle: "📸 My Screenshots",
-      },
-    };
-
-    function setLang(lang) {
-      document.getElementById("title-text").textContent = langData[lang].title;
-      document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
-      document.getElementById("about-title").textContent = langData[lang].aboutTitle;
-      document.getElementById("about-1").textContent = langData[lang].about1;
-      document.getElementById("about-2").textContent = langData[lang].about2;
-      document.getElementById("about-3").textContent = langData[lang].about3;
-      const infoListEl = document.getElementById("info-list");
-      infoListEl.innerHTML = "";
-      langData[lang].infoList.forEach((item) => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        infoListEl.appendChild(li);
-      });
-      document.querySelector(".screenshots h2").textContent = langData[lang].screenshotsTitle;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      setLang("ru");
-    });
-  </script>
 </body>
 </html>
-
