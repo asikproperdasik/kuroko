@@ -2,245 +2,338 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Tbl_3a9k — Био🤍</title>
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <title>Tbl_3a9k — Био</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background-color: black;
-      color: white;
-      overflow-x: hidden;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* ===== Верх с видео ===== */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #000;
+      color: white;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ==== ВИДЕО ФОН ВВЕРХУ ==== */
     .header {
       position: relative;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
       overflow: hidden;
-    }
-    .header h1 {
-      font-size: 24px;
-      animation: fadeInDown 1.2s ease-out;
-      z-index: 1;
-    }
-    .header p {
-      font-size: 14px;
-      margin-top: 10px;
-      animation: fadeInUp 1.2s ease-out;
-      z-index: 1;
-    }
-    .bg-video, .fallback-img {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== Нижняя часть с фоном ===== */
-    #starfield {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at bottom, #0a0a0f 0%, #000 100%);
-      overflow: hidden;
-    }
-    #starfield canvas {
+    .header video {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       z-index: 0;
     }
-    #starfield .content {
+
+    .header-content {
       position: relative;
-      z-index: 1;
-      padding: 100px 20px;
+      z-index: 2;
       text-align: center;
+      padding-top: 20vh;
     }
 
-    /* ===== Контент ===== */
-    section.about, section.info, section.screenshots { margin-bottom: 50px; }
-    section.about p { margin-top: 15px; font-size: 12px; line-height: 1.6; }
-    section.info ul { list-style: none; font-size: 12px; padding-left: 0; }
-    section.info li { margin-bottom: 10px; }
-
-    .info-life {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-    }
-    .info, .life {
-      flex: 1;
-      min-width: 280px;
-      max-width: 400px;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-      text-align: left;
-    }
-    .info ul, .life ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.6em; }
-    .life-avatar {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      border: 2px solid white;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto 15px;
-      box-shadow: 0 0 12px rgba(255,255,255,0.3);
+    .header h1 {
+      font-size: 22px;
+      color: white;
+      text-shadow: 0 0 10px #9b59b6;
+      animation: fadeIn 2s ease-in-out;
     }
 
-    .socials { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .socials a img {
-      width: 50px; height: 50px;
-      border: 2px solid white; padding: 5px; border-radius: 10px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .socials a img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px white;
-    }
-
-    .music-btn {
-      margin-top: 30px;
-      background: transparent;
+    /* ==== КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА ==== */
+    .lang-switch {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.1);
       border: 2px solid white;
       color: white;
-      font-family: 'Press Start 2P', cursive;
+      padding: 6px 10px;
       font-size: 10px;
-      padding: 10px 20px;
-      border-radius: 10px;
       cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
+      border-radius: 6px;
+      z-index: 100;
+      transition: 0.3s;
     }
-    .music-btn:hover {
-      background: white;
-      color: black;
-      box-shadow: 0 0 15px white;
+    .lang-switch:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ==== ОБО МНЕ ==== */
+    section {
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    h2 {
+      color: #cba6f7;
+      margin-bottom: 30px;
+      font-size: 16px;
+      text-shadow: 0 0 6px #9b59b6;
+    }
+
+    p {
+      font-size: 12px;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto;
+      color: #ddd;
+    }
+
+    /* ==== ИНФО ==== */
+    .info-list {
+      list-style: none;
+      margin-top: 40px;
+    }
+
+    .info-list li {
+      margin: 10px 0;
+      color: #bbb;
+      font-size: 11px;
+    }
+
+    /* ==== СОЦСЕТИ ==== */
+    .socials {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .socials a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border: 2px solid white;
+      border-radius: 12px;
+      transition: 0.3s;
+      text-decoration: none;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .socials a:hover {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 0 12px #9b59b6;
       transform: scale(1.05);
     }
 
-    .screenshots h2 { font-size: 16px; margin-bottom: 20px; }
-    .screenshots .grid {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+    .socials img {
+      width: 30px;
+      height: 30px;
     }
-    .screenshots img {
-      width: 300px; height: auto;
-      border: 2px solid white; border-radius: 10px;
-      cursor: pointer; transition: transform 0.3s;
-    }
-    .screenshots img:hover { transform: scale(1.05); }
 
-    /* ===== Языки ===== */
-    .lang-switcher {
-      position: absolute; top: 20px; right: 20px; z-index: 10;
+    /* ==== МОИ СКРИНЫ ==== */
+    .screenshots {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 40px;
     }
-    .lang-switcher button {
-      background: transparent;
+
+    .screenshots img {
+      width: 280px;
+      border-radius: 12px;
       border: 2px solid white;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
+      transition: 0.3s;
     }
-    .lang-switcher button:hover {
-      background: white; color: black;
+
+    .screenshots img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #9b59b6;
+    }
+
+    /* ==== ЗВЁЗДНЫЙ ФОН ВНИЗУ ==== */
+    #stars {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 0;
+      background: radial-gradient(ellipse at bottom, #0a0a0a 0%, #000 100%);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <!-- Переключатель языков -->
-  <div class="lang-switcher">
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('en')">EN</button>
-  </div>
-
-  <!-- Верхняя часть -->
-  <header class="header">
-    <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
-      <source src="video.mp4" type="video/mp4">
-      <img src="IMBA.png" alt="Background" class="fallback-img">
-    </video>
-    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-    <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
-  </header>
-
-  <!-- Нижняя часть со звёздным небом -->
-  <div id="starfield">
-    <canvas id="star-canvas"></canvas>
-    <div class="content">
-      <!-- Твой контент остаётся полностью тем же -->
-      <!-- ... (всё содержимое как у тебя сейчас: about, info, life, socials, музыка, screenshots и т.д.) -->
+  <!-- ======== ВИДЕО ФОН ======== -->
+  <div class="header">
+    <video autoplay loop muted playsinline src="video.mp4"></video>
+    <div class="header-content">
+      <h1 id="title">Tbl_3a9k</h1>
     </div>
   </div>
 
-  <!-- Скрипт звёзд -->
+  <!-- ======== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ======== -->
+  <div class="lang-switch" onclick="toggleLang()">EN</div>
+
+  <!-- ======== ОБО МНЕ ======== -->
+  <section id="about">
+    <h2 id="about-title">Обо мне</h2>
+    <p id="about-text">Моя мечта — собрать мощный ПК.  
+      Сейчас у меня GTX 1660 Ti и i5-10300H.  
+      Я играю только в Minecraft и люблю проводить время на серверах Dexland, FunTime и FunSky.</p>
+  </section>
+
+  <!-- ======== ИНФО ======== -->
+  <section id="info">
+    <h2 id="info-title">Инфо</h2>
+    <ul class="info-list" id="info-list">
+      <li>Country: Kazakhstan</li>
+      <li>I am 13 years old</li>
+      <li>Discord: tbl_3a9k</li>
+      <li>Playing only Minecraft</li>
+      <li>Servers: Dexland, FunTime, FunSky</li>
+      <li>My dream: new PC</li>
+      <li>My setup: GTX 1660 Ti, i5-10300H</li>
+    </ul>
+  </section>
+
+  <!-- ======== СОЦСЕТИ ======== -->
+  <section id="socials">
+    <h2>Socials</h2>
+    <div class="socials">
+      <a href="#"><img src="tiktok.png" alt="TikTok"></a>
+      <a href="#"><img src="steam.png" alt="Steam"></a>
+      <a href="#"><img src="twitch.png" alt="Twitch"></a>
+      <a href="#"><img src="spotify.png" alt="Spotify"></a>
+      <a href="#"><img src="roblox.png" alt="Roblox"></a>
+      <a href="#"><img src="fanpay.png" alt="FanPay"></a>
+    </div>
+  </section>
+
+  <!-- ======== МОИ СКРИНШОТЫ ======== -->
+  <section id="screenshots">
+    <h2>My Screenshots</h2>
+    <div class="screenshots">
+      <img src="screen1.png" alt="Screenshot 1">
+      <img src="screen2.png" alt="Screenshot 2">
+      <img src="screen3.png" alt="Screenshot 3">
+    </div>
+  </section>
+
+  <!-- ======== ЗВЁЗДНЫЙ ФОН ======== -->
+  <canvas id="stars"></canvas>
   <script>
-    const canvas = document.getElementById("star-canvas");
-    const ctx = canvas.getContext("2d");
-    let stars = [], mouse = { x: 0, y: 0 };
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
 
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resize);
-    resize();
+  let stars = [];
+  let mouse = { x: null, y: null };
 
-    function initStars(count = 150) {
-      stars = [];
-      for (let i = 0; i < count; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 2,
-          speed: Math.random() * 0.5 + 0.2,
-        });
-      }
-    }
-    initStars();
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "white";
-      for (let s of stars) {
-        const dx = (mouse.x - s.x) * 0.001;
-        const dy = (mouse.y - s.y) * 0.001;
-        s.x += dx;
-        s.y += dy - s.speed;
-        if (s.y < 0) s.y = canvas.height;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    window.addEventListener("mousemove", e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      alpha: Math.random()
     });
+  }
+
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let s of stars) {
+      let dx = s.x - mouse.x;
+      let dy = s.y - mouse.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 120) {
+        s.x += dx / dist * 0.6;
+        s.y += dy / dist * 0.6;
+      }
+
+      s.x += s.vx;
+      s.y += s.vy;
+
+      if (s.x < 0 || s.x > canvas.width) s.vx *= -1;
+      if (s.y < 0 || s.y > canvas.height) s.vy *= -1;
+
+      // Мерцание
+      s.alpha += (Math.random() - 0.5) * 0.05;
+      s.alpha = Math.max(0.3, Math.min(1, s.alpha));
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(180, 160, 255, ${s.alpha})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  // Переключение языка
+  let lang = 'ru';
+  function toggleLang() {
+    lang = lang === 'ru' ? 'en' : 'ru';
+    document.querySelector('.lang-switch').textContent = lang === 'ru' ? 'EN' : 'RU';
+    if (lang === 'en') {
+      document.getElementById('about-title').textContent = 'About Me';
+      document.getElementById('about-text').textContent = 'My dream is to build a powerful PC. I currently have a GTX 1660 Ti and i5-10300H. I play only Minecraft and spend time on Dexland, FunTime, and FunSky servers.';
+      document.getElementById('info-title').textContent = 'Info';
+      document.getElementById('info-list').innerHTML = `
+        <li>Country: Kazakhstan</li>
+        <li>Age: 13</li>
+        <li>Discord: tbl_3a9k</li>
+        <li>Playing only Minecraft</li>
+        <li>Servers: Dexland, FunTime, FunSky</li>
+        <li>My dream: new PC</li>
+        <li>My setup: GTX 1660 Ti, i5-10300H</li>`;
+    } else {
+      document.getElementById('about-title').textContent = 'Обо мне';
+      document.getElementById('about-text').textContent = 'Моя мечта — собрать мощный ПК. Сейчас у меня GTX 1660 Ti и i5-10300H. Я играю только в Minecraft и люблю проводить время на серверах Dexland, FunTime и FunSky.';
+      document.getElementById('info-title').textContent = 'Инфо';
+      document.getElementById('info-list').innerHTML = `
+        <li>Country: Kazakhstan</li>
+        <li>I am 13 years old</li>
+        <li>Discord: tbl_3a9k</li>
+        <li>Playing only Minecraft</li>
+        <li>Servers: Dexland, FunTime, FunSky</li>
+        <li>My dream: new PC</li>
+        <li>My setup: GTX 1660 Ti, i5-10300H</li>`;
+    }
+  }
   </script>
 </body>
 </html>
