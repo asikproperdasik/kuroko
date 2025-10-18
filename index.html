@@ -1,232 +1,262 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tbl_3a9k — Био</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Tbl_3a9k — Био🤍</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
     body {
       font-family: 'Press Start 2P', cursive;
-      color: white;
       background-color: black;
+      color: white;
       overflow-x: hidden;
-      scroll-behavior: smooth;
     }
 
+    /* Верхняя часть с видео */
     .header {
       position: relative;
-      width: 100%;
       height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
       overflow: hidden;
     }
-
-    .header video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    .header h1 { font-size: 24px; z-index: 1; animation: fadeInDown 1.2s ease-out; }
+    .header p { font-size: 14px; margin-top: 10px; z-index: 1; animation: fadeInUp 1.2s ease-out; }
+    .bg-video, .fallback-img {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
       z-index: -1;
     }
 
-    .header-content {
+    @keyframes fadeInDown { from {opacity:0; transform:translateY(-40px);} to {opacity:1; transform:translateY(0);} }
+    @keyframes fadeInUp { from {opacity:0; transform:translateY(40px);} to {opacity:1; transform:translateY(0);} }
+
+    /* Нижняя часть */
+    #particles-section {
       position: relative;
-      z-index: 1;
-      text-align: center;
-      top: 40%;
-      transform: translateY(-40%);
-    }
-
-    h1 {
-      font-size: 24px;
-      color: #fff;
-      text-shadow: 0 0 20px #9a6bff;
-    }
-
-    .section {
-      text-align: center;
-      padding: 80px 20px;
-      background: transparent;
-      position: relative;
-      z-index: 2;
-    }
-
-    .info, .about {
-      margin-bottom: 50px;
-    }
-
-    h2 {
-      font-size: 16px;
-      color: #9a6bff;
-      margin-bottom: 20px;
-    }
-
-    p {
-      font-size: 12px;
-      line-height: 1.8;
-      color: #fff;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 50px;
-    }
-
-    .socials a {
-      border: 2px solid white;
-      border-radius: 10px;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: 0.3s;
-    }
-
-    .socials a:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px #9a6bff;
-    }
-
-    .screenshots {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 60px;
-    }
-
-    .screenshots img {
-      width: 200px;
-      height: 120px;
-      object-fit: cover;
-      border: 2px solid white;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-
-    .screenshots img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #9a6bff;
+      width: 100%;
+      min-height: 100vh;
+      background: radial-gradient(circle at center, #050505, #000000 80%);
+      overflow: hidden;
     }
 
     canvas#stars {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60vh;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
-      pointer-events: none;
     }
+
+    #particles-section .content {
+      position: relative;
+      z-index: 2;
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    section.about p { margin-top: 15px; font-size: 12px; line-height: 1.6; }
+    section.info-life {
+      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 50px;
+    }
+    .info, .life {
+      flex: 1; min-width: 280px; max-width: 400px;
+      padding: 20px; border-radius: 15px;
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      text-align: left;
+    }
+    .info ul, .life ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.6em; }
+
+    .life-avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%; border: 2px solid white;
+      object-fit: cover; display: block; margin: 0 auto 15px;
+      box-shadow: 0 0 12px rgba(255,255,255,0.3);
+    }
+
+    .socials { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .socials a img {
+      width: 50px; height: 50px; border: 2px solid white;
+      padding: 5px; border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .socials a img:hover { transform: scale(1.1); box-shadow: 0 0 15px white; }
+
+    .music-btn {
+      margin-top: 30px;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .music-btn:hover { background: white; color: black; box-shadow: 0 0 15px white; transform: scale(1.05); }
+
+    .screenshots h2 { font-size: 16px; margin-bottom: 20px; }
+    .screenshots .grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+    }
+    .screenshots img {
+      width: 300px; border: 2px solid white; border-radius: 10px;
+      cursor: pointer; transition: transform 0.3s;
+    }
+    .screenshots img:hover { transform: scale(1.05); }
+
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
+    .modal-content { display: block; margin: auto; max-width: 80%; max-height: 80%; }
+    .close, .prev, .next {
+      position: absolute; color: white; font-size: 30px; cursor: pointer;
+      user-select: none;
+    }
+    .close { top: 20px; right: 35px; }
+    .prev, .next { top: 50%; transform: translateY(-50%); font-size: 40px; padding: 16px; }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    .lang-switcher {
+      position: absolute; top: 20px; right: 20px; z-index: 10;
+    }
+    .lang-switcher button {
+      background: transparent; border: 2px solid white; color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px; padding: 5px 10px; margin-left: 5px; cursor: pointer;
+    }
+    .lang-switcher button:hover { background: white; color: black; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <video autoplay muted loop>
+
+  <div class="lang-switcher">
+    <button onclick="setLang('ru')">RU</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
+
+  <header class="header">
+    <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
       <source src="video.mp4" type="video/mp4">
+      <img src="IMBA.png" alt="Background" class="fallback-img">
     </video>
-    <div class="header-content">
-      <h1>Tbl_3a9k</h1>
-      <p>Welcome to my world</p>
+    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
+    <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
+  </header>
+
+  <div id="particles-section">
+    <canvas id="stars"></canvas>
+    <div class="content">
+      <section class="about">
+        <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+        <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+      </section>
+
+      <section class="info-life">
+        <div class="info">
+          <ul id="info-list">
+            <li>🏳️ • Мои цели:</li>
+            <li>👤 • Иметь свой стабильный заработок</li>
+            <li>💬 • Не зависеть от родителей</li>
+            <li>⛏️ • Обновить сетап</li>
+            <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+            <li>💫 • Моя основная мечта: Быть счастливым</li>
+            <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+          </ul>
+        </div>
+        <div class="life">
+          <h2>🧩 Моя личная жизнь</h2>
+          <img src="images/avatar.png" class="life-avatar">
+          <ul>
+            <li>🎓 Учусь в <b>8 классе</b></li>
+            <li>🏀 Иногда играю в <b>баскетбол</b></li>
+            <li>💞 Провожу время с близкими людьми</li>
+            <li>💰 Уже пробую зарабатывать онлайн</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="socials">
+        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png"></a>
+        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png"></a>
+        <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png"></a>
+        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png"></a>
+        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png"></a>
+        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png"></a>
+      </div>
+
+      <button class="music-btn" id="musicButton">▶ Play Music</button>
+      <audio id="mySong"><source src="music.mp3" type="audio/mpeg"></audio>
+
+      <section class="screenshots">
+        <h2>📸 Мои скриншоты</h2>
+        <div class="grid">
+          <img src="images/screenshot1.png">
+          <img src="images/screenshot2.png">
+          <img src="images/screenshot3.png">
+          <img src="images/screenshot4.png">
+        </div>
+      </section>
     </div>
   </div>
 
-  <div class="section about">
-    <h2>Обо мне</h2>
-    <p>Моя мечта — собрать мощный ПК.  
-      Сейчас у меня GTX 1660 Ti и i5-10300H.</p>
-  </div>
-
-  <div class="section info">
-    <h2>Инфо</h2>
-    <p>Country: Kazakhstan<br>
-      I am 13 years old<br>
-      Discord username: tbl_3a9k<br>
-      Playing only Minecraft<br>
-      Playing on Dexland, FunTime, FunSky<br>
-      My dream: new PC<br>
-      My setup: GTX 1660 Ti, i5-10300H
-    </p>
-  </div>
-
-  <div class="socials">
-    <a href="#"><img src="tiktok.png" width="32" height="32" alt="TikTok"></a>
-    <a href="#"><img src="steam.png" width="32" height="32" alt="Steam"></a>
-    <a href="#"><img src="twitch.png" width="32" height="32" alt="Twitch"></a>
-    <a href="#"><img src="spotify.png" width="32" height="32" alt="Spotify"></a>
-    <a href="#"><img src="roblox.png" width="32" height="32" alt="Roblox"></a>
-    <a href="#"><img src="fanpay.png" width="32" height="32" alt="FanPay"></a>
-  </div>
-
-  <div class="screenshots">
-    <img src="screenshot1.png" alt="">
-    <img src="screenshot2.png" alt="">
-    <img src="screenshot3.png" alt="">
-  </div>
-
-  <canvas id="stars"></canvas>
-
   <script>
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let mouse = { x: 0, y: 0 };
+    // 🌌 Звёздный фон, реагирующий на курсор
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let stars = [], mouse = { x: 0, y: 0 };
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener("resize", resize); resize();
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight * 0.6;
+    for (let i = 0; i < 130; i++) {
+      stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2, dx: (Math.random()-0.5)*0.5, dy: (Math.random()-0.5)*0.5 });
     }
 
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    canvas.addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
-    document.addEventListener('mousemove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    for (let i = 0; i < 180; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speed: 0.1 + Math.random() * 0.3
-      });
-    }
-
-    function animateStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let star of stars) {
-        const dx = (mouse.x - canvas.width / 2) * 0.00005;
-        const dy = (mouse.y - canvas.height / 2) * 0.00005;
-        star.x += star.speed * (Math.random() - 0.5) * 2 + dx * 100;
-        star.y += star.speed * (Math.random() - 0.5) * 2 + dy * 100;
-        if (star.x < 0) star.x = canvas.width;
-        if (star.x > canvas.width) star.x = 0;
-        if (star.y < 0) star.y = canvas.height;
-        if (star.y > canvas.height) star.y = 0;
-        ctx.fillStyle = 'white';
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = "white";
+      for (let s of stars) {
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
         ctx.fill();
+        let dist = Math.hypot(s.x - mouse.x, s.y - mouse.y);
+        if (dist < 120) {
+          ctx.strokeStyle = "rgba(255,255,255," + (1 - dist/120) + ")";
+          ctx.beginPath();
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+        s.x += s.dx; s.y += s.dy;
+        if (s.x < 0 || s.x > canvas.width) s.dx *= -1;
+        if (s.y < 0 || s.y > canvas.height) s.dy *= -1;
       }
-      requestAnimationFrame(animateStars);
+      requestAnimationFrame(draw);
     }
+    draw();
 
-    animateStars();
+    // 🎵 Музыка
+    const btn = document.getElementById("musicButton"), song = document.getElementById("mySong");
+    let play = false;
+    btn.onclick = () => { play ? song.pause() : song.play(); play=!play; btn.textContent = play ? "⏸ Pause Music" : "▶ Play Music"; };
+
+    // 🌐 Языки
+    const langData = {
+      ru: { title:"Tbl_3a9k - Обо мне:", subtitle:"бақытты сезіндім мен сенен ғана.🤍", aboutTitle:"qq, Я Tbl_3a9k" },
+      en: { title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍", aboutTitle:"qq, I'm Tbl_3a9k" }
+    };
+    function setLang(l){document.getElementById("title-text").textContent=langData[l].title;document.getElementById("subtitle-text").textContent=langData[l].subtitle;document.getElementById("about-title").textContent=langData[l].aboutTitle;}
   </script>
 </body>
 </html>
