@@ -6,45 +6,15 @@
   <link rel="icon" href="favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
     body {
       font-family: 'Press Start 2P', cursive;
-      background: #000;
+      background-color: black;
       color: white;
       overflow-x: hidden;
     }
 
-    /* 🔥 Реактивный неоновый фон */
-    #gradient-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      background: radial-gradient(circle at 50% 50%, #6c00ff, #000000 70%);
-      transition: background-position 0.3s ease;
-      animation: gradientShift 10s ease infinite alternate;
-    }
-
-    @keyframes gradientShift {
-      0% {
-        background: radial-gradient(circle at 30% 40%, #7000ff, #000000 70%);
-      }
-      50% {
-        background: radial-gradient(circle at 70% 60%, #ff00cc, #000000 70%);
-      }
-      100% {
-        background: radial-gradient(circle at 50% 50%, #6c00ff, #000000 70%);
-      }
-    }
-
-    /* Верхняя часть */
+    /* ===== Верх с видео ===== */
     .header {
       position: relative;
       height: 100vh;
@@ -67,25 +37,13 @@
       animation: fadeInUp 1.2s ease-out;
       z-index: 1;
     }
-    .bg-video {
+    .bg-video, .fallback-img {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
-      z-index: -2;
+      z-index: -1;
     }
-    .fallback-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
-    }
-
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-40px); }
       to { opacity: 1; transform: translateY(0); }
@@ -95,33 +53,32 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Контент */
-    #main-content {
+    /* ===== Нижняя часть с фоном ===== */
+    #starfield {
       position: relative;
       width: 100%;
       min-height: 100vh;
+      background: radial-gradient(ellipse at bottom, #0a0a0f 0%, #000 100%);
+      overflow: hidden;
+    }
+    #starfield canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+    #starfield .content {
+      position: relative;
       z-index: 1;
       padding: 100px 20px;
       text-align: center;
-      background: transparent;
     }
 
-    section.about, section.info, section.screenshots {
-      margin-bottom: 50px;
-    }
-    section.about p {
-      margin-top: 15px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-    section.info ul {
-      list-style: none;
-      font-size: 12px;
-      padding-left: 0;
-    }
-    section.info li {
-      margin-bottom: 10px;
-    }
+    /* ===== Контент ===== */
+    section.about, section.info, section.screenshots { margin-bottom: 50px; }
+    section.about p { margin-top: 15px; font-size: 12px; line-height: 1.6; }
+    section.info ul { list-style: none; font-size: 12px; padding-left: 0; }
+    section.info li { margin-bottom: 10px; }
 
     .info-life {
       display: flex;
@@ -139,17 +96,10 @@
       background: rgba(0, 0, 0, 0.6);
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
       text-align: left;
-      backdrop-filter: blur(8px);
     }
-    .info ul, .life ul {
-      list-style: none;
-      padding: 0;
-      font-size: 12px;
-      line-height: 1.6em;
-    }
+    .info ul, .life ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.6em; }
     .life-avatar {
-      width: 120px;
-      height: 120px;
+      width: 120px; height: 120px;
       border-radius: 50%;
       border: 2px solid white;
       object-fit: cover;
@@ -158,25 +108,17 @@
       box-shadow: 0 0 12px rgba(255,255,255,0.3);
     }
 
-    .socials {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+    .socials { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
     .socials a img {
-      width: 50px;
-      height: 50px;
-      border: 2px solid white;
-      padding: 5px;
-      border-radius: 10px;
+      width: 50px; height: 50px;
+      border: 2px solid white; padding: 5px; border-radius: 10px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .socials a img:hover {
       transform: scale(1.1);
       box-shadow: 0 0 15px white;
     }
+
     .music-btn {
       margin-top: 30px;
       background: transparent;
@@ -195,66 +137,21 @@
       box-shadow: 0 0 15px white;
       transform: scale(1.05);
     }
-    .screenshots h2 {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
+
+    .screenshots h2 { font-size: 16px; margin-bottom: 20px; }
     .screenshots .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
     }
     .screenshots img {
-      width: 300px;
-      height: auto;
-      border: 2px solid white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s;
+      width: 300px; height: auto;
+      border: 2px solid white; border-radius: 10px;
+      cursor: pointer; transition: transform 0.3s;
     }
-    .screenshots img:hover {
-      transform: scale(1.05);
-    }
+    .screenshots img:hover { transform: scale(1.05); }
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-    }
-    .modal-content {
-      display: block;
-      margin: auto;
-      max-width: 80%;
-      max-height: 80%;
-    }
-    .close, .prev, .next {
-      position: absolute;
-      color: white;
-      font-size: 30px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .close { top: 20px; right: 35px; }
-    .prev, .next {
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 40px;
-      padding: 16px;
-    }
-    .prev { left: 10px; }
-    .next { right: 10px; }
-
+    /* ===== Языки ===== */
     .lang-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
+      position: absolute; top: 20px; right: 20px; z-index: 10;
     }
     .lang-switcher button {
       background: transparent;
@@ -267,167 +164,83 @@
       cursor: pointer;
     }
     .lang-switcher button:hover {
-      background: white;
-      color: black;
+      background: white; color: black;
     }
   </style>
 </head>
 <body>
-
-<div id="gradient-bg"></div>
-
-<div class="lang-switcher">
-  <button onclick="setLang('ru')">RU</button>
-  <button onclick="setLang('en')">EN</button>
-</div>
-
-<header class="header">
-  <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
-    <source src="video.mp4" type="video/mp4">
-    <img src="IMBA.png" alt="Background" class="fallback-img">
-  </video>
-  <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-  <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
-</header>
-
-<div id="main-content">
-  <section class="about">
-    <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-    <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
-    <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-    <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-  </section>
-
-  <section class="info-life">
-    <div class="info">
-      <ul id="info-list">
-        <li>🏳️ • Мои цели:</li>
-        <li>👤 • Иметь свой стабильный заработок</li>
-        <li>💬 • Не зависеть от родителей</li>
-        <li>⛏️ • Обновить сетап</li>
-        <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-        <li>💫 • Моя основная мечта: Быть счастливым</li>
-        <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-      </ul>
-    </div>
-    <div class="life">
-      <h2>🧩 Моя личная жизнь</h2>
-      <img src="images/avatar.png" alt="Аватар" class="life-avatar">
-      <ul>
-        <li>🎓 Учусь в <b>8 классе</b></li>
-        <li>🏀 Иногда играю в <b>баскетбол</b></li>
-        <li>💞 Провожу время с близкими людьми</li>
-        <li>💰 Уже пробую зарабатывать онлайн</li>
-      </ul>
-    </div>
-  </section>
-
-  <div class="socials">
-    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
-    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
-    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
-    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
-    <a href="https://www.roblox.com/users/3276902015/profile" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
-    <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
+  <!-- Переключатель языков -->
+  <div class="lang-switcher">
+    <button onclick="setLang('ru')">RU</button>
+    <button onclick="setLang('en')">EN</button>
   </div>
 
-  <button class="music-btn" id="musicButton">▶ Play Music</button>
-  <audio id="mySong">
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Верхняя часть -->
+  <header class="header">
+    <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
+      <source src="video.mp4" type="video/mp4">
+      <img src="IMBA.png" alt="Background" class="fallback-img">
+    </video>
+    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
+    <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
+  </header>
 
-  <section class="screenshots">
-    <h2>📸 Мои скриншоты</h2>
-    <div class="grid">
-      <img src="images/screenshot1.png" alt="Screenshot 1" />
-      <img src="images/screenshot2.png" alt="Screenshot 2" />
-      <img src="images/screenshot3.png" alt="Screenshot 3" />
+  <!-- Нижняя часть со звёздным небом -->
+  <div id="starfield">
+    <canvas id="star-canvas"></canvas>
+    <div class="content">
+      <!-- Твой контент остаётся полностью тем же -->
+      <!-- ... (всё содержимое как у тебя сейчас: about, info, life, socials, музыка, screenshots и т.д.) -->
     </div>
-  </section>
-</div>
+  </div>
 
-<div id="modal" class="modal">
-  <span class="close">&times;</span>
-  <span class="prev">&#10094;</span>
-  <span class="next">&#10095;</span>
-  <img class="modal-content" id="modal-img">
-</div>
+  <!-- Скрипт звёзд -->
+  <script>
+    const canvas = document.getElementById("star-canvas");
+    const ctx = canvas.getContext("2d");
+    let stars = [], mouse = { x: 0, y: 0 };
 
-<script>
-  // 🔥 Реакция фона на курсор
-  const bg = document.getElementById("gradient-bg");
-  document.addEventListener("mousemove", (e) => {
-    const x = (e.clientX / window.innerWidth) * 100;
-    const y = (e.clientY / window.innerHeight) * 100;
-    bg.style.background = `radial-gradient(circle at ${x}% ${y}%, #7000ff, #000000 70%)`;
-  });
-
-  // Музыка
-  const button = document.getElementById("musicButton");
-  const audio = document.getElementById("mySong");
-  let isPlaying = false;
-  button.addEventListener("click", () => {
-    if (!isPlaying) {
-      audio.play();
-      button.textContent = "⏸ Pause Music";
-    } else {
-      audio.pause();
-      button.textContent = "▶ Play Music";
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-    isPlaying = !isPlaying;
-  });
+    window.addEventListener("resize", resize);
+    resize();
 
-  // Галерея
-  const modal = document.getElementById("modal");
-  const modalImg = document.getElementById("modal-img");
-  const images = document.querySelectorAll(".screenshots img");
-  const closeBtn = document.querySelector(".close");
-  const prevBtn = document.querySelector(".prev");
-  const nextBtn = document.querySelector(".next");
-  let currentIndex = 0;
-  function openModal(index) {
-    currentIndex = index;
-    modal.style.display = "block";
-    modalImg.src = images[index].src;
-  }
-  function closeModal() { modal.style.display = "none"; }
-  function showPrev() { currentIndex = (currentIndex - 1 + images.length) % images.length; modalImg.src = images[currentIndex].src; }
-  function showNext() { currentIndex = (currentIndex + 1) % images.length; modalImg.src = images[currentIndex].src; }
-  images.forEach((img, i) => img.addEventListener("click", () => openModal(i)));
-  closeBtn.addEventListener("click", closeModal);
-  prevBtn.addEventListener("click", showPrev);
-  nextBtn.addEventListener("click", showNext);
-  window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-
-  // Языки
-  const langData = {
-    ru: {
-      title: "Tbl_3a9k - Обо мне:",
-      subtitle: "я чувствовал себя счастливым только благодаря тебе.🤍",
-      aboutTitle: "qq, Я Tbl_3a9k ",
-      about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
-      about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
-      about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-    },
-    en: {
-      title: "Tbl_3a9k - About Me:",
-      subtitle: "I felt happy only because of you.🤍",
-      aboutTitle: "qq, I'm Tbl_3a9k ",
-      about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
-      about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
-      about3: "Wanna chat with me? Discord — tbl_3a9k. good luck",
+    function initStars(count = 150) {
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2,
+          speed: Math.random() * 0.5 + 0.2,
+        });
+      }
     }
-  };
-  function setLang(lang) {
-    document.getElementById("title-text").textContent = langData[lang].title;
-    document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
-    document.getElementById("about-title").textContent = langData[lang].aboutTitle;
-    document.getElementById("about-1").textContent = langData[lang].about1;
-    document.getElementById("about-2").textContent = langData[lang].about2;
-    document.getElementById("about-3").textContent = langData[lang].about3;
-  }
-  document.addEventListener("DOMContentLoaded", () => setLang("ru"));
-</script>
+    initStars();
 
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      for (let s of stars) {
+        const dx = (mouse.x - s.x) * 0.001;
+        const dy = (mouse.y - s.y) * 0.001;
+        s.x += dx;
+        s.y += dy - s.speed;
+        if (s.y < 0) s.y = canvas.height;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+  </script>
 </body>
 </html>
