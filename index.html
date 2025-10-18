@@ -5,16 +5,20 @@
   <title>Tbl_3a9k — Био🤍</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Press Start 2P', cursive;
       background-color: black;
       color: white;
       overflow-x: hidden;
     }
-
-    /* Верхняя часть с видео */
     .header {
       position: relative;
       height: 100vh;
@@ -26,69 +30,156 @@
       padding: 20px;
       overflow: hidden;
     }
-    .header h1 { font-size: 24px; z-index: 1; animation: fadeInDown 1.2s ease-out; }
-    .header p { font-size: 14px; margin-top: 10px; z-index: 1; animation: fadeInUp 1.2s ease-out; }
-    .bg-video, .fallback-img {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%;
+    .header h1 {
+      font-size: 24px;
+      animation: fadeInDown 1.2s ease-out;
+      z-index: 2;
+    }
+    .header p {
+      font-size: 14px;
+      margin-top: 10px;
+      animation: fadeInUp 1.2s ease-out;
+      z-index: 2;
+    }
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      z-index: -1;
+      z-index: -2;
+    }
+    .fallback-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes fadeInDown { from {opacity:0; transform:translateY(-40px);} to {opacity:1; transform:translateY(0);} }
-    @keyframes fadeInUp { from {opacity:0; transform:translateY(40px);} to {opacity:1; transform:translateY(0);} }
-
-    /* Нижняя часть */
-    #particles-section {
+    /* === Нижняя часть (блок, где раньше был particles.js) === */
+    #particles-js {
       position: relative;
       width: 100%;
       min-height: 100vh;
-      background: radial-gradient(circle at center, #050505, #000000 80%);
+      background: black;
+      z-index: 0;
+      overflow: visible;
+    }
+
+    /* Canvas только на нижнюю половину экрана внутри блока #particles-js */
+    #star-wrapper {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      /* занимает нижние 50vh блока particles-js (то есть нижняя половина экрана) */
+      top: 50vh;
+      height: 50vh;
+      pointer-events: none; /* не мешаем кликам по контенту */
+      z-index: 0;
       overflow: hidden;
     }
 
-    canvas#stars {
+    #star-canvas {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
       z-index: 0;
+      pointer-events: none;
     }
 
-    #particles-section .content {
+    #particles-js .content {
       position: relative;
-      z-index: 2;
+      z-index: 1;
       padding: 100px 20px;
       text-align: center;
     }
 
-    section.about p { margin-top: 15px; font-size: 12px; line-height: 1.6; }
-    section.info-life {
-      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 50px;
+    section.about, section.info, section.screenshots {
+      margin-bottom: 50px;
+    }
+    section.about p {
+      margin-top: 15px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    section.info ul {
+      list-style: none;
+      font-size: 12px;
+      padding-left: 0;
+    }
+    section.info li {
+      margin-bottom: 10px;
+    }
+
+    /* 🔥 Блок инфо + личная жизнь рядом */
+    .info-life {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
     }
     .info, .life {
-      flex: 1; min-width: 280px; max-width: 400px;
-      padding: 20px; border-radius: 15px;
-      background: rgba(0,0,0,0.6);
-      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
       text-align: left;
     }
-    .info ul, .life ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.6em; }
-
+    .info ul, .life ul {
+      list-style: none;
+      padding: 0;
+      font-size: 12px;
+      line-height: 1.6em;
+    }
     .life-avatar {
-      width: 120px; height: 120px;
-      border-radius: 50%; border: 2px solid white;
-      object-fit: cover; display: block; margin: 0 auto 15px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid white;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 15px;
       box-shadow: 0 0 12px rgba(255,255,255,0.3);
     }
 
-    .socials { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .socials {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
     .socials a img {
-      width: 50px; height: 50px; border: 2px solid white;
-      padding: 5px; border-radius: 10px;
+      width: 50px;
+      height: 50px;
+      border: 2px solid white;
+      padding: 5px;
+      border-radius: 10px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .socials a img:hover { transform: scale(1.1); box-shadow: 0 0 15px white; }
-
+    .socials a img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px white;
+    }
     .music-btn {
       margin-top: 30px;
       background: transparent;
@@ -99,49 +190,111 @@
       padding: 10px 20px;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
     }
-    .music-btn:hover { background: white; color: black; box-shadow: 0 0 15px white; transform: scale(1.05); }
-
-    .screenshots h2 { font-size: 16px; margin-bottom: 20px; }
+    .music-btn:hover {
+      background: white;
+      color: black;
+      box-shadow: 0 0 15px white;
+      transform: scale(1.05);
+    }
+    .screenshots h2 {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
     .screenshots .grid {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
     .screenshots img {
-      width: 300px; border: 2px solid white; border-radius: 10px;
-      cursor: pointer; transition: transform 0.3s;
+      width: 300px;
+      height: auto;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
     }
-    .screenshots img:hover { transform: scale(1.05); }
+    .screenshots img:hover {
+      transform: scale(1.05);
+    }
 
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
-    .modal-content { display: block; margin: auto; max-width: 80%; max-height: 80%; }
+    /* 🔥 Модальное окно для просмотра скриншотов */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1002;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .modal-content {
+      display: block;
+      margin: auto;
+      max-width: 80%;
+      max-height: 80%;
+    }
     .close, .prev, .next {
-      position: absolute; color: white; font-size: 30px; cursor: pointer;
+      position: absolute;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
       user-select: none;
     }
-    .close { top: 20px; right: 35px; }
-    .prev, .next { top: 50%; transform: translateY(-50%); font-size: 40px; padding: 16px; }
+    .close {
+      top: 20px;
+      right: 35px;
+    }
+    .prev, .next {
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      padding: 16px;
+    }
     .prev { left: 10px; }
     .next { right: 10px; }
-
     .lang-switcher {
-      position: absolute; top: 20px; right: 20px; z-index: 10;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1003;
     }
     .lang-switcher button {
-      background: transparent; border: 2px solid white; color: white;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
       font-family: 'Press Start 2P', cursive;
-      font-size: 10px; padding: 5px 10px; margin-left: 5px; cursor: pointer;
+      font-size: 10px;
+      padding: 5px 10px;
+      margin-left: 5px;
+      cursor: pointer;
     }
-    .lang-switcher button:hover { background: white; color: black; }
+    .lang-switcher button:hover {
+      background: white;
+      color: black;
+    }
+
+    /* Мелкий респонсив */
+    @media (max-width: 640px) {
+      .info-life { flex-direction: column; gap: 20px; padding: 0 10px; }
+      .screenshots img { width: 90%; }
+      .header h1 { font-size: 18px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Переключатель языков -->
   <div class="lang-switcher">
     <button onclick="setLang('ru')">RU</button>
     <button onclick="setLang('en')">EN</button>
   </div>
 
+  <!-- Верхняя часть с видеофоном -->
   <header class="header">
     <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
       <source src="video.mp4" type="video/mp4">
@@ -151,9 +304,15 @@
     <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
   </header>
 
-  <div id="particles-section">
-    <canvas id="stars"></canvas>
+  <!-- Нижняя часть: место для контента + звёздный canvas (внизу половины) -->
+  <div id="particles-js">
+    <!-- canvas обёртка: занимает нижнюю половину окна (50vh) и внутри неё canvas на 100% -->
+    <div id="star-wrapper" aria-hidden="true">
+      <canvas id="star-canvas"></canvas>
+    </div>
+
     <div class="content">
+      <!-- Блок "Обо мне" -->
       <section class="about">
         <h2 id="about-title">qq, Я Tbl_3a9k</h2>
         <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
@@ -161,6 +320,7 @@
         <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
       </section>
 
+      <!-- 🔥 Инфо + Личная жизнь -->
       <section class="info-life">
         <div class="info">
           <ul id="info-list">
@@ -174,8 +334,9 @@
           </ul>
         </div>
         <div class="life">
-          <h2>🧩 Моя личная жизнь</h2>
-          <img src="images/avatar.png" class="life-avatar">
+          <!-- Добавил id для перевода -->
+          <h2 id="life-title">🧩 Моя личная жизнь</h2>
+          <img src="images/avatar.png" alt="Аватар" class="life-avatar">
           <ul>
             <li>🎓 Учусь в <b>8 классе</b></li>
             <li>🏀 Иногда играю в <b>баскетбол</b></li>
@@ -185,78 +346,299 @@
         </div>
       </section>
 
+      <!-- Соцсети -->
       <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png"></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png"></a>
-        <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png"></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png"></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png"></a>
-        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png"></a>
+        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
+        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
+        <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
+        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
+        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
+        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
       </div>
 
+      <!-- Кнопка музыки -->
       <button class="music-btn" id="musicButton">▶ Play Music</button>
-      <audio id="mySong"><source src="music.mp3" type="audio/mpeg"></audio>
+      <audio id="mySong">
+        <source src="music.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+      </audio>
 
+      <!-- Скриншоты (вернул 5 шт.) -->
       <section class="screenshots">
-        <h2>📸 Мои скриншоты</h2>
+        <h2 id="screenshots-title">📸 Мои скриншоты</h2>
         <div class="grid">
-          <img src="images/screenshot1.png">
-          <img src="images/screenshot2.png">
-          <img src="images/screenshot3.png">
-          <img src="images/screenshot4.png">
+          <img src="images/screenshot1.png" alt="Screenshot 1" class="screen-thumb" />
+          <img src="images/screenshot2.png" alt="Screenshot 2" class="screen-thumb" />
+          <img src="images/screenshot3.png" alt="Screenshot 3" class="screen-thumb" />
+          <img src="images/screenshot4.png" alt="Screenshot 4" class="screen-thumb" />
+          <img src="images/screenshot5.png" alt="Screenshot 5" class="screen-thumb" />
+        </div>
+
+        <!-- Счётчик просмотров -->
+        <div id="visitor-counter-container" style="margin-top: 30px; text-align: center;">
+          <a href="https://info.flagcounter.com/QnhJ">
+            <img src="https://s05.flagcounter.com/count2/QnhJ/bg_000000/txt_FFFFFF/border_00FF00/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_1/percent_0/" alt="Визиторы:D" />
+          </a>
         </div>
       </section>
     </div>
   </div>
 
+  <!-- ✅ Модальное окно для скриншотов -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <span class="next">&#10095;</span>
+    <img class="modal-content" id="modal-img" alt="Large screenshot">
+  </div>
+
+  <!-- === Убрали particles.js (удалено) === -->
+
+  <!-- Скрипт звёздного фона (только нижняя половина; мягкая реакция на курсор) -->
   <script>
-    // 🌌 Звёздный фон, реагирующий на курсор
-    const canvas = document.getElementById("stars");
-    const ctx = canvas.getContext("2d");
-    let stars = [], mouse = { x: 0, y: 0 };
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener("resize", resize); resize();
+    (function(){
+      const wrapper = document.getElementById('star-wrapper');
+      const canvas = document.getElementById('star-canvas');
+      const ctx = canvas.getContext('2d');
 
-    for (let i = 0; i < 130; i++) {
-      stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2, dx: (Math.random()-0.5)*0.5, dy: (Math.random()-0.5)*0.5 });
-    }
-
-    canvas.addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-    function draw() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle = "white";
-      for (let s of stars) {
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-        ctx.fill();
-        let dist = Math.hypot(s.x - mouse.x, s.y - mouse.y);
-        if (dist < 120) {
-          ctx.strokeStyle = "rgba(255,255,255," + (1 - dist/120) + ")";
-          ctx.beginPath();
-          ctx.moveTo(s.x, s.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-        }
-        s.x += s.dx; s.y += s.dy;
-        if (s.x < 0 || s.x > canvas.width) s.dx *= -1;
-        if (s.y < 0 || s.y > canvas.height) s.dy *= -1;
+      function fitCanvas() {
+        // ширина равна ширине wrapper, высота — высоте wrapper
+        const rect = wrapper.getBoundingClientRect();
+        canvas.width = Math.max(300, Math.floor(rect.width));
+        canvas.height = Math.max(150, Math.floor(rect.height));
       }
-      requestAnimationFrame(draw);
+      window.addEventListener('resize', fitCanvas);
+      fitCanvas();
+
+      const num = 180;
+      const stars = [];
+      let mouse = { x: -9999, y: -9999 }; // изначально далеко, чтобы реакция отсутствовала
+
+      function rand(min, max){ return Math.random()*(max-min)+min; }
+
+      class S {
+        constructor(){
+          this.reset();
+        }
+        reset(){
+          this.x = rand(0, canvas.width);
+          this.y = rand(0, canvas.height);
+          this.r = rand(0.6, 1.8);
+          this.vx = rand(-0.2, 0.2);
+          this.vy = rand(0.02, 0.35); // плавное медленное движение вниз
+        }
+        step(){
+          // динамика: мягко реагируем на мышь, но не слишком сильно
+          // расчет смещения вектор в направлении мыши:
+          const dx = (mouse.x - (this.x + wrapper.getBoundingClientRect().left));
+          const dy = (mouse.y - (this.y + wrapper.getBoundingClientRect().top));
+          const dist = Math.hypot(dx, dy);
+          if (dist < 120 && dist > 0.0001) {
+            // сила обратно пропорциональна дистанции, но маленькая
+            const force = (1 - dist/120) * 0.35; // 0..0.35
+            // смещаем частичку немного в сторону мыши
+            this.x += (dx/dist) * force;
+            this.y += (dy/dist) * force;
+          }
+          // добавим естественного движения
+          this.x += this.vx;
+          this.y += this.vy;
+
+          // границы (wrap)
+          if (this.x < -10) this.x = canvas.width + 10;
+          if (this.x > canvas.width + 10) this.x = -10;
+          if (this.y < -10) this.y = canvas.height + 10;
+          if (this.y > canvas.height + 10) this.y = -10;
+        }
+        draw(){
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(255,255,255,1)';
+          ctx.fill();
+        }
+      }
+
+      function initStars(){
+        stars.length = 0;
+        for(let i=0;i<num;i++) stars.push(new S());
+      }
+      initStars();
+
+      // слушаем движение мыши на документе — но учитываем координаты относительно viewport
+      document.addEventListener('mousemove', (e)=>{
+        // если мышь в нижней половине видимой области (т.е. внутри wrapper по вертикали), используем, иначе - далеко
+        const rect = wrapper.getBoundingClientRect();
+        if (e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right) {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        } else {
+          // если мышь не в области — смещаем "мышь" за пределы, чтобы реакция исчезла
+          mouse.x = -9999;
+          mouse.y = -9999;
+        }
+      });
+
+      // ресайз и пересоздание звёзд при смене размера
+      window.addEventListener('resize', ()=> {
+        fitCanvas();
+        initStars();
+      });
+
+      function loop(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const s of stars){
+          s.step();
+          s.draw();
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+  </script>
+
+  <!-- Скрипт для кнопки музыки (сохранил как у тебя) -->
+  <script>
+    const button = document.getElementById("musicButton");
+    const audio = document.getElementById("mySong");
+    let isPlaying = false;
+
+    button.addEventListener("click", () => {
+      if (!isPlaying) {
+        audio.play();
+        button.textContent = "⏸ Pause Music";
+      } else {
+        audio.pause();
+        button.textContent = "▶ Play Music";
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+
+  <!-- Скрипт модалки для скриншотов (взял из твоего оригинала и адаптировал селекторы) -->
+  <script>
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const images = document.querySelectorAll(".grid img");
+    const closeBtn = document.querySelector(".close");
+    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".next");
+    let currentIndex = 0;
+
+    function openModal(index) {
+      currentIndex = index;
+      modal.style.display = "block";
+      modalImg.src = images[index].src;
+      modal.setAttribute('aria-hidden', 'false');
     }
-    draw();
 
-    // 🎵 Музыка
-    const btn = document.getElementById("musicButton"), song = document.getElementById("mySong");
-    let play = false;
-    btn.onclick = () => { play ? song.pause() : song.play(); play=!play; btn.textContent = play ? "⏸ Pause Music" : "▶ Play Music"; };
+    function closeModal() {
+      modal.style.display = "none";
+      modal.setAttribute('aria-hidden', 'true');
+    }
 
-    // 🌐 Языки
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      modalImg.src = images[currentIndex].src;
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      modalImg.src = images[currentIndex].src;
+    }
+
+    images.forEach((img, index) => {
+      img.addEventListener("click", () => openModal(index));
+    });
+
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (prevBtn) prevBtn.addEventListener("click", showPrev);
+    if (nextBtn) nextBtn.addEventListener("click", showNext);
+
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // клавиши
+    window.addEventListener('keydown', (e) => {
+      if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") showPrev();
+        if (e.key === "ArrowRight") showNext();
+        if (e.key === "Escape") closeModal();
+      }
+    });
+  </script>
+
+  <!-- Переключение языков (добавил перевод для life-title и screenshots-title, сохранил остальное) -->
+  <script>
     const langData = {
-      ru: { title:"Tbl_3a9k - Обо мне:", subtitle:"бақытты сезіндім мен сенен ғана.🤍", aboutTitle:"qq, Я Tbl_3a9k" },
-      en: { title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍", aboutTitle:"qq, I'm Tbl_3a9k" }
+      ru: {
+        title: "Tbl_3a9k - Обо мне:",
+        subtitle: "я чувствовал себя счастливым только благодаря тебе.🤍",
+        aboutTitle: "qq, Я Tbl_3a9k ",
+        about1: "Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+        about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
+        about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+        infoList: [
+          "🏳️ • Мои цели:",
+          "👤 • Иметь свой стабильный заработок",
+          "💬 • Не зависеть от родителей",
+          "⛏️ • Обновить сетап",
+          "🎮 • Зарабатываю благодаря игре Minecraft",
+          "💫 • Моя основная мечта: Быть счастливым",
+          "💻 • Мой первый успех: 11.09.25 --> 61к💲",
+        ],
+        screenshotsTitle: "📸 Мои скриншоты",
+        lifeTitle: "🧩 Моя личная жизнь"
+      },
+      en: {
+        title: "Tbl_3a9k - About Me:",
+        subtitle: "I felt happy only because of you.🤍",
+        aboutTitle: "qq, I'm Tbl_3a9k ",
+        about1: "I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+        about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
+        about3: "Wanna chat with me? Discord — tbl_3a9k. good luck",
+        infoList: [
+          "🏳️ • My goals:",
+          "👤 • Have my own stable income",
+          "💬 • Not depend on parents",
+          "⛏️ • Upgrade my setup",
+          "🎮 • Earn money thanks to Minecraft",
+          "💫 • My main dream: To be happy",
+          "💻 • My first success: 11.09.25 --> 61k💲",
+        ],
+        screenshotsTitle: "📸 My Screenshots",
+        lifeTitle: "🧩 My Personal Life"
+      }
     };
-    function setLang(l){document.getElementById("title-text").textContent=langData[l].title;document.getElementById("subtitle-text").textContent=langData[l].subtitle;document.getElementById("about-title").textContent=langData[l].aboutTitle;}
+
+    function setLang(lang) {
+      document.getElementById("title-text").textContent = langData[lang].title;
+      document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
+      document.getElementById("about-title").textContent = langData[lang].aboutTitle;
+      document.getElementById("about-1").textContent = langData[lang].about1;
+      document.getElementById("about-2").textContent = langData[lang].about2;
+      document.getElementById("about-3").textContent = langData[lang].about3;
+
+      // инфо-лист
+      const infoListEl = document.getElementById("info-list");
+      infoListEl.innerHTML = "";
+      langData[lang].infoList.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        infoListEl.appendChild(li);
+      });
+
+      // переводы дополнительных заголовков
+      const lifeTitleEl = document.getElementById("life-title");
+      if (lifeTitleEl) lifeTitleEl.textContent = langData[lang].lifeTitle;
+
+      const screenshotsTitleEl = document.getElementById("screenshots-title");
+      if (screenshotsTitleEl) screenshotsTitleEl.textContent = langData[lang].screenshotsTitle;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setLang("ru");
+    });
   </script>
 </body>
 </html>
