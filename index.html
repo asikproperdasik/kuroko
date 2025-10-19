@@ -21,18 +21,19 @@
   .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
   .lang-switcher button:hover{background:white;color:black;}
 
-  /* фон только под видео */
+  /* фон: теперь он начинается под видео и тянется до низа страницы */
   #interactive-bg{
     position:absolute;
-    top:100vh;
+    top:100vh; /* прямо под экраном (под видео) */
     left:0;
-    width:100%;
-    height:calc(100% - 100vh);
+    right:0;
+    bottom:0;  /* занимает всё до низа документа */
     overflow:hidden;
     z-index:0;
+    pointer-events:none; /* не мешает кликам по контенту */
   }
-  #canvas-bg,#canvas-particles{position:absolute;top:0;left:0;width:100%;height:100%;display:block;}
-
+  /* канвасы внутри зоны */
+  #canvas-bg,#canvas-particles{position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;}
   .content{position:relative;z-index:2;padding:100px 20px;text-align:center;}
 
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
@@ -78,8 +79,8 @@
   <p id="subtitle-text">Есть любимая, остальные дуры.🤍</p>
 </header>
 
-<!-- фон только под видео -->
-<div id="interactive-bg">
+<!-- фон стартует ровно под видео и покрывает всю нижнюю часть -->
+<div id="interactive-bg" aria-hidden="true">
   <canvas id="canvas-bg"></canvas>
   <canvas id="canvas-particles"></canvas>
 </div>
@@ -156,10 +157,10 @@
 </div>
 
 <script>
-/* музыка + модалка + язык + ДР */
+/* музыка + модалка + язык + ДР (как у тебя было) */
 const button=document.getElementById("musicButton"),audio=document.getElementById("mySong");
 let isPlaying=false;
-button.onclick=()=>{if(!isPlaying){audio.play();button.textContent="⏸ Pause Music";}else{audio.pause();button.textContent="▶ Play Music";}isPlaying=!isPlaying;};
+button.onclick=()=>{if(!isPlaying){audio.play().catch(()=>{});button.textContent="⏸ Pause Music";}else{audio.pause();button.textContent="▶ Play Music";}isPlaying=!isPlaying;};
 
 const modal=document.getElementById("modal"),modalImg=document.getElementById("modal-img"),images=document.querySelectorAll(".screenshots img"),closeBtn=document.querySelector(".close"),prevBtn=document.querySelector(".prev"),nextBtn=document.querySelector(".next");
 let currentIndex=0;
@@ -180,57 +181,193 @@ updateBirthday();
 setInterval(updateBirthday,86400000);
 </script>
 
-<!-- Фон под видео -->
+<!-- ИНТЕРАКТИВНЫЙ ФОН: квадраты + частицы, только в зоне под видео -->
 <script>
 (function(){
-const c=document.getElementById('canvas-bg'),ctx=c.getContext('2d',{alpha:true});
-const p=document.getElementById('canvas-particles'),ptx=p.getContext('2d',{alpha:true});
-let DPR=window.devicePixelRatio||1,W=window.innerWidth,H=window.innerHeight;
-function resize(){W=window.innerWidth;H=window.innerHeight;c.width=W*DPR;c.height=H*DPR;p.width=W*DPR;p.height=H*DPR;c.style.width=p.style.width=W+'px';c.style.height=p.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);ptx.setTransform(DPR,0,0,DPR,0,0);}
-window.addEventListener('resize',resize);resize();
+  const interactive = document.getElementById('interactive-bg');
+  const c = document.getElementById('canvas-bg'), ctx = c.getContext('2d', { alpha: true });
+  const p = document.getElementById('canvas-particles'), ptx = p.getContext('2d', { alpha: true });
+  let DPR = Math.max(1, window.devicePixelRatio || 1);
+  let W = 0, H = 0; // размеры зоны interactive-bg
 
-const COUNT=90,SIZE_MIN=8,SIZE_MAX=30,SPEED=0.02,MOUSE_FORCE=0.12,BLUR=18;
-let mouse={x:W/2,y:H/2,active:false};
-window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true;});
-window.addEventListener('mouseleave',()=>mouse.active=false);
+  function resizeCanvases(){
+    const rect = interactive.getBoundingClientRect();
+    // rect.top is relative to viewport; width/height are correct for zone size
+    W = Math.max(1, Math.floor(rect.width));
+    H = Math.max(1, Math.floor(rect.height));
+    c.width = W * DPR; c.height = H * DPR;
+    p.width = W * DPR; p.height = H * DPR;
+    c.style.width = p.style.width = W + 'px';
+    c.style.height = p.style.height = H + 'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    ptx.setTransform(DPR,0,0,DPR,0,0);
+  }
 
-function rand(a,b){return a+Math.random()*(b-a);}
-function neon(){return Math.random()<0.5?{r:80,g:80,b:230}:{r:160,g:80,b:230};}
+  // resize on various events (images loaded, window resize, DOM changes)
+  window.addEventListener('resize', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); resizeCanvases(); initEntities(); });
+  window.addEventListener('load', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); resizeCanvases(); initEntities(); });
+  // also watch for images that may change layout
+  const ro = new MutationObserver(()=>{ resizeCanvases(); });
+  ro.observe(document.body, { childList:true, subtree:true, attributes:true });
 
-class Square{
-constructor(){this.x=rand(0,W);this.y=rand(0,H);this.size=rand(SIZE_MIN,SIZE_MAX);this.vx=(Math.random()-0.5)*SPEED*50;this.vy=(Math.random()-0.5)*SPEED*50;this.rot=Math.random()*Math.PI*2;this.rotSpeed=(Math.random()-0.5)*0.002;this.color=neon();this.alpha=0.2+Math.random()*0.6;}
-update(){
-this.rot+=this.rotSpeed;
-this.x+=this.vx;
-this.y+=this.vy;
-if(mouse.active){
-let dx=this.x-mouse.x,dy=this.y-mouse.y,dist=Math.sqrt(dx*dx+dy*dy);
-if(dist<150){
-let f=(150-dist)/150;
-this.x+=dx/dist*MOUSE_FORCE*f*10;
-this.y+=dy/dist*MOUSE_FORCE*f*10;
-}
-}
-if(this.x<-60)this.x=W+60;if(this.x>W+60)this.x=-60;if(this.y<-60)this.y=H+60;if(this.y>H+60)this.y=-60;
-}
-draw(){
-const r=this.color.r,g=this.color.g,b=this.color.b;
-ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);
-ctx.globalCompositeOperation='lighter';
-ctx.fillStyle=`rgba(${r},${g},${b},${this.alpha})`;
-ctx.shadowBlur=BLUR;ctx.shadowColor=`rgba(${r},${g},${b},0.7)`;
-ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size);
-ctx.restore();
-}
-}
-const squares=Array.from({length:COUNT},()=>new Square());
-function squaresFrame(){ctx.clearRect(0,0,W,H);for(const s of squares){s.update();s.draw();}requestAnimationFrame(squaresFrame);}
-squaresFrame();
+  // mouse relative to interactive zone (viewport coords)
+  let mouse = { x: 0, y: 0, active: false };
+  window.addEventListener('mousemove', (e)=>{
+    const rect = interactive.getBoundingClientRect();
+    // if cursor inside the zone (rect.top..rect.bottom)
+    if(e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right){
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    } else {
+      mouse.active = false;
+    }
+  });
+  window.addEventListener('mouseleave', ()=> mouse.active = false);
 
-/* мягкие частицы */
-const particles=Array.from({length:50},()=>({x:rand(0,W),y:rand(0,H),r:rand(1,3),a:rand(0.1,0.4),v:rand(0.1,0.3)}));
-function partFrame(){ptx.clearRect(0,0,W,H);ptx.globalCompositeOperation='lighter';for(const o of particles){ptx.beginPath();ptx.arc(o.x,o.y,o.r,0,2*Math.PI);ptx.fillStyle=`rgba(180,120,255,${o.a})`;ptx.fill();o.y+=o.v;if(o.y>H)o.y=-10;o.x+=Math.sin(o.y*0.01)*0.2;}requestAnimationFrame(partFrame);}
-partFrame();
+  // helpers
+  const rand = (a,b)=> a + Math.random()*(b-a);
+  function neonBase() {
+    return Math.random()<0.5 ? {r:80,g:100,b:230} : {r:170,g:80,b:220};
+  }
+
+  /* --- squares (neon) --- */
+  const S_COUNT = 90, SIZE_MIN = 8, SIZE_MAX = 30, SPEED = 0.02, MOUSE_FORCE = 0.12, BLUR = 18;
+  class Square {
+    constructor(zoneW, zoneH){
+      this.zoneW = zoneW; this.zoneH = zoneH;
+      this.init(true);
+    }
+    init(initial=false){
+      this.x = rand(0, this.zoneW);
+      this.y = rand(0, this.zoneH);
+      this.size = rand(SIZE_MIN, SIZE_MAX);
+      this.baseX = this.x; this.baseY = this.y;
+      this.z = 0.6 + Math.random()*1.4;
+      this.vx = (Math.random()-0.5) * SPEED * this.z * 50;
+      this.vy = (Math.random()-0.5) * SPEED * this.z * 50;
+      this.color = neonBase();
+      this.alpha = 0.15 + Math.random()*0.6;
+      this.rot = Math.random()*Math.PI*2;
+      this.rotSpeed = (Math.random()-0.5) * 0.002 * this.z;
+    }
+    update(){
+      this.rot += this.rotSpeed;
+      this.baseX += Math.sin(this.rot) * 0.02 * this.z;
+      this.baseY += Math.cos(this.rot) * 0.02 * this.z;
+      this.x += this.vx; this.y += this.vy;
+      // attraction to base to keep soft motion
+      this.x += (this.baseX - this.x) * 0.006;
+      this.y += (this.baseY - this.y) * 0.006;
+
+      // mouse repulse (relative coords)
+      if(mouse.active){
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 170){
+          const f = (170 - dist) / 170;
+          // push away gently
+          this.x += (dx/dist) * MOUSE_FORCE * this.z * f * 8;
+          this.y += (dy/dist) * MOUSE_FORCE * this.z * f * 8;
+        }
+      }
+      // wrap
+      if(this.x < -80) this.x = this.zoneW + 80;
+      if(this.x > this.zoneW + 80) this.x = -80;
+      if(this.y < -80) this.y = this.zoneH + 80;
+      if(this.y > this.zoneH + 80) this.y = -80;
+    }
+    draw(ctx){
+      const size = this.size * (0.65 + this.z*0.3);
+      const {r,g,b} = this.color;
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot * 0.18);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.7,this.alpha)})`;
+      ctx.shadowBlur = BLUR * this.z;
+      ctx.shadowColor = `rgba(${r},${g},${b},0.75)`;
+      ctx.fillRect(-size/2, -size/2, size, size);
+      // bright core
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1,this.alpha+0.25)})`;
+      ctx.shadowBlur = BLUR * 0.45 * this.z;
+      ctx.fillRect(-size*0.35/2, -size*0.35/2, size*0.35, size*0.35);
+      ctx.restore();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  let squares = [];
+
+  /* --- soft particles (glow) --- */
+  let particles = [];
+  function initEntities(){
+    // recreate squares + particles for current zone size
+    squares = [];
+    for(let i=0;i<S_COUNT;i++) squares.push(new Square(W, H));
+    particles = [];
+    for(let i=0;i<60;i++){
+      particles.push({
+        x: rand(0, W),
+        y: rand(0, H),
+        r: rand(0.8, 3),
+        a: rand(0.06, 0.3),
+        v: rand(0.05, 0.25),
+        phase: Math.random()*Math.PI*2
+      });
+    }
+  }
+
+  // animation loops
+  function animateSquares(){
+    ctx.clearRect(0,0,W,H);
+    // subtle background gradient for depth
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0, 'rgba(6,0,20,0.08)');
+    g.addColorStop(1, 'rgba(20,0,50,0.12)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,W,H);
+
+    for(const s of squares){ s.update(); s.draw(ctx); }
+    requestAnimationFrame(animateSquares);
+  }
+
+  function animateParticles(){
+    ptx.clearRect(0,0,W,H);
+    ptx.globalCompositeOperation = 'lighter';
+    for(const o of particles){
+      // gentle floating + react to mouse (small ripple)
+      const ox = o.x, oy = o.y;
+      let mx = 0, my = 0;
+      if(mouse.active){
+        const dx = (o.x - mouse.x), dy = (o.y - mouse.y);
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if(d < 140){
+          const f = (140 - d)/140;
+          mx = (dx/d)*f*6;
+          my = (dy/d)*f*6;
+        }
+      }
+      // small sinus drift
+      o.phase += 0.002;
+      const sway = Math.sin(o.phase)*0.5;
+      ptx.beginPath();
+      ptx.arc(ox + mx + sway, oy + my, o.r, 0, Math.PI*2);
+      ptx.fillStyle = `rgba(180,120,255,${o.a})`;
+      ptx.fill();
+      o.y += o.v;
+      if(o.y > H + 10) o.y = -10;
+    }
+    requestAnimationFrame(animateParticles);
+  }
+
+  // init after we know sizes
+  resizeCanvases();
+  initEntities();
+  animateSquares();
+  animateParticles();
+
 })();
 </script>
 </body>
