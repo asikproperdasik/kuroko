@@ -6,217 +6,249 @@
   <link rel="icon" href="favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
-    body { font-family: 'Press Start 2P', cursive; background-color:black; color:white; }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body { font-family: 'Press Start 2P', cursive; background-color: black; color: white; overflow-x: hidden; }
+    .header { position: relative; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; overflow: hidden; }
+    .header h1 { font-size: 24px; animation: fadeInDown 1.2s ease-out; z-index: 1; }
+    .header p { font-size: 14px; margin-top: 10px; animation: fadeInUp 1.2s ease-out; z-index: 1; }
+    .bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .fallback-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Верхняя часть */
-    .header { position:relative; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; overflow:hidden; }
-    .header h1 { font-size:24px; animation:fadeInDown 1.2s ease-out; z-index:1; }
-    .header p { font-size:14px; margin-top:10px; animation:fadeInUp 1.2s ease-out; z-index:1; }
-    .bg-video { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; }
-    .fallback-img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; }
-    @keyframes fadeInDown { from { opacity:0; transform:translateY(-40px);} to { opacity:1; transform:translateY(0);}}
-    @keyframes fadeInUp { from { opacity:0; transform:translateY(40px);} to { opacity:1; transform:translateY(0);}}
+    #particles-js {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: black;
+      z-index: 0;
+      overflow: hidden;
+    }
+    #particles-js canvas { position: absolute; top: 0; left: 0; z-index: 0; }
 
-    /* Нижняя часть с частицами */
-    #particles-js { position:relative; width:100%; min-height:100vh; background:black; overflow:hidden; }
-    #particles-js canvas { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
-    #particles-js .content { position:relative; z-index:1; padding:100px 20px; text-align:center; }
+    #particles-js .content { position: relative; z-index: 1; padding: 100px 20px; text-align: center; }
 
-    section.about, section.info, section.screenshots, section.birthday { margin-bottom:50px; }
-    section.about p, section.info ul, section.life ul { font-size:12px; line-height:1.6em; }
+    section.about, section.info, section.screenshots, section.birthday { margin-bottom: 50px; }
+    section.about p, section.birthday p { margin-top: 15px; font-size: 12px; line-height: 1.6; }
+    section.info ul, section.life ul { list-style: none; font-size: 12px; padding-left: 0; line-height: 1.6; }
+    section.info li, section.life li { margin-bottom: 10px; }
 
-    /* Инфо + Личная жизнь */
-    .info-life { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin-bottom:50px; }
-    .info, .life { flex:1; min-width:280px; max-width:400px; padding:20px; border-radius:15px; background:rgba(0,0,0,0.6); box-shadow:0 0 15px rgba(255,255,255,0.1); text-align:left; }
-    .life-avatar { width:120px; height:120px; border-radius:50%; border:2px solid white; object-fit:cover; display:block; margin:0 auto 15px; box-shadow:0 0 12px rgba(255,255,255,0.3); }
+    .info-life { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 50px; }
+    .info, .life { flex: 1; min-width: 280px; max-width: 400px; padding: 20px; border-radius: 15px; background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(255,255,255,0.1); text-align: left; }
+    .life-avatar { width: 120px; height: 120px; border-radius: 50%; border: 2px solid white; object-fit: cover; display: block; margin: 0 auto 15px; box-shadow: 0 0 12px rgba(255,255,255,0.3); }
 
-    .socials { margin-top:30px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
-    .socials a img { width:50px; height:50px; border:2px solid white; padding:5px; border-radius:10px; transition: transform 0.3s, box-shadow 0.3s; }
-    .socials a img:hover { transform:scale(1.1); box-shadow:0 0 15px white; }
+    .socials { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .socials a img { width: 50px; height: 50px; border: 2px solid white; padding: 5px; border-radius: 10px; transition: transform 0.3s, box-shadow 0.3s; }
+    .socials a img:hover { transform: scale(1.1); box-shadow: 0 0 15px white; }
 
-    .music-btn { margin-top:30px; background:transparent; border:2px solid white; color:white; font-family:'Press Start 2P',cursive; font-size:10px; padding:10px 20px; border-radius:10px; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s; }
-    .music-btn:hover { background:white; color:black; box-shadow:0 0 15px white; transform:scale(1.05); }
+    .music-btn { margin-top: 30px; background: transparent; border: 2px solid white; color: white; font-family: 'Press Start 2P', cursive; font-size: 10px; padding: 10px 20px; border-radius: 10px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s; }
+    .music-btn:hover { background: white; color: black; box-shadow: 0 0 15px white; transform: scale(1.05); }
 
-    .screenshots h2, .birthday h2 { font-size:16px; margin-bottom:20px; }
-    .screenshots .grid { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
-    .screenshots img { width:300px; height:auto; border:2px solid white; border-radius:10px; cursor:pointer; transition: transform 0.3s; }
-    .screenshots img:hover { transform:scale(1.05); }
+    .screenshots h2, .birthday h2 { font-size: 16px; margin-bottom: 20px; }
+    .screenshots .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .screenshots img { width: 300px; height: auto; border: 2px solid white; border-radius: 10px; cursor: pointer; transition: transform 0.3s; }
+    .screenshots img:hover { transform: scale(1.05); }
 
-    /* Модальное окно */
-    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.9); }
-    .modal-content { display:block; margin:auto; max-width:80%; max-height:80%; }
-    .close, .prev, .next { position:absolute; color:white; font-size:30px; cursor:pointer; user-select:none; }
-    .close { top:20px; right:35px; }
-    .prev, .next { top:50%; transform:translateY(-50%); font-size:40px; padding:16px; }
-    .prev { left:10px; } .next { right:10px; }
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; background-color: rgba(0,0,0,0.9); }
+    .modal-content { display: block; margin: auto; max-width: 80%; max-height: 80%; }
+    .close, .prev, .next { position: absolute; color: white; font-size: 30px; cursor: pointer; user-select: none; }
+    .close { top: 20px; right: 35px; }
+    .prev, .next { top: 50%; transform: translateY(-50%); font-size: 40px; padding: 16px; }
+    .prev { left: 10px; } .next { right: 10px; }
 
-    .lang-switcher { position:absolute; top:20px; right:20px; z-index:10; }
-    .lang-switcher button { background:transparent; border:2px solid white; color:white; font-family:'Press Start 2P',cursive; font-size:10px; padding:5px 10px; margin-left:5px; cursor:pointer; }
-    .lang-switcher button:hover { background:white; color:black; }
+    .lang-switcher { position: absolute; top: 20px; right: 20px; z-index: 10; }
+    .lang-switcher button { background: transparent; border: 2px solid white; color: white; font-family: 'Press Start 2P', cursive; font-size: 10px; padding: 5px 10px; margin-left: 5px; cursor: pointer; }
+    .lang-switcher button:hover { background: white; color: black; }
   </style>
 </head>
 <body>
 
-  <!-- Переключатель языков -->
-  <div class="lang-switcher">
-    <button onclick="setLang('ru')">RU</button>
-    <button onclick="setLang('en')">EN</button>
-  </div>
+<div class="lang-switcher">
+  <button onclick="setLang('ru')">RU</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
 
-  <!-- Верхняя часть -->
-  <header class="header">
-    <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
-      <source src="video.mp4" type="video/mp4">
-      <img src="IMBA.png" alt="Background" class="fallback-img">
-    </video>
-    <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-    <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
-  </header>
+<header class="header">
+  <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
+    <source src="video.mp4" type="video/mp4">
+    <img src="IMBA.png" alt="Background" class="fallback-img">
+  </video>
+  <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
+  <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
+</header>
 
-  <!-- Нижняя часть с белыми светящимися частицами -->
-  <div id="particles-js">
-    <div class="content">
-      <!-- Обо мне -->
-      <section class="about">
-        <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-        <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
-        <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-        <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-      </section>
+<div id="particles-js">
+  <div class="content">
+    <section class="about">
+      <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+      <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+      <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+      <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+    </section>
 
-      <!-- Инфо + Личная жизнь -->
-      <section class="info-life">
-        <div class="info">
-          <ul id="info-list">
-            <li>🏳️ • Мои цели:</li>
-            <li>👤 • Иметь свой стабильный заработок</li>
-            <li>💬 • Не зависеть от родителей</li>
-            <li>⛏️ • Обновить сетап</li>
-            <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-            <li>💫 • Моя основная мечта: Быть счастливым</li>
-            <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-          </ul>
-        </div>
-        <div class="life">
-          <h2 id="life-title">🧩 Моя личная жизнь</h2>
-          <img src="images/avatar.png" alt="Аватар" class="life-avatar">
-          <ul id="life-list">
-            <li>🎓 Учусь в <b>8 классе</b></li>
-            <li>🏀 Иногда играю в <b>баскетбол</b></li>
-            <li>💞 Провожу время с близкими людьми</li>
-            <li>💰 Уже пробую зарабатывать онлайн</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- До Дня Рождения -->
-      <section class="birthday">
-        <h2>🎂 До моего Дня Рождения</h2>
-        <p id="birthday-count">Осталось <span id="days-left">...</span> дней</p>
-      </section>
-
-      <!-- Соцсети -->
-      <div class="socials">
-        <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
-        <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
-        <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
-        <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
-        <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
-        <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
+    <section class="info-life">
+      <div class="info">
+        <ul id="info-list">
+          <li>🏳️ • Мои цели:</li>
+          <li>👤 • Иметь свой стабильный заработок</li>
+          <li>💬 • Не зависеть от родителей</li>
+          <li>⛏️ • Обновить сетап</li>
+          <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+          <li>💫 • Моя основная мечта: Быть счастливым</li>
+          <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+        </ul>
       </div>
+      <div class="life">
+        <h2 id="life-title">🧩 Моя личная жизнь</h2>
+        <img src="images/avatar.png" alt="Аватар" class="life-avatar">
+        <ul id="life-list">
+          <li>🎓 Учусь в <b>8 классе</b></li>
+          <li>🏀 Иногда играю в <b>баскетбол</b></li>
+          <li>💞 Провожу время с близкими людьми</li>
+          <li>💰 Уже пробую зарабатывать онлайн</li>
+        </ul>
+      </div>
+    </section>
 
-      <!-- Кнопка музыки -->
-      <button class="music-btn" id="musicButton">▶ Play Music</button>
-      <audio id="mySong"><source src="music.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
-
-      <!-- Скриншоты -->
-      <section class="screenshots">
-        <h2>📸 Мои скриншоты</h2>
-        <div class="grid">
-          <img src="images/screenshot1.png" alt="Screenshot 1" />
-          <img src="images/screenshot2.png" alt="Screenshot 2" />
-          <img src="images/screenshot3.png" alt="Screenshot 3" />
-          <img src="images/screenshot4.png" alt="Screenshot 4" />
-          <img src="images/screenshot5.png" alt="Screenshot 5" />
-          <img src="images/screenshot6.png" alt="Screenshot 6" />
-          <img src="images/screenshot7.png" alt="Screenshot 7" />
-        </div>
-      </section>
-
+    <div class="socials">
+      <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok" /></a>
+      <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam" /></a>
+      <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch" /></a>
+      <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify" /></a>
+      <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank"><img src="images/roblox.png" alt="Roblox" /></a>
+      <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay" /></a>
     </div>
+
+    <button class="music-btn" id="musicButton">▶ Play Music</button>
+    <audio id="mySong">
+      <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <section class="screenshots">
+      <h2>📸 Мои скриншоты</h2>
+      <div class="grid">
+        <img src="images/screenshot1.png" alt="Screenshot 1" />
+        <img src="images/screenshot2.png" alt="Screenshot 2" />
+        <img src="images/screenshot3.png" alt="Screenshot 3" />
+        <img src="images/screenshot4.png" alt="Screenshot 4" />
+        <img src="images/screenshot5.png" alt="Screenshot 5" />
+        <img src="images/screenshot6.png" alt="Screenshot 6" />
+        <img src="images/screenshot7.png" alt="Screenshot 7" />
+        <img src="images/screenshot8.png" alt="Screenshot 8" />
+      </div>
+    </section>
+
+    <section class="birthday">
+      <h2>🎂 До моего Дня Рождения</h2>
+      <p id="birthday-count">Осталось 0 дней</p>
+    </section>
   </div>
+</div>
 
-  <!-- Модальное окно скриншотов -->
-  <div id="modal" class="modal">
-    <span class="close">&times;</span>
-    <span class="prev">&#10094;</span>
-    <span class="next">&#10095;</span>
-    <img class="modal-content" id="modal-img">
-  </div>
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+  <img class="modal-content" id="modal-img">
+</div>
 
-  <!-- particles.js -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    particlesJS("particles-js", {
-      particles: {
-        number:{value:100,density:{enable:true,value_area:800}},
-        color:{value:"#ffffff"},
-        shape:{type:"circle"},
-        opacity:{value:0.8},
-        size:{value:4,random:true},
-        line_linked:{enable:true,distance:150,color:"#ffffff",opacity:0.6,width:1},
-        move:{enable:true,speed:3,direction:"none",out_mode:"out"}
-      },
-      interactivity:{
-        detect_on:"canvas",
-        events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},
-        modes:{grab:{distance:150,line_linked:{opacity:1}},push:{particles_nb:4}}
-      },
-      retina_detect:true
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 80, density: { enable: true, value_area: 800 } },
+    color: { value: "#ffffff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.8 },
+    size: { value: 3, random: true },
+    line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+    move: { enable: true, speed: 2, direction: "none", out_mode: "out" }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+    modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } }
+  },
+  retina_detect: true
+});
+</script>
 
-  <!-- Кнопка музыки -->
-  <script>
-    const button=document.getElementById("musicButton");
-    const audio=document.getElementById("mySong");
-    let isPlaying=false;
-    button.addEventListener("click",()=>{if(!isPlaying){audio.play();button.textContent="⏸ Pause Music";}else{audio.pause();button.textContent="▶ Play Music";}isPlaying=!isPlaying;});
-  </script>
+<script>
+const button = document.getElementById("musicButton");
+const audio = document.getElementById("mySong");
+let isPlaying = false;
+button.addEventListener("click", () => {
+  if(!isPlaying){ audio.play(); button.textContent="⏸ Pause Music"; }
+  else{ audio.pause(); button.textContent="▶ Play Music"; }
+  isPlaying=!isPlaying;
+});
 
-  <!-- Модальное окно скриншотов -->
-  <script>
-    const modal=document.getElementById("modal"), modalImg=document.getElementById("modal-img"), images=document.querySelectorAll(".screenshots img"), closeBtn=document.querySelector(".close"), prevBtn=document.querySelector(".prev"), nextBtn=document.querySelector(".next");
-    let currentIndex=0;
-    function openModal(index){currentIndex=index;modal.style.display="block";modalImg.src=images[index].src;}
-    function closeModal(){modal.style.display="none";}
-    function showPrev(){currentIndex=(currentIndex-1+images.length)%images.length;modalImg.src=images[currentIndex].src;}
-    function showNext(){currentIndex=(currentIndex+1)%images.length;modalImg.src=images[currentIndex].src;}
-    images.forEach((img,index)=>{img.addEventListener("click",()=>openModal(index));});
-    closeBtn.addEventListener("click",closeModal);
-    prevBtn.addEventListener("click",showPrev);
-    nextBtn.addEventListener("click",showNext);
-    window.addEventListener("click",(e)=>{if(e.target===modal){closeModal();}});
-  </script>
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modal-img");
+const images = document.querySelectorAll(".screenshots img");
+const closeBtn = document.querySelector(".close");
+const prevBtn = document.querySelector(".prev");
+const nextBtn = document.querySelector(".next");
+let currentIndex=0;
+function openModal(index){currentIndex=index; modal.style.display="block"; modalImg.src=images[index].src;}
+function closeModal(){modal.style.display="none";}
+function showPrev(){currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src;}
+function showNext(){currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src;}
+images.forEach((img,i)=>img.addEventListener("click",()=>openModal(i)));
+closeBtn.addEventListener("click",closeModal);
+prevBtn.addEventListener("click",showPrev);
+nextBtn.addEventListener("click",showNext);
+window.addEventListener("click",(e)=>{if(e.target===modal){closeModal();}});
 
-  <!-- Переключение языков -->
-  <script>
-    const langData={
-      ru:{title:"Tbl_3a9k - Обо мне:", subtitle:"я чувствовал себя счастливым только благодаря тебе.🤍",
-        aboutTitle:"qq, Я Tbl_3a9k", about1:"Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
-        about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
-        about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-        infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
-        lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Уже пробую зарабатывать онлайн"],
-        screenshotsTitle:"📸 Мои скриншоты"},
-      en:{title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍",
-        aboutTitle:"qq, I'm Tbl_3a9k", about1:"I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
-        about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
-        about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
-        infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
-        lifeList:["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"],
-        screenshotsTitle:"📸 My Screenshots"}
-    };
+// Отсчёт до дня рождения
+function updateBirthday(){
+  const today=new Date();
+  const bday=new Date(today.getFullYear(),10,19);
+  if(today>bday){ bday.setFullYear(bday.getFullYear()+1);}
+  const diff=Math.ceil((bday-today)/(1000*60*60*24));
+  document.getElementById("birthday-count").textContent="Осталось "+diff+" дней";
+}
+updateBirthday();
+setInterval(updateBirthday, 3600000);
 
-    function setLang(lang){
+// Переключение языков
+const langData={
+  ru:{
+    title:"Tbl_3a9k - Обо мне:", subtitle:"я чувствовал себя счастливым только благодаря тебе.🤍",
+    aboutTitle:"qq, Я Tbl_3a9k", about1:"Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+    about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
+    about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+    lifeTitle:"🧩 Моя личная жизнь", lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Уже пробую зарабатывать онлайн"],
+    infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
+    screenshotsTitle:"📸 Мои скриншоты"
+  },
+  en:{
+    title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍",
+    aboutTitle:"qq, I'm Tbl_3a9k", about1:"I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+    about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
+    about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
+    lifeTitle:"🧩 My Personal Life", lifeList:["🎓 Studying in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"],
+    infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
+    screenshotsTitle:"📸 My Screenshots"
+  }
+};
+function setLang(lang){
+  document.getElementById("title-text").textContent=langData[lang].title;
+  document.getElementById("subtitle-text").textContent=langData[lang].subtitle;
+  document.getElementById("about-title").textContent=langData[lang].aboutTitle;
+  document.getElementById("about-1").textContent=langData[lang].about1;
+  document.getElementById("about-2").textContent=langData[lang].about2;
+  document.getElementById("about-3").textContent=langData[lang].about3;
+  document.getElementById("life-title").textContent=langData[lang].lifeTitle;
+  const lifeListEl=document.getElementById("life-list");
+  lifeListEl.innerHTML="";
+  langData[lang].lifeList.forEach(item=>{const li=document.createElement("li"); li.textContent=item; lifeListEl.appendChild(li);});
+  const infoListEl=document.getElementById("info-list");
+  infoListEl.innerHTML="";
+  langData[lang].infoList.forEach(item=>{const li=document.createElement("li"); li.textContent=item; infoListEl.appendChild(li);});
+  document.querySelector(".screenshots h2").textContent=langData[lang].screenshotsTitle;
+}
+document.addEventListener("DOMContentLoaded",()=>{setLang("ru");});
+</script>
+</body>
+</html>
