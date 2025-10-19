@@ -235,21 +235,21 @@
   const canvas = document.getElementById('canvas-bg');
   const ctx = canvas.getContext('2d', { alpha: true });
   let DPR = Math.max(1, window.devicePixelRatio || 1);
+  let W = window.innerWidth, H = window.innerHeight; // <--- перенесено ВЫШЕ, до resize()
 
   function resize() {
     DPR = Math.max(1, window.devicePixelRatio || 1);
-    canvas.width = Math.floor(window.innerWidth * DPR);
-    canvas.height = Math.floor(window.innerHeight * DPR);
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     W = window.innerWidth;
     H = window.innerHeight;
+    canvas.width = Math.floor(W * DPR);
+    canvas.height = Math.floor(H * DPR);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   }
   window.addEventListener('resize', resize);
   resize();
 
-  let W = window.innerWidth, H = window.innerHeight;
   const COUNT = 90;
   const SIZE_MIN = 8, SIZE_MAX = 30;
   const SPEED = 0.02; // медленно
@@ -298,30 +298,25 @@
     }
     update(){
       this.rot += this.rotSpeed;
-      // slow drift
       this.baseX += Math.sin(this.rot) * 0.02 * this.z;
       this.baseY += Math.cos(this.rot) * 0.02 * this.z;
 
       this.x += this.vx;
       this.y += this.vy;
-
-      // attraction back to base
       this.x += (this.baseX - this.x) * 0.006;
       this.y += (this.baseY - this.y) * 0.006;
 
-      // mouse influence
       if(mouse.active){
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx*dx + dy*dy);
-        const force = Math.max(0, (200 - dist) / 200); // 0..1 when within 200px
+        const force = Math.max(0, (200 - dist) / 200);
         if(force>0){
           this.x -= dx * MOUSE_FORCE * this.z * force * 0.03;
           this.y -= dy * MOUSE_FORCE * this.z * force * 0.03;
         }
       }
 
-      // wrap around softly
       if(this.x < -60) this.x = W + 60;
       if(this.x > W + 60) this.x = -60;
       if(this.y < -60) this.y = H + 60;
@@ -330,24 +325,18 @@
     draw(){
       const size = this.size * (0.65 + this.z*0.3);
       const r = this.color.r, g = this.color.g, b = this.color.b;
-      // outer glow
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rot * 0.18);
       ctx.globalCompositeOperation = 'lighter';
-
-      // soft glow rectangle
       ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.6, this.alpha*0.9)})`;
       ctx.shadowBlur = BLUR * this.z;
       ctx.shadowColor = `rgba(${r},${g},${b},0.65)`;
       ctx.fillRect(-size/2, -size/2, size, size);
-
-      // bright core
       ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1, this.alpha+0.4)})`;
       ctx.shadowBlur = BLUR * 0.45 * this.z;
       ctx.shadowColor = `rgba(${r},${g},${b},0.95)`;
       ctx.fillRect(-size*0.5/2, -size*0.5/2, size*0.5, size*0.5);
-
       ctx.restore();
       ctx.shadowBlur = 0;
     }
@@ -356,31 +345,22 @@
   const pixels = [];
   for(let i=0;i<COUNT;i++) pixels.push(new Pixel());
 
-  let last = performance.now();
-  function frame(now){
-    const dt = now - last;
-    last = now;
-    // Clear with slight overlay to create soft trailing (but keep clean)
+  function frame(){
     ctx.clearRect(0,0,W,H);
-
-    // subtle gradient background for depth
     const g = ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0, 'rgba(6,0,20,0.12)');
     g.addColorStop(1, 'rgba(20,0,50,0.18)');
     ctx.fillStyle = g;
     ctx.fillRect(0,0,W,H);
-
-    // draw pixels
     for(let i=0;i<pixels.length;i++){
-      pixels[i].update(dt);
+      pixels[i].update();
       pixels[i].draw();
     }
-
     requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
-
+  frame();
 })();
 </script>
 </body>
 </html>
+
