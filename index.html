@@ -8,12 +8,37 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
   *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
-  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;}
+  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;}
+  
+  /* Global animated background */
+  #global-canvas-bg{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    pointer-events:none;
+  }
+  
   .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
-  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:2;}
-  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:2;}
-  .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-  .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:3;position:relative;}
+  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:3;position:relative;}
+  .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+  .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+  
+  /* Video overlay to ensure squares show under video */
+  .header::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    z-index:2;
+  }
+  
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 
@@ -22,15 +47,13 @@
   .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
   .lang-switcher button:hover{background:white;color:black;}
 
-  /* interactive bg */
-  #interactive-bg{position:relative;width:100%;min-height:100vh;background:black;overflow:hidden;}
-  #canvas-bg{position:absolute;top:0;left:0;width:100%;height:100%;display:block;z-index:0;}
-  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;}
+  /* content sections */
+  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;background:rgba(0,0,0,0.1);}
 
   /* site blocks */
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
   .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;}
-  .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.6);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;}
+  .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.8);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;backdrop-filter:blur(10px);}
   .info ul,.life ul{list-style:none;padding:0;font-size:12px;line-height:1.6em;}
   .life-avatar{width:120px;height:120px;border-radius:50%;border:2px solid white;object-fit:cover;display:block;margin:0 auto 15px;box-shadow:0 0 12px rgba(255,255,255,0.2);}
   .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
@@ -42,6 +65,15 @@
   .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
   .screenshots img{width:300px;height:auto;border:2px solid white;border-radius:10px;cursor:pointer;transition:transform .25s;}
   .screenshots img:hover{transform:scale(1.05);}
+  
+  .birthday{
+    background:rgba(0,0,0,0.8);
+    padding:30px;
+    border-radius:15px;
+    margin:50px auto;
+    max-width:400px;
+    backdrop-filter:blur(10px);
+  }
 
   /* modal */
   .modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,0.9);}
@@ -53,6 +85,9 @@
 </style>
 </head>
 <body>
+
+<!-- Global animated background canvas -->
+<canvas id="global-canvas-bg" aria-hidden="true"></canvas>
 
 <!-- language switcher -->
 <div class="lang-switcher">
@@ -70,81 +105,78 @@
   <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
 </header>
 
-<!-- interactive bg -->
-<div id="interactive-bg">
-  <canvas id="canvas-bg" aria-hidden="true"></canvas>
-  <div class="content">
-    <!-- About -->
-    <section class="about">
-      <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-      <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
-      <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-      <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-    </section>
+<!-- content with animated bg -->
+<div class="content">
+  <!-- About -->
+  <section class="about">
+    <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+    <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+    <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+    <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+  </section>
 
-    <!-- Info + Life -->
-    <section class="info-life">
-      <div class="info">
-        <ul id="info-list">
-          <li>🏳️ • Мои цели:</li>
-          <li>👤 • Иметь свой стабильный заработок</li>
-          <li>💬 • Не зависеть от родителей</li>
-          <li>⛏️ • Обновить сетап</li>
-          <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-          <li>💫 • Моя основная мечта: Быть счастливым</li>
-          <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-        </ul>
-      </div>
-      <div class="life">
-        <h2 id="life-title">🧩 Моя личная жизнь</h2>
-        <img src="images/avatar.png" alt="Аватар" class="life-avatar">
-        <ul id="life-list">
-          <li>🎓 Учусь в <b>8 классе</b></li>
-          <li>🏀 Иногда играю в <b>баскетбол</b></li>
-          <li>💞 Провожу время с близкими людьми</li>
-          <li>💰 Уже пробую зарабатывать онлайн</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- socials -->
-    <div class="socials">
-      <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
-      <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam" /></a>
-      <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch" /></a>
-      <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify" /></a>
-      <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox" /></a>
-      <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay" /></a>
+  <!-- Info + Life -->
+  <section class="info-life">
+    <div class="info">
+      <ul id="info-list">
+        <li>🏳️ • Мои цели:</li>
+        <li>👤 • Иметь свой стабильный заработок</li>
+        <li>💬 • Не зависеть от родителей</li>
+        <li>⛏️ • Обновить сетап</li>
+        <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+        <li>💫 • Моя основная мечта: Быть счастливым</li>
+        <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+      </ul>
     </div>
+    <div class="life">
+      <h2 id="life-title">🧩 Моя личная жизнь</h2>
+      <img src="images/avatar.png" alt="Аватар" class="life-avatar">
+      <ul id="life-list">
+        <li>🎓 Учусь в <b>8 классе</b></li>
+        <li>🏀 Иногда играю в <b>баскетбол</b></li>
+        <li>💞 Провожу время с близкими людьми</li>
+        <li>💰 Уже пробую зарабатывать онлайн</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- music -->
-    <button class="music-btn" id="musicButton">▶ Play Music</button>
-    <audio id="mySong">
-      <source src="music.mp3" type="audio/mpeg">
-      Ваш браузер не поддерживает аудио.
-    </audio>
-
-    <!-- screenshots -->
-    <section class="screenshots">
-      <h2 id="screenshots-title">📸 Мои скриншоты</h2>
-      <div class="grid">
-        <img src="images/screenshot1.png" alt="Screenshot 1" />
-        <img src="images/screenshot2.png" alt="Screenshot 2" />
-        <img src="images/screenshot3.png" alt="Screenshot 3" />
-        <img src="images/screenshot4.png" alt="Screenshot 4" />
-        <img src="images/screenshot5.png" alt="Screenshot 5" />
-        <img src="images/screenshot6.png" alt="Screenshot 6" />
-        <img src="images/screenshot7.png" alt="Screenshot 7" />
-        <img src="images/IMBA2.png" alt="IMBA2" />
-      </div>
-    </section>
-
-    <!-- birthday -->
-    <section class="birthday">
-      <h2>🎂 До моего Дня Рождения</h2>
-      <p id="birthday-days">Осталось: 90 дней</p>
-    </section>
+  <!-- socials -->
+  <div class="socials">
+    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
+    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam" /></a>
+    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch" /></a>
+    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify" /></a>
+    <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox" /></a>
+    <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay" /></a>
   </div>
+
+  <!-- music -->
+  <button class="music-btn" id="musicButton">▶ Play Music</button>
+  <audio id="mySong">
+    <source src="music.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+  <!-- screenshots -->
+  <section class="screenshots">
+    <h2 id="screenshots-title">📸 Мои скриншоты</h2>
+    <div class="grid">
+      <img src="images/screenshot1.png" alt="Screenshot 1" />
+      <img src="images/screenshot2.png" alt="Screenshot 2" />
+      <img src="images/screenshot3.png" alt="Screenshot 3" />
+      <img src="images/screenshot4.png" alt="Screenshot 4" />
+      <img src="images/screenshot5.png" alt="Screenshot 5" />
+      <img src="images/screenshot6.png" alt="Screenshot 6" />
+      <img src="images/screenshot7.png" alt="Screenshot 7" />
+      <img src="images/IMBA2.png" alt="IMBA2" />
+    </div>
+  </section>
+
+  <!-- birthday -->
+  <section class="birthday">
+    <h2>🎂 До моего Дня Рождения</h2>
+    <p id="birthday-days">Осталось: 90 дней</p>
+  </section>
 </div>
 
 <!-- modal -->
@@ -229,52 +261,62 @@
   setInterval(updateBirthday,1000*60*60*24);
 </script>
 
-<!-- NEW: Minecraft-style neon squares background -->
+<!-- Enhanced Minecraft-style neon squares background -->
 <script>
 (function(){
-  const canvas = document.getElementById('canvas-bg');
+  const canvas = document.getElementById('global-canvas-bg');
   const ctx = canvas.getContext('2d', { alpha: true });
   let DPR = Math.max(1, window.devicePixelRatio || 1);
-  let W = window.innerWidth, H = window.innerHeight; // <--- перенесено ВЫШЕ, до resize()
+  let W = window.innerWidth, H = document.documentElement.scrollHeight;
 
   function resize() {
     DPR = Math.max(1, window.devicePixelRatio || 1);
     W = window.innerWidth;
-    H = window.innerHeight;
+    H = Math.max(document.documentElement.scrollHeight, window.innerHeight);
     canvas.width = Math.floor(W * DPR);
     canvas.height = Math.floor(H * DPR);
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   }
+  
   window.addEventListener('resize', resize);
+  window.addEventListener('scroll', ()=>{
+    const newH = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    if(Math.abs(newH - H) > 100){
+      resize();
+    }
+  });
   resize();
 
-  const COUNT = 90;
-  const SIZE_MIN = 8, SIZE_MAX = 30;
-  const SPEED = 0.02; // медленно
-  const MOUSE_FORCE = 0.14;
-  const BLUR = 18;
+  const COUNT = 120;
+  const SIZE_MIN = 6, SIZE_MAX = 35;
+  const SPEED = 0.015;
+  const MOUSE_FORCE = 0.12;
+  const BLUR = 20;
 
   let mouse = { x: W/2, y: H/2, active: false };
-  window.addEventListener('mousemove', (e)=>{ mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+  window.addEventListener('mousemove', (e)=>{ 
+    mouse.x = e.clientX; 
+    mouse.y = e.clientY + window.scrollY; 
+    mouse.active = true; 
+  });
   window.addEventListener('mouseleave', ()=>{ mouse.active = false; });
 
   function rand(a,b){ return a + Math.random()*(b-a); }
   function neonBase() {
-    if(Math.random() < 0.5){
-      // blue-ish
-      const r = 80 + Math.floor(Math.random()*40);
-      const g = 80 + Math.floor(Math.random()*60);
-      const b = 200 + Math.floor(Math.random()*55);
-      return { r, g, b };
-    } else {
-      // purple-ish
-      const r = 150 + Math.floor(Math.random()*60);
-      const g = 70 + Math.floor(Math.random()*60);
-      const b = 200 + Math.floor(Math.random()*55);
-      return { r, g, b };
-    }
+    const colors = [
+      // Minecraft-inspired neon colors
+      { r: 64, g: 224, b: 208 },   // turquoise
+      { r: 138, g: 43, b: 226 },   // blue violet
+      { r: 0, g: 191, b: 255 },    // deep sky blue
+      { r: 75, g: 0, b: 130 },     // indigo
+      { r: 255, g: 20, b: 147 },   // deep pink
+      { r: 50, g: 205, b: 50 },    // lime green
+      { r: 255, g: 215, b: 0 },    // gold
+      { r: 255, g: 69, b: 0 }      // red orange
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 
   class Pixel {
@@ -285,58 +327,73 @@
       this.size = rand(SIZE_MIN, SIZE_MAX);
       this.baseX = this.x;
       this.baseY = this.y;
-      this.z = 0.6 + Math.random()*1.4;
-      this.vx = (Math.random()-0.5) * SPEED * this.z * 40;
-      this.vy = (Math.random()-0.5) * SPEED * this.z * 40;
+      this.z = 0.5 + Math.random()*1.5;
+      this.vx = (Math.random()-0.5) * SPEED * this.z * 50;
+      this.vy = (Math.random()-0.5) * SPEED * this.z * 50;
       this.color = neonBase();
-      this.alpha = 0.08 + Math.random()*0.6;
+      this.alpha = 0.1 + Math.random()*0.7;
       this.rot = Math.random() * Math.PI * 2;
-      this.rotSpeed = (Math.random()-0.5) * 0.002 * this.z;
+      this.rotSpeed = (Math.random()-0.5) * 0.003 * this.z;
+      this.pulsePhase = Math.random() * Math.PI * 2;
+      this.pulseSpeed = 0.02 + Math.random() * 0.03;
       if(initial){
         this.x = rand(0,W); this.y = rand(0,H);
       }
     }
     update(){
       this.rot += this.rotSpeed;
-      this.baseX += Math.sin(this.rot) * 0.02 * this.z;
-      this.baseY += Math.cos(this.rot) * 0.02 * this.z;
+      this.pulsePhase += this.pulseSpeed;
+      
+      // Floating movement
+      this.baseX += Math.sin(this.rot) * 0.025 * this.z;
+      this.baseY += Math.cos(this.rot) * 0.025 * this.z;
 
       this.x += this.vx;
       this.y += this.vy;
-      this.x += (this.baseX - this.x) * 0.006;
-      this.y += (this.baseY - this.y) * 0.006;
+      this.x += (this.baseX - this.x) * 0.008;
+      this.y += (this.baseY - this.y) * 0.008;
 
+      // Mouse interaction
       if(mouse.active){
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx*dx + dy*dy);
-        const force = Math.max(0, (200 - dist) / 200);
+        const force = Math.max(0, (250 - dist) / 250);
         if(force>0){
-          this.x -= dx * MOUSE_FORCE * this.z * force * 0.03;
-          this.y -= dy * MOUSE_FORCE * this.z * force * 0.03;
+          this.x -= dx * MOUSE_FORCE * this.z * force * 0.04;
+          this.y -= dy * MOUSE_FORCE * this.z * force * 0.04;
         }
       }
 
-      if(this.x < -60) this.x = W + 60;
-      if(this.x > W + 60) this.x = -60;
-      if(this.y < -60) this.y = H + 60;
-      if(this.y > H + 60) this.y = -60;
+      // Wrap around screen
+      if(this.x < -80) this.x = W + 80;
+      if(this.x > W + 80) this.x = -80;
+      if(this.y < -80) this.y = H + 80;
+      if(this.y > H + 80) this.y = -80;
     }
     draw(){
-      const size = this.size * (0.65 + this.z*0.3);
+      const pulse = 0.8 + 0.2 * Math.sin(this.pulsePhase);
+      const size = this.size * (0.6 + this.z*0.4) * pulse;
       const r = this.color.r, g = this.color.g, b = this.color.b;
+      
       ctx.save();
       ctx.translate(this.x, this.y);
-      ctx.rotate(this.rot * 0.18);
+      ctx.rotate(this.rot * 0.2);
       ctx.globalCompositeOperation = 'lighter';
-      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.6, this.alpha*0.9)})`;
-      ctx.shadowBlur = BLUR * this.z;
-      ctx.shadowColor = `rgba(${r},${g},${b},0.65)`;
+      
+      // Outer glow
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.4, this.alpha*0.6*pulse)})`;
+      ctx.shadowBlur = BLUR * this.z * pulse;
+      ctx.shadowColor = `rgba(${r},${g},${b},0.8)`;
       ctx.fillRect(-size/2, -size/2, size, size);
-      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1, this.alpha+0.4)})`;
-      ctx.shadowBlur = BLUR * 0.45 * this.z;
-      ctx.shadowColor = `rgba(${r},${g},${b},0.95)`;
-      ctx.fillRect(-size*0.5/2, -size*0.5/2, size*0.5, size*0.5);
+      
+      // Inner core
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1, this.alpha+0.3*pulse)})`;
+      ctx.shadowBlur = BLUR * 0.3 * this.z;
+      ctx.shadowColor = `rgba(${r},${g},${b},1)`;
+      const coreSize = size * 0.6;
+      ctx.fillRect(-coreSize/2, -coreSize/2, coreSize, coreSize);
+      
       ctx.restore();
       ctx.shadowBlur = 0;
     }
@@ -347,11 +404,16 @@
 
   function frame(){
     ctx.clearRect(0,0,W,H);
+    
+    // Dark gradient background
     const g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0, 'rgba(6,0,20,0.12)');
-    g.addColorStop(1, 'rgba(20,0,50,0.18)');
+    g.addColorStop(0, 'rgba(5,0,15,0.15)');
+    g.addColorStop(0.5, 'rgba(15,0,30,0.1)');
+    g.addColorStop(1, 'rgba(25,0,50,0.2)');
     ctx.fillStyle = g;
     ctx.fillRect(0,0,W,H);
+    
+    // Draw all pixels
     for(let i=0;i<pixels.length;i++){
       pixels[i].update();
       pixels[i].draw();
@@ -363,5 +425,3 @@
 </script>
 </body>
 </html>
-
-
