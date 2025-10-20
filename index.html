@@ -9,37 +9,26 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
   body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;}
-  
-  /* header + видео */
   .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
-  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:2;position:relative;}
-  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:2;position:relative;}
+  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:2;}
+  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:2;}
   .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
   .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-  
+  @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
   /* language switcher */
   .lang-switcher{position:absolute;top:20px;right:20px;z-index:200;}
   .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
   .lang-switcher button:hover{background:white;color:black;}
 
-  @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
-  @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+  /* canvas under video */
+  #canvas-container{position:relative;width:100%;height:350px;overflow:hidden;z-index:1;}
+  #canvas-bg{position:absolute;top:0;left:0;width:100%;height:100%;display:block;}
 
-  /* canvas квадратиков под видео */
-  #canvas-bg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%; /* сколько места под видео занимает анимация */
-    display: block;
-    z-index: 1;
-    pointer-events: none;
-  }
+  .content{position:relative;z-index:2;padding:50px 20px;text-align:center;}
 
-  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;}
-
-  /* остальные блоки */
+  /* site blocks */
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
   .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;}
   .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.6);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;}
@@ -54,6 +43,8 @@
   .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
   .screenshots img{width:300px;height:auto;border:2px solid white;border-radius:10px;cursor:pointer;transition:transform .25s;}
   .screenshots img:hover{transform:scale(1.05);}
+
+  /* modal */
   .modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,0.9);}
   .modal-content{display:block;margin:auto;max-width:80%;max-height:80%;}
   .close,.prev,.next{position:absolute;color:white;font-size:30px;cursor:pointer;user-select:none;}
@@ -76,127 +67,141 @@
     <source src="video.mp4" type="video/mp4">
     <img src="IMBA.png" alt="Background" class="fallback-img">
   </video>
-
-  <!-- Квадратики под видео -->
-  <canvas id="canvas-bg" aria-hidden="true"></canvas>
-
   <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
   <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
 </header>
 
-<!-- content -->
-<div class="content">
-  <!-- сюда идут все твои секции: about, info-life, socials, screenshots, birthday -->
+<!-- canvas under video -->
+<div id="canvas-container">
+  <canvas id="canvas-bg"></canvas>
 </div>
 
-<!-- scripts (music, modal, language, birthday) -->
+<!-- main content -->
+<div class="content">
+  <!-- About -->
+  <section class="about">
+    <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+    <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+    <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+    <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+  </section>
+
+  <!-- Info + Life -->
+  <section class="info-life">
+    <div class="info">
+      <ul id="info-list">
+        <li>🏳️ • Мои цели:</li>
+        <li>👤 • Иметь свой стабильный заработок</li>
+        <li>💬 • Не зависеть от родителей</li>
+        <li>⛏️ • Обновить сетап</li>
+        <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+        <li>💫 • Моя основная мечта: Быть счастливым</li>
+        <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+      </ul>
+    </div>
+    <div class="life">
+      <h2 id="life-title">🧩 Моя личная жизнь</h2>
+      <img src="images/avatar.png" alt="Аватар" class="life-avatar">
+      <ul id="life-list">
+        <li>🎓 Учусь в <b>8 классе</b></li>
+        <li>🏀 Иногда играю в <b>баскетбол</b></li>
+        <li>💞 Провожу время с близкими людьми</li>
+        <li>💰 Уже пробую зарабатывать онлайн</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- socials -->
+  <div class="socials">
+    <a href="#"><img src="images/tiktok.png" alt="TikTok" /></a>
+    <a href="#"><img src="images/steam.png" alt="Steam" /></a>
+    <a href="#"><img src="images/twitch.png" alt="Twitch" /></a>
+    <a href="#"><img src="images/spotify.png" alt="Spotify" /></a>
+    <a href="#"><img src="images/roblox.png" alt="Roblox" /></a>
+    <a href="#"><img src="images/fanpay.png" alt="FanPay" /></a>
+  </div>
+
+  <!-- music -->
+  <button class="music-btn" id="musicButton">▶ Play Music</button>
+  <audio id="mySong">
+    <source src="music.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+  <!-- screenshots -->
+  <section class="screenshots">
+    <h2 id="screenshots-title">📸 Мои скриншоты</h2>
+    <div class="grid">
+      <img src="images/screenshot1.png" alt="Screenshot 1" />
+      <img src="images/screenshot2.png" alt="Screenshot 2" />
+      <img src="images/screenshot3.png" alt="Screenshot 3" />
+    </div>
+  </section>
+
+  <!-- birthday -->
+  <section class="birthday">
+    <h2>🎂 До моего Дня Рождения</h2>
+    <p id="birthday-days">Осталось: 90 дней</p>
+  </section>
+</div>
+
+<!-- scripts -->
 <script>
-  // твои существующие скрипты остаются без изменений
+  // music button
+  const button = document.getElementById("musicButton");
+  const audio = document.getElementById("mySong");
+  let isPlaying=false;
+  button.addEventListener("click",()=>{
+    if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; }
+    else{ audio.pause(); button.textContent="▶ Play Music"; }
+    isPlaying=!isPlaying;
+  });
+
+  // birthday countdown
+  function updateBirthday(){
+    const today=new Date();
+    let birthday=new Date(today.getFullYear(),10,19);
+    if(today>birthday) birthday.setFullYear(today.getFullYear()+1);
+    const diff=Math.floor((birthday-today)/(1000*60*60*24));
+    document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней";
+  }
+  updateBirthday();
+  setInterval(updateBirthday,1000*60*60*24);
+
+  // Minecraft-style squares under video
+  (function(){
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d', { alpha:true });
+    let W, H;
+    function resize(){ W=canvas.parentElement.offsetWidth; H=canvas.parentElement.offsetHeight; canvas.width=W; canvas.height=H; }
+    window.addEventListener('resize', resize); resize();
+
+    const COUNT=80, SIZE_MIN=8, SIZE_MAX=25;
+    const pixels=[];
+    for(let i=0;i<COUNT;i++){
+      pixels.push({
+        x:Math.random()*W,
+        y:Math.random()*H,
+        size: SIZE_MIN + Math.random()*(SIZE_MAX-SIZE_MIN),
+        color: Math.random()<0.5 ? `rgba(80,80,220,0.6)` : `rgba(200,80,200,0.6)`,
+        vx: (Math.random()-0.5)*0.3,
+        vy: (Math.random()-0.5)*0.3
+      });
+    }
+
+    function frame(){
+      ctx.clearRect(0,0,W,H);
+      pixels.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+        if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+        ctx.fillStyle=p.color;
+        ctx.fillRect(p.x-p.size/2, p.y-p.size/2, p.size, p.size);
+      });
+      requestAnimationFrame(frame);
+    }
+    frame();
+  })();
 </script>
-
-<!-- скрипт анимации квадратиков -->
-<script>
-(function(){
-  const canvas = document.getElementById('canvas-bg');
-  const ctx = canvas.getContext('2d', { alpha: true });
-  let DPR = Math.max(1, window.devicePixelRatio || 1);
-  let W = canvas.width, H = canvas.height;
-
-  function resize() {
-    DPR = Math.max(1, window.devicePixelRatio || 1);
-    W = canvas.clientWidth;
-    H = canvas.clientHeight;
-    canvas.width = Math.floor(W * DPR);
-    canvas.height = Math.floor(H * DPR);
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  const COUNT = 90;
-  const SIZE_MIN = 8, SIZE_MAX = 30;
-  const SPEED = 0.02;
-  const MOUSE_FORCE = 0.14;
-  const BLUR = 18;
-  let mouse = { x: W/2, y: H/2, active: false };
-  window.addEventListener('mousemove', e=>{ mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; });
-  window.addEventListener('mouseleave', ()=>{ mouse.active=false; });
-
-  function rand(a,b){ return a + Math.random()*(b-a); }
-  function neonBase() {
-    if(Math.random()<0.5){ const r=80+Math.floor(Math.random()*40); const g=80+Math.floor(Math.random()*60); const b=200+Math.floor(Math.random()*55); return {r,g,b}; }
-    else{ const r=150+Math.floor(Math.random()*60); const g=70+Math.floor(Math.random()*60); const b=200+Math.floor(Math.random()*55); return {r,g,b}; }
-  }
-
-  class Pixel {
-    constructor(){ this.init(true); }
-    init(initial=false){
-      this.x = rand(0, W); this.y = rand(0, H);
-      this.size = rand(SIZE_MIN, SIZE_MAX);
-      this.baseX = this.x; this.baseY = this.y;
-      this.z = 0.6 + Math.random()*1.4;
-      this.vx = (Math.random()-0.5)*SPEED*this.z*40;
-      this.vy = (Math.random()-0.5)*SPEED*this.z*40;
-      this.color = neonBase();
-      this.alpha = 0.08 + Math.random()*0.6;
-      this.rot = Math.random()*Math.PI*2;
-      this.rotSpeed = (Math.random()-0.5)*0.002*this.z;
-      if(initial){ this.x=rand(0,W); this.y=rand(0,H); }
-    }
-    update(){
-      this.rot += this.rotSpeed;
-      this.baseX += Math.sin(this.rot)*0.02*this.z;
-      this.baseY += Math.cos(this.rot)*0.02*this.z;
-      this.x += this.vx; this.y += this.vy;
-      this.x += (this.baseX-this.x)*0.006;
-      this.y += (this.baseY-this.y)*0.006;
-      if(mouse.active){
-        const dx=mouse.x-this.x, dy=mouse.y-this.y;
-        const dist=Math.sqrt(dx*dx+dy*dy);
-        const force=Math.max(0,(200-dist)/200);
-        if(force>0){ this.x -= dx*MOUSE_FORCE*this.z*force*0.03; this.y -= dy*MOUSE_FORCE*this.z*force*0.03; }
-      }
-      if(this.x<-60)this.x=W+60;
-      if(this.x>W+60)this.x=-60;
-      if(this.y<-60)this.y=H+60;
-      if(this.y>H+60)this.y=-60;
-    }
-    draw(){
-      const size=this.size*(0.65+this.z*0.3);
-      const r=this.color.r, g=this.color.g, b=this.color.b;
-      ctx.save();
-      ctx.translate(this.x,this.y);
-      ctx.rotate(this.rot*0.18);
-      ctx.globalCompositeOperation='lighter';
-      ctx.fillStyle=`rgba(${r},${g},${b},${Math.min(0.6,this.alpha*0.9)})`;
-      ctx.shadowBlur = BLUR*this.z;
-      ctx.shadowColor = `rgba(${r},${g},${b},0.65)`;
-      ctx.fillRect(-size/2,-size/2,size,size);
-      ctx.fillStyle=`rgba(${r},${g},${b},${Math.min(1,this.alpha+0.4)})`;
-      ctx.shadowBlur = BLUR*0.45*this.z;
-      ctx.shadowColor = `rgba(${r},${g},${b},0.95)`;
-      ctx.fillRect(-size*0.5/2,-size*0.5/2,size*0.5,size*0.5);
-      ctx.restore();
-      ctx.shadowBlur=0;
-    }
-  }
-
-  const pixels = [];
-  for(let i=0;i<COUNT;i++) pixels.push(new Pixel());
-
-  function frame(){
-    ctx.clearRect(0,0,W,H);
-    const g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'rgba(6,0,20,0.12)');
-    g.addColorStop(1,'rgba(20,0,50,0.18)');
-    ctx.fillStyle=g;
-    ctx.fillRect(0,0,W,H);
-    for(let i=0;i<pixels.length;i++){ pixels[i].update(); pixels[i].draw(); }
-    requestAnimationFrame(frame);
-  }
-  frame();
-})();
-</script>
-
 </body>
 </html>
