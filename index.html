@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Tbl_3a9k — Био🤍</title>
-<link rel="icon" href="favicon.png" type="image/png" />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
-  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;}
+  
+  /* header */
   .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
   .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:2;}
   .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:2;}
@@ -17,37 +19,23 @@
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 
-  .lang-switcher{position:absolute;top:20px;right:20px;z-index:50;}
+  /* language switcher */
+  .lang-switcher{position:absolute;top:20px;right:20px;z-index:200;}
   .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
   .lang-switcher button:hover{background:white;color:black;}
 
-  /* интерактивный фон: позиция и плавный фейд-ин */
-  #interactive-bg{
-    position:absolute;
-    left:0;
-    width:100%;
-    /* top и height считаем в JS, чтобы ровно стартовал под видео и покрывал весь нижний контент */
-    overflow:hidden;
-    z-index:0;
-    pointer-events:none; /* не блокирует клики по странице */
-    opacity:0;
-    transition:opacity .9s ease;
-    will-change:transform,opacity;
-  }
-  #interactive-bg.visible{opacity:1;}
+  /* interactive bg */
+  #interactive-bg{position:relative;width:100%;min-height:100vh;overflow:hidden;}
+  #canvas-bg{position:fixed;top:0;left:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none;}
+  .content{position:relative;z-index:1;padding:50px 20px;text-align:center;}
 
-  /* два canvas — один для квадратов, другой для мягких частиц */
-  #canvas-bg,#canvas-particles{
-    position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;
-  }
-
-  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;max-width:1200px;margin:0 auto;}
-
+  /* site blocks */
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
   .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;}
   .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.6);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;}
   .info ul,.life ul{list-style:none;padding:0;font-size:12px;line-height:1.6em;}
   .life-avatar{width:120px;height:120px;border-radius:50%;border:2px solid white;object-fit:cover;display:block;margin:0 auto 15px;box-shadow:0 0 12px rgba(255,255,255,0.2);}
+  
   .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
   .socials a img{width:50px;height:50px;border:2px solid white;padding:5px;border-radius:10px;transition:transform .25s,box-shadow .25s;}
   .socials a img:hover{transform:scale(1.1);box-shadow:0 0 15px white;}
@@ -57,11 +45,9 @@
   .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
   .screenshots img{width:300px;height:auto;border:2px solid white;border-radius:10px;cursor:pointer;transition:transform .25s;}
   .screenshots img:hover{transform:scale(1.05);}
+  section.birthday{margin-top:50px;background:rgba(0,0,0,0.5);padding:30px 20px;border-radius:15px;}
 
-  .birthday{margin-top:80px;padding-bottom:100px;}
-  .birthday h2{font-size:16px;margin-bottom:10px;}
-  .birthday p{font-size:12px;}
-
+  /* modal */
   .modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,0.9);}
   .modal-content{display:block;margin:auto;max-width:80%;max-height:80%;}
   .close,.prev,.next{position:absolute;color:white;font-size:30px;cursor:pointer;user-select:none;}
@@ -72,90 +58,100 @@
 </head>
 <body>
 
+<!-- language switcher -->
 <div class="lang-switcher">
   <button onclick="setLang('ru')">RU</button>
   <button onclick="setLang('en')">EN</button>
 </div>
 
-<header class="header" id="page-header">
+<!-- header -->
+<header class="header">
   <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
     <source src="video.mp4" type="video/mp4">
     <img src="IMBA.png" alt="Background" class="fallback-img">
   </video>
   <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
-  <p id="subtitle-text">Есть любимая, остальные дуры.🤍</p>
+  <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
 </header>
 
-<!-- фон зона (будет размещена через JS прямо под header) -->
-<div id="interactive-bg" aria-hidden="true">
-  <canvas id="canvas-bg"></canvas>
-  <canvas id="canvas-particles"></canvas>
-</div>
+<!-- interactive bg -->
+<div id="interactive-bg">
+  <canvas id="canvas-bg" aria-hidden="true"></canvas>
+  <div class="content">
+    <!-- About -->
+    <section class="about">
+      <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+      <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+      <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+      <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+    </section>
 
-<div class="content">
-  <section class="about">
-    <h2 id="about-title">qq, Я Tbl_3a9k</h2>
-    <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
-    <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
-    <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
-  </section>
+    <!-- Info + Life -->
+    <section class="info-life">
+      <div class="info">
+        <ul id="info-list">
+          <li>🏳️ • Мои цели:</li>
+          <li>👤 • Иметь свой стабильный заработок</li>
+          <li>💬 • Не зависеть от родителей</li>
+          <li>⛏️ • Обновить сетап</li>
+          <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+          <li>💫 • Моя основная мечта: Быть счастливым</li>
+          <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+        </ul>
+      </div>
+      <div class="life">
+        <h2 id="life-title">🧩 Моя личная жизнь</h2>
+        <img src="images/avatar.png" alt="Аватар" class="life-avatar">
+        <ul id="life-list">
+          <li>🎓 Учусь в <b>8 классе</b></li>
+          <li>🏀 Иногда играю в <b>баскетбол</b></li>
+          <li>💞 Провожу время с близкими людьми</li>
+          <li>💰 Уже пробую зарабатывать онлайн</li>
+        </ul>
+      </div>
+    </section>
 
-  <section class="info-life">
-    <div class="info">
-      <ul id="info-list">
-        <li>🏳️ • Мои цели:</li>
-        <li>👤 • Иметь свой стабильный заработок</li>
-        <li>💬 • Не зависеть от родителей</li>
-        <li>⛏️ • Обновить сетап</li>
-        <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
-        <li>💫 • Моя основная мечта: Быть счастливым</li>
-        <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
-      </ul>
+    <!-- socials -->
+    <div class="socials">
+      <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
+      <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam" /></a>
+      <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch" /></a>
+      <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify" /></a>
+      <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox" /></a>
+      <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay" /></a>
     </div>
-    <div class="life">
-      <h2 id="life-title">🧩 Моя личная жизнь</h2>
-      <img src="images/avatar.png" alt="Аватар" class="life-avatar">
-      <ul id="life-list">
-        <li>🎓 Учусь в <b>8 классе</b></li>
-        <li>🏀 Иногда играю в <b>баскетбол</b></li>
-        <li>💞 Провожу время с близкими людьми</li>
-        <li>💰 Уже пробую зарабатывать онлайн</li>
-      </ul>
-    </div>
-  </section>
 
-  <div class="socials">
-    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok"></a>
-    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam"></a>
-    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch"></a>
-    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify"></a>
-    <a href="https://www.roblox.com/users/3276902015/profile" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox"></a>
-    <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay"></a>
+    <!-- music -->
+    <button class="music-btn" id="musicButton">▶ Play Music</button>
+    <audio id="mySong">
+      <source src="music.mp3" type="audio/mpeg">
+      Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <!-- screenshots -->
+    <section class="screenshots">
+      <h2 id="screenshots-title">📸 Мои скриншоты</h2>
+      <div class="grid">
+        <img src="images/screenshot1.png" alt="Screenshot 1" />
+        <img src="images/screenshot2.png" alt="Screenshot 2" />
+        <img src="images/screenshot3.png" alt="Screenshot 3" />
+        <img src="images/screenshot4.png" alt="Screenshot 4" />
+        <img src="images/screenshot5.png" alt="Screenshot 5" />
+        <img src="images/screenshot6.png" alt="Screenshot 6" />
+        <img src="images/screenshot7.png" alt="Screenshot 7" />
+        <img src="images/IMBA2.png" alt="IMBA2" />
+      </div>
+    </section>
+
+    <!-- birthday -->
+    <section class="birthday">
+      <h2>🎂 До моего Дня Рождения</h2>
+      <p id="birthday-days">Осталось: 90 дней</p>
+    </section>
   </div>
-
-  <button class="music-btn" id="musicButton">▶ Play Music</button>
-  <audio id="mySong"><source src="music.mp3" type="audio/mpeg"></audio>
-
-  <section class="screenshots">
-    <h2 id="screenshots-title">📸 Мои скриншоты</h2>
-    <div class="grid">
-      <img src="images/screenshot1.png" alt="Screenshot 1" />
-      <img src="images/screenshot2.png" alt="Screenshot 2" />
-      <img src="images/screenshot3.png" alt="Screenshot 3" />
-      <img src="images/screenshot4.png" alt="Screenshot 4" />
-      <img src="images/screenshot5.png" alt="Screenshot 5" />
-      <img src="images/screenshot6.png" alt="Screenshot 6" />
-      <img src="images/screenshot7.png" alt="Screenshot 7" />
-      <img src="images/IMBA2.png" alt="IMBA2" />
-    </div>
-  </section>
-
-  <section class="birthday">
-    <h2>🎂 До моего Дня Рождения</h2>
-    <p id="birthday-days">Осталось: 90 дней</p>
-  </section>
 </div>
 
+<!-- modal -->
 <div id="modal" class="modal">
   <span class="close">&times;</span>
   <span class="prev">&#10094;</span>
@@ -163,288 +159,137 @@
   <img class="modal-content" id="modal-img">
 </div>
 
+<!-- scripts -->
 <script>
-/* музыка + модалка + язык + ДР */
-const button=document.getElementById("musicButton"),audio=document.getElementById("mySong");
-let isPlaying=false;
-button.onclick=()=>{ if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; } else { audio.pause(); button.textContent="▶ Play Music"; } isPlaying=!isPlaying; };
+  // music
+  const button = document.getElementById("musicButton");
+  const audio = document.getElementById("mySong");
+  let isPlaying=false;
+  button.addEventListener("click",()=>{ if(!isPlaying){audio.play().catch(()=>{});button.textContent="⏸ Pause Music";}else{audio.pause();button.textContent="▶ Play Music";}isPlaying=!isPlaying; });
 
-const modal=document.getElementById("modal"), modalImg=document.getElementById("modal-img"), images=document.querySelectorAll(".screenshots img"), closeBtn=document.querySelector(".close"), prevBtn=document.querySelector(".prev"), nextBtn=document.querySelector(".next");
-let currentIndex=0;
-function openModal(i){ currentIndex=i; modal.style.display="block"; modalImg.src=images[i].src; }
-function closeModal(){ modal.style.display="none"; }
-function showPrev(){ currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src; }
-function showNext(){ currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src; }
-images.forEach((img,i)=>img.onclick=()=>openModal(i));
-closeBtn.onclick=closeModal; prevBtn.onclick=showPrev; nextBtn.onclick=showNext;
-window.onclick=e=>{ if(e.target===modal) closeModal(); };
+  // modal
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const images = document.querySelectorAll(".screenshots img");
+  const closeBtn = document.querySelector(".close");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
+  let currentIndex=0;
+  function openModal(index){ currentIndex=index; modal.style.display="block"; modalImg.src = images[index].src; }
+  function closeModal(){ modal.style.display="none"; }
+  function showPrev(){ currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src; }
+  function showNext(){ currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src; }
+  images.forEach((img,index)=> img.addEventListener("click",()=>openModal(index)));
+  closeBtn.addEventListener("click",closeModal);
+  prevBtn.addEventListener("click",showPrev);
+  nextBtn.addEventListener("click",showNext);
+  window.addEventListener("click",(e)=>{ if(e.target===modal) closeModal(); });
 
-const langData = {
-  ru:{ title:"Tbl_3a9k - Обо мне:", subtitle:"Есть любимая, остальные дуры.🤍", screenshotsTitle:"📸 Мои скриншоты",
-       aboutTitle:"qq, Я Tbl_3a9k ", about1:"Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
-       about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
-       about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-       infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
-       lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Уже пробую зарабатывать онлайн"] },
-  en:{ title:"Tbl_3a9k - About Me:", subtitle:"There’s only one I love, the rest don’t matter.🤍", screenshotsTitle:"📸 My Screenshots",
-       aboutTitle:"qq, I'm Tbl_3a9k ", about1:"I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
-       about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
-       about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
-       infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
-       lifeList:["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"] }
-};
-function setLang(lang){
-  document.getElementById("title-text").textContent = langData[lang].title;
-  document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
-  document.getElementById("about-title").textContent = langData[lang].aboutTitle;
-  document.getElementById("about-1").textContent = langData[lang].about1;
-  document.getElementById("about-2").textContent = langData[lang].about2;
-  document.getElementById("about-3").textContent = langData[lang].about3;
-  const infoListEl=document.getElementById("info-list"); infoListEl.innerHTML="";
-  langData[lang].infoList.forEach(it=>{ const li=document.createElement("li"); li.textContent=it; infoListEl.appendChild(li); });
-  const lifeListEl=document.getElementById("life-list"); lifeListEl.innerHTML="";
-  langData[lang].lifeList.forEach(it=>{ const li=document.createElement("li"); li.textContent=it; lifeListEl.appendChild(li); });
-  document.getElementById("screenshots-title").textContent = langData[lang].screenshotsTitle;
-}
-document.addEventListener("DOMContentLoaded", ()=> setLang("ru") );
+  // language
+  const langData = {
+    ru:{ title:"Tbl_3a9k - Обо мне:", subtitle:"я чувствовал себя счастливым только благодаря тебе.🤍",
+         aboutTitle:"qq, Я Tbl_3a9k ", about1:"Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+         about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
+         about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+         infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
+         lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Уже пробую зарабатывать онлайн"],
+         screenshotsTitle:"📸 Мои скриншоты" },
+    en:{ title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍",
+         aboutTitle:"qq, I'm Tbl_3a9k ", about1:"I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+         about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
+         about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
+         infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
+         lifeList:["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"],
+         screenshotsTitle:"📸 My Screenshots" }
+  };
+  function setLang(lang){
+    document.getElementById("title-text").textContent = langData[lang].title;
+    document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
+    document.getElementById("about-title").textContent = langData[lang].aboutTitle;
+    document.getElementById("about-1").textContent = langData[lang].about1;
+    document.getElementById("about-2").textContent = langData[lang].about2;
+    document.getElementById("about-3").textContent = langData[lang].about3;
+    const infoListEl = document.getElementById("info-list"); infoListEl.innerHTML = "";
+    langData[lang].infoList.forEach(item=>{ const li=document.createElement("li"); li.textContent=item; infoListEl.appendChild(li); });
+    const lifeListEl = document.getElementById("life-list"); lifeListEl.innerHTML = "";
+    langData[lang].lifeList.forEach(item=>{ const li=document.createElement("li"); li.textContent=item; lifeListEl.appendChild(li); });
+    document.getElementById("screenshots-title").textContent = langData[lang].screenshotsTitle;
+  }
+  document.addEventListener("DOMContentLoaded", ()=> setLang("ru") );
 
-function updateBirthday(){ const today=new Date(); let bday=new Date(today.getFullYear(),10,19); if(today>bday) bday.setFullYear(today.getFullYear()+1); const diff=Math.floor((bday-today)/(1000*60*60*24)); document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней"; }
-updateBirthday(); setInterval(updateBirthday,86400000);
+  // birthday countdown
+  function updateBirthday(){
+    const today=new Date();
+    let birthday=new Date(today.getFullYear(),10,19);
+    if(today>birthday) birthday.setFullYear(today.getFullYear()+1);
+    const diff=Math.floor((birthday-today)/(1000*60*60*24));
+    document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней";
+  }
+  updateBirthday();
+  setInterval(updateBirthday,1000*60*60*24);
 </script>
 
-<!-- НЕОНОВЫЙ ФОН: квадраты + свечащиеся частицы; зона стартует ПОД header -->
+<!-- animated squares background -->
 <script>
 (function(){
-  // elements
-  const header = document.getElementById('page-header');
-  const interactive = document.getElementById('interactive-bg');
-  const c = document.getElementById('canvas-bg'), ctx = c.getContext('2d', { alpha: true });
-  const p = document.getElementById('canvas-particles'), ptx = p.getContext('2d', { alpha: true });
+  const canvas = document.getElementById('canvas-bg');
+  const ctx = canvas.getContext('2d');
+  let W = window.innerWidth, H = window.innerHeight;
 
-  // device pixel ratio
-  let DPR = Math.max(1, window.devicePixelRatio || 1);
-  let zoneW = 1, zoneH = 1;
+  function resize(){ W=window.innerWidth; H=window.innerHeight; canvas.width=W; canvas.height=H; }
+  window.addEventListener('resize', resize);
+  resize();
 
-  // mouse relative to zone
-  let mouse = { x: 0, y: 0, active: false };
+  const COUNT=90;
+  const SIZE_MIN=8, SIZE_MAX=30;
+  const SPEED=0.02;
+  const MOUSE_FORCE=0.14;
+  const BLUR=18;
+  let mouse={x:W/2,y:H/2,active:false};
+  window.addEventListener('mousemove',e=>{ mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; });
+  window.addEventListener('mouseleave',()=>{ mouse.active=false; });
 
-  function updateZoneSize(){
-    try{
-      // compute top of zone as bottom of header
-      const headerRect = header.getBoundingClientRect();
-      const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-      const top = window.scrollY + headerRect.height; // header bottom relative to document
-      const zoneTop = headerRect.bottom + window.scrollY - window.scrollY; // simpler: headerRect.bottom (viewport) + scrollY - scrollY -> headerRect.bottom, but we only need height below header.
-      // We'll place interactive absolutely with top = header height in px from top of document:
-      const headerHeight = header.offsetHeight;
-      // compute available height from header bottom to full document height
-      const fullHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-      const newTop = headerHeight; // px from top of page
-      const newHeight = Math.max(200, fullHeight - headerHeight); // at least some height
-      interactive.style.top = newTop + 'px';
-      interactive.style.height = newHeight + 'px';
-      // canvas sizes
-      zoneW = Math.max(1, Math.floor(interactive.clientWidth));
-      zoneH = Math.max(1, Math.floor(interactive.clientHeight));
-      DPR = Math.max(1, window.devicePixelRatio || 1);
-      c.width = zoneW * DPR; c.height = zoneH * DPR;
-      p.width = zoneW * DPR; p.height = zoneH * DPR;
-      c.style.width = p.style.width = zoneW + 'px';
-      c.style.height = p.style.height = zoneH + 'px';
-      ctx.setTransform(DPR,0,0,DPR,0,0);
-      ptx.setTransform(DPR,0,0,DPR,0,0);
-    }catch(e){
-      // safe fallback
-      console.error('resize error', e);
-    }
-  }
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function neonBase(){ return Math.random()<0.5 ? {r:80+Math.random()*40,g:80+Math.random()*60,b:200+Math.random()*55} : {r:150+Math.random()*60,g:70+Math.random()*60,b:200+Math.random()*55}; }
 
-  // track mouse relative to interactive zone
-  window.addEventListener('mousemove', (e)=>{
-    const rect = interactive.getBoundingClientRect();
-    if(e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom){
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.active = true;
-    } else {
-      mouse.active = false;
-    }
-  });
-  window.addEventListener('mouseleave', ()=> mouse.active = false);
-
-  // re-init on resize / load / DOM changes
-  function safeResize(){
-    updateZoneSize();
-    initEntities();
-  }
-  window.addEventListener('resize', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); safeResize(); });
-  window.addEventListener('load', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); safeResize(); interactive.classList.add('visible'); });
-  // observe DOM changes that may change document height (images loading)
-  const mo = new MutationObserver(()=>{ updateZoneSize(); });
-  mo.observe(document.body, { childList:true, subtree:true, attributes:true });
-
-  // helpers
-  const rand = (a,b)=> a + Math.random()*(b-a);
-  function neonBase() {
-    return Math.random()<0.5 ? {r:70,g:90,b:230} : {r:170,g:70,b:220};
-  }
-
-  /* SQUARES */
-  const S_COUNT = 90;
-  const SIZE_MIN = 8, SIZE_MAX = 30;
-  const SPEED = 0.02;
-  const MOUSE_FORCE = 0.12;
-  const BLUR = 18;
-
-  class Square {
-    constructor(){
-      this.reinit();
-    }
-    reinit(){
-      this.x = rand(0, zoneW);
-      this.y = rand(0, zoneH);
-      this.size = rand(SIZE_MIN, SIZE_MAX);
-      this.baseX = this.x; this.baseY = this.y;
-      this.z = 0.6 + Math.random()*1.4;
-      this.vx = (Math.random()-0.5) * SPEED * this.z * 50;
-      this.vy = (Math.random()-0.5) * SPEED * this.z * 50;
-      this.color = neonBase();
-      this.alpha = 0.12 + Math.random()*0.6;
-      this.rot = Math.random()*Math.PI*2;
-      this.rotSpeed = (Math.random()-0.5) * 0.002 * this.z;
+  class Pixel{
+    constructor(){ this.init(true); }
+    init(initial=false){
+      this.x=rand(0,W); this.y=rand(0,H); this.size=rand(SIZE_MIN,SIZE_MAX); this.baseX=this.x; this.baseY=this.y;
+      this.z=0.6+Math.random()*1.4; this.vx=(Math.random()-0.5)*SPEED*this.z*40; this.vy=(Math.random()-0.5)*SPEED*this.z*40;
+      this.color=neonBase(); this.alpha=0.08+Math.random()*0.6; this.rot=Math.random()*Math.PI*2; this.rotSpeed=(Math.random()-0.5)*0.002*this.z;
+      if(initial){ this.x=rand(0,W); this.y=rand(0,H); }
     }
     update(){
-      this.rot += this.rotSpeed;
-      this.baseX += Math.sin(this.rot) * 0.02 * this.z;
-      this.baseY += Math.cos(this.rot) * 0.02 * this.z;
-      this.x += this.vx; this.y += this.vy;
-      // gentle attraction
-      this.x += (this.baseX - this.x) * 0.006;
-      this.y += (this.baseY - this.y) * 0.006;
-      // mouse repulse inside zone
+      this.rot+=this.rotSpeed; this.baseX+=Math.sin(this.rot)*0.02*this.z; this.baseY+=Math.cos(this.rot)*0.02*this.z;
+      this.x+=this.vx; this.y+=this.vy;
+      this.x+=(this.baseX-this.x)*0.006; this.y+=(this.baseY-this.y)*0.006;
       if(mouse.active){
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-        if(dist < 170){
-          const f = (170 - dist) / 170;
-          this.x += (dx/dist) * MOUSE_FORCE * this.z * f * 8;
-          this.y += (dy/dist) * MOUSE_FORCE * this.z * f * 8;
-        }
+        const dx=mouse.x-this.x, dy=mouse.y-this.y, dist=Math.sqrt(dx*dx+dy*dy);
+        const force=Math.max(0,(200-dist)/200);
+        if(force>0){ this.x-=dx*MOUSE_FORCE*this.z*force*0.03; this.y-=dy*MOUSE_FORCE*this.z*force*0.03; }
       }
-      // wrap
-      if(this.x < -80) this.x = zoneW + 80;
-      if(this.x > zoneW + 80) this.x = -80;
-      if(this.y < -80) this.y = zoneH + 80;
-      if(this.y > zoneH + 80) this.y = -80;
+      if(this.x<-60) this.x=W+60; if(this.x>W+60) this.x=-60;
+      if(this.y<-60) this.y=H+60; if(this.y>H+60) this.y=-60;
     }
     draw(){
-      const size = this.size * (0.65 + this.z*0.3);
-      const {r,g,b} = this.color;
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rot * 0.18);
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.8,this.alpha)})`;
-      ctx.shadowBlur = BLUR * this.z;
-      ctx.shadowColor = `rgba(${r},${g},${b},0.75)`;
-      ctx.fillRect(-size/2, -size/2, size, size);
-      // core
-      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1,this.alpha + 0.25)})`;
-      ctx.shadowBlur = BLUR * 0.45 * this.z;
-      ctx.fillRect(-size*0.35/2, -size*0.35/2, size*0.35, size*0.35);
-      ctx.restore();
-      ctx.shadowBlur = 0;
+      const size=this.size*(0.65+this.z*0.3);
+      const r=this.color.r,g=this.color.g,b=this.color.b;
+      ctx.save(); ctx.translate(this.x,this.y); ctx.rotate(this.rot*0.18);
+      ctx.globalCompositeOperation='lighter';
+      ctx.fillStyle=`rgba(${r},${g},${b},${Math.min(0.6,this.alpha*0.9)})`;
+      ctx.shadowBlur=BLUR*this.z; ctx.shadowColor=`rgba(${r},${g},${b},0.65)`;
+      ctx.fillRect(-size/2,-size/2,size,size);
+      ctx.fillStyle=`rgba(${r},${g},${b},${Math.min(1,this.alpha+0.4)})`;
+      ctx.shadowBlur=BLUR*0.45*this.z; ctx.shadowColor=`rgba(${r},${g},${b},0.95)`;
+      ctx.fillRect(-size*0.5/2,-size*0.5/2,size*0.5,size*0.5);
+      ctx.restore(); ctx.shadowBlur=0;
     }
   }
 
-  let squares = [];
-
-  /* PARTICLES (мягкие свечащиеся кружки) */
-  let particles = [];
-  function initEntities(){
-    // zone may be zero before sizes ready
-    if(zoneW < 2 || zoneH < 2) return;
-    squares = [];
-    for(let i=0;i<S_COUNT;i++){
-      const s = new Square();
-      // place squares mostly in upper part of zone to keep variety
-      s.x = rand(0, zoneW);
-      s.y = rand(0, zoneH);
-      squares.push(s);
-    }
-    particles = [];
-    for(let i=0;i<60;i++){
-      particles.push({
-        x: rand(0, zoneW),
-        y: rand(0, zoneH),
-        r: rand(0.8, 3.2),
-        a: rand(0.06, 0.28),
-        v: rand(0.02, 0.25),
-        phase: Math.random()*Math.PI*2
-      });
-    }
-  }
-
-  // animation loops
-  function loopSquares(){
-    if(zoneW <= 0 || zoneH <= 0) { requestAnimationFrame(loopSquares); return; }
-    // clear & background gradient
-    ctx.clearRect(0,0,zoneW,zoneH);
-    const g = ctx.createLinearGradient(0,0,0,zoneH);
-    g.addColorStop(0, 'rgba(6,0,20,0.06)');
-    g.addColorStop(1, 'rgba(20,0,50,0.1)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,zoneW,zoneH);
-    for(const s of squares){ s.update(); s.draw(); }
-    requestAnimationFrame(loopSquares);
-  }
-
-  function loopParticles(){
-    if(zoneW <= 0 || zoneH <= 0) { requestAnimationFrame(loopParticles); return; }
-    ptx.clearRect(0,0,zoneW,zoneH);
-    ptx.globalCompositeOperation = 'lighter';
-    for(const o of particles){
-      // reaction to mouse
-      let mx = 0, my = 0;
-      if(mouse.active){
-        const dx = (o.x - mouse.x), dy = (o.y - mouse.y);
-        const d = Math.sqrt(dx*dx + dy*dy) || 1;
-        if(d < 140){
-          const f = (140 - d)/140;
-          mx = (dx/d)*f*6;
-          my = (dy/d)*f*6;
-        }
-      }
-      o.phase += 0.002;
-      const sway = Math.sin(o.phase)*0.6;
-      ptx.beginPath();
-      ptx.arc(o.x + mx + sway, o.y + my, o.r, 0, Math.PI*2);
-      ptx.fillStyle = `rgba(180,120,255,${o.a})`;
-      ptx.fill();
-      o.y += o.v;
-      if(o.y > zoneH + 10) o.y = -10;
-    }
-    requestAnimationFrame(loopParticles);
-  }
-
-  // initial sizing + start loops
-  function start(){
-    updateZoneSize();
-    initEntities();
-    loopSquares();
-    loopParticles();
-    interactive.classList.add('visible');
-  }
-
-  // first run after DOM load
-  document.addEventListener('DOMContentLoaded', ()=>{ start(); });
-  // also run on full load
-  window.addEventListener('load', ()=>{ start(); });
-  // and on resize (debounced)
-  let rTO;
-  window.addEventListener('resize', ()=>{ clearTimeout(rTO); rTO=setTimeout(()=>{ updateZoneSize(); initEntities(); }, 120); });
-
+  const pixels=[]; for(let i=0;i<COUNT;i++) pixels.push(new Pixel());
+  function frame(){ ctx.clearRect(0,0,W,H); const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'rgba(6,0,20,0.12)'); g.addColorStop(1,'rgba(20,0,50,0.18)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); pixels.forEach(p=>{ p.update(); p.draw(); }); requestAnimationFrame(frame); }
+  frame();
 })();
 </script>
 </body>
