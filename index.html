@@ -8,26 +8,26 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
   *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
-  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;}
+  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;min-height:100vh;}
   
-  /* Global animated background */
+  /* Global animated background - covers entire site */
   #global-canvas-bg{
     position:fixed;
     top:0;
     left:0;
     width:100%;
-    height:100%;
-    z-index:-1;
+    height:100vh;
+    z-index:1;
     pointer-events:none;
   }
   
   .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
-  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:3;position:relative;}
-  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:3;position:relative;}
-  .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;}
-  .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:4;position:relative;}
+  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:4;position:relative;}
+  .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;}
+  .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;}
   
-  /* Video overlay to ensure squares show under video */
+  /* Video overlay to darken video slightly for better text readability */
   .header::after{
     content:'';
     position:absolute;
@@ -35,8 +35,8 @@
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.3);
-    z-index:2;
+    background:rgba(0,0,0,0.2);
+    z-index:3;
   }
   
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
@@ -47,25 +47,28 @@
   .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
   .lang-switcher button:hover{background:white;color:black;}
 
-  /* content sections */
-  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;background:rgba(0,0,0,0.1);}
+  /* content sections - positioned above animated background */
+  .content{position:relative;z-index:5;padding:100px 20px;text-align:center;background:rgba(0,0,0,0.1);}
 
   /* site blocks */
+  section.about{position:relative;z-index:5;}
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
-  .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;}
+  .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;position:relative;z-index:5;}
   .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.8);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;backdrop-filter:blur(10px);}
   .info ul,.life ul{list-style:none;padding:0;font-size:12px;line-height:1.6em;}
   .life-avatar{width:120px;height:120px;border-radius:50%;border:2px solid white;object-fit:cover;display:block;margin:0 auto 15px;box-shadow:0 0 12px rgba(255,255,255,0.2);}
-  .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
+  .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;position:relative;z-index:5;}
   .socials a img{width:50px;height:50px;border:2px solid white;padding:5px;border-radius:10px;transition:transform .25s,box-shadow .25s;}
   .socials a img:hover{transform:scale(1.1);box-shadow:0 0 15px white;}
-  .music-btn{margin-top:30px;background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,color .25s;}
+  .music-btn{margin-top:30px;background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,color .25s;position:relative;z-index:5;}
   .music-btn:hover{background:white;color:black;box-shadow:0 0 15px white;transform:scale(1.05);}
+  .screenshots{position:relative;z-index:5;}
   .screenshots h2{font-size:16px;margin-bottom:20px;}
   .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
   .screenshots img{width:300px;height:auto;border:2px solid white;border-radius:10px;cursor:pointer;transition:transform .25s;}
   .screenshots img:hover{transform:scale(1.05);}
   
+  /* Birthday section - ensure it's above animated background */
   .birthday{
     background:rgba(0,0,0,0.8);
     padding:30px;
@@ -73,6 +76,8 @@
     margin:50px auto;
     max-width:400px;
     backdrop-filter:blur(10px);
+    position:relative;
+    z-index:5;
   }
 
   /* modal */
@@ -86,7 +91,7 @@
 </head>
 <body>
 
-<!-- Global animated background canvas -->
+<!-- Global animated background canvas - covers entire site -->
 <canvas id="global-canvas-bg" aria-hidden="true"></canvas>
 
 <!-- language switcher -->
@@ -105,7 +110,7 @@
   <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
 </header>
 
-<!-- content with animated bg -->
+<!-- content with animated bg behind it -->
 <div class="content">
   <!-- About -->
   <section class="about">
@@ -172,7 +177,7 @@
     </div>
   </section>
 
-  <!-- birthday -->
+  <!-- birthday - now with animated background behind it -->
   <section class="birthday">
     <h2>🎂 До моего Дня Рождения</h2>
     <p id="birthday-days">Осталось: 90 дней</p>
@@ -261,18 +266,18 @@
   setInterval(updateBirthday,1000*60*60*24);
 </script>
 
-<!-- Enhanced Minecraft-style neon squares background -->
+<!-- Enhanced Minecraft-style neon squares background - covers entire page -->
 <script>
 (function(){
   const canvas = document.getElementById('global-canvas-bg');
   const ctx = canvas.getContext('2d', { alpha: true });
   let DPR = Math.max(1, window.devicePixelRatio || 1);
-  let W = window.innerWidth, H = document.documentElement.scrollHeight;
+  let W = window.innerWidth, H = window.innerHeight;
 
   function resize() {
     DPR = Math.max(1, window.devicePixelRatio || 1);
     W = window.innerWidth;
-    H = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    H = window.innerHeight;
     canvas.width = Math.floor(W * DPR);
     canvas.height = Math.floor(H * DPR);
     canvas.style.width = W + 'px';
@@ -281,12 +286,6 @@
   }
   
   window.addEventListener('resize', resize);
-  window.addEventListener('scroll', ()=>{
-    const newH = Math.max(document.documentElement.scrollHeight, window.innerHeight);
-    if(Math.abs(newH - H) > 100){
-      resize();
-    }
-  });
   resize();
 
   const COUNT = 120;
@@ -298,7 +297,7 @@
   let mouse = { x: W/2, y: H/2, active: false };
   window.addEventListener('mousemove', (e)=>{ 
     mouse.x = e.clientX; 
-    mouse.y = e.clientY + window.scrollY; 
+    mouse.y = e.clientY; 
     mouse.active = true; 
   });
   window.addEventListener('mouseleave', ()=>{ mouse.active = false; });
