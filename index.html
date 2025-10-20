@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
   *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
-  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;}
+  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
   .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
   .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:2;}
   .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:2;}
@@ -17,24 +17,31 @@
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 
-  .lang-switcher{position:absolute;top:20px;right:20px;z-index:200;}
+  .lang-switcher{position:absolute;top:20px;right:20px;z-index:50;}
   .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
   .lang-switcher button:hover{background:white;color:black;}
 
-  /* фон: теперь он начинается под видео и тянется до низа страницы */
+  /* интерактивный фон: позиция и плавный фейд-ин */
   #interactive-bg{
     position:absolute;
-    top:100vh; /* прямо под экраном (под видео) */
     left:0;
-    right:0;
-    bottom:0;  /* занимает всё до низа документа */
+    width:100%;
+    /* top и height считаем в JS, чтобы ровно стартовал под видео и покрывал весь нижний контент */
     overflow:hidden;
     z-index:0;
-    pointer-events:none; /* не мешает кликам по контенту */
+    pointer-events:none; /* не блокирует клики по странице */
+    opacity:0;
+    transition:opacity .9s ease;
+    will-change:transform,opacity;
   }
-  /* канвасы внутри зоны */
-  #canvas-bg,#canvas-particles{position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;}
-  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;}
+  #interactive-bg.visible{opacity:1;}
+
+  /* два canvas — один для квадратов, другой для мягких частиц */
+  #canvas-bg,#canvas-particles{
+    position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;
+  }
+
+  .content{position:relative;z-index:2;padding:100px 20px;text-align:center;max-width:1200px;margin:0 auto;}
 
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
   .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;}
@@ -70,7 +77,7 @@
   <button onclick="setLang('en')">EN</button>
 </div>
 
-<header class="header">
+<header class="header" id="page-header">
   <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
     <source src="video.mp4" type="video/mp4">
     <img src="IMBA.png" alt="Background" class="fallback-img">
@@ -79,7 +86,7 @@
   <p id="subtitle-text">Есть любимая, остальные дуры.🤍</p>
 </header>
 
-<!-- фон стартует ровно под видео и покрывает всю нижнюю часть -->
+<!-- фон зона (будет размещена через JS прямо под header) -->
 <div id="interactive-bg" aria-hidden="true">
   <canvas id="canvas-bg"></canvas>
   <canvas id="canvas-particles"></canvas>
@@ -118,12 +125,12 @@
   </section>
 
   <div class="socials">
-    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
-    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank"><img src="images/steam.png" alt="Steam"></a>
-    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank"><img src="images/twitch.png" alt="Twitch"></a>
-    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank"><img src="images/spotify.png" alt="Spotify"></a>
-    <a href="https://www.roblox.com/users/3276902015/profile" target="_blank"><img src="images/roblox.png" alt="Roblox"></a>
-    <a href="https://funpay.com/users/15229317/" target="_blank"><img src="images/fanpay.png" alt="FanPay"></a>
+    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok"></a>
+    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam"></a>
+    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch"></a>
+    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify"></a>
+    <a href="https://www.roblox.com/users/3276902015/profile" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox"></a>
+    <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay"></a>
   </div>
 
   <button class="music-btn" id="musicButton">▶ Play Music</button>
@@ -157,65 +164,105 @@
 </div>
 
 <script>
-/* музыка + модалка + язык + ДР (как у тебя было) */
+/* музыка + модалка + язык + ДР */
 const button=document.getElementById("musicButton"),audio=document.getElementById("mySong");
 let isPlaying=false;
-button.onclick=()=>{if(!isPlaying){audio.play().catch(()=>{});button.textContent="⏸ Pause Music";}else{audio.pause();button.textContent="▶ Play Music";}isPlaying=!isPlaying;};
+button.onclick=()=>{ if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; } else { audio.pause(); button.textContent="▶ Play Music"; } isPlaying=!isPlaying; };
 
-const modal=document.getElementById("modal"),modalImg=document.getElementById("modal-img"),images=document.querySelectorAll(".screenshots img"),closeBtn=document.querySelector(".close"),prevBtn=document.querySelector(".prev"),nextBtn=document.querySelector(".next");
+const modal=document.getElementById("modal"), modalImg=document.getElementById("modal-img"), images=document.querySelectorAll(".screenshots img"), closeBtn=document.querySelector(".close"), prevBtn=document.querySelector(".prev"), nextBtn=document.querySelector(".next");
 let currentIndex=0;
-function openModal(i){currentIndex=i;modal.style.display="block";modalImg.src=images[i].src;}
-function closeModal(){modal.style.display="none";}
-function showPrev(){currentIndex=(currentIndex-1+images.length)%images.length;modalImg.src=images[currentIndex].src;}
-function showNext(){currentIndex=(currentIndex+1)%images.length;modalImg.src=images[currentIndex].src;}
+function openModal(i){ currentIndex=i; modal.style.display="block"; modalImg.src=images[i].src; }
+function closeModal(){ modal.style.display="none"; }
+function showPrev(){ currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src; }
+function showNext(){ currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src; }
 images.forEach((img,i)=>img.onclick=()=>openModal(i));
-closeBtn.onclick=closeModal;prevBtn.onclick=showPrev;nextBtn.onclick=showNext;
-window.onclick=e=>{if(e.target===modal)closeModal();};
+closeBtn.onclick=closeModal; prevBtn.onclick=showPrev; nextBtn.onclick=showNext;
+window.onclick=e=>{ if(e.target===modal) closeModal(); };
 
-const langData={ru:{title:"Tbl_3a9k - Обо мне:",subtitle:"Есть любимая, остальные дуры.🤍",screenshotsTitle:"📸 Мои скриншоты"},en:{title:"Tbl_3a9k - About Me:",subtitle:"There’s only one I love, the rest don’t matter.🤍",screenshotsTitle:"📸 My Screenshots"}};
-function setLang(lang){document.getElementById("title-text").textContent=langData[lang].title;document.getElementById("subtitle-text").textContent=langData[lang].subtitle;document.getElementById("screenshots-title").textContent=langData[lang].screenshotsTitle;}
-document.addEventListener("DOMContentLoaded",()=>setLang("ru"));
+const langData = {
+  ru:{ title:"Tbl_3a9k - Обо мне:", subtitle:"Есть любимая, остальные дуры.🤍", screenshotsTitle:"📸 Мои скриншоты",
+       aboutTitle:"qq, Я Tbl_3a9k ", about1:"Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+       about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
+       about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+       infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
+       lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Уже пробую зарабатывать онлайн"] },
+  en:{ title:"Tbl_3a9k - About Me:", subtitle:"There’s only one I love, the rest don’t matter.🤍", screenshotsTitle:"📸 My Screenshots",
+       aboutTitle:"qq, I'm Tbl_3a9k ", about1:"I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+       about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
+       about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
+       infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
+       lifeList:["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"] }
+};
+function setLang(lang){
+  document.getElementById("title-text").textContent = langData[lang].title;
+  document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
+  document.getElementById("about-title").textContent = langData[lang].aboutTitle;
+  document.getElementById("about-1").textContent = langData[lang].about1;
+  document.getElementById("about-2").textContent = langData[lang].about2;
+  document.getElementById("about-3").textContent = langData[lang].about3;
+  const infoListEl=document.getElementById("info-list"); infoListEl.innerHTML="";
+  langData[lang].infoList.forEach(it=>{ const li=document.createElement("li"); li.textContent=it; infoListEl.appendChild(li); });
+  const lifeListEl=document.getElementById("life-list"); lifeListEl.innerHTML="";
+  langData[lang].lifeList.forEach(it=>{ const li=document.createElement("li"); li.textContent=it; lifeListEl.appendChild(li); });
+  document.getElementById("screenshots-title").textContent = langData[lang].screenshotsTitle;
+}
+document.addEventListener("DOMContentLoaded", ()=> setLang("ru") );
 
-function updateBirthday(){const today=new Date();let bday=new Date(today.getFullYear(),10,19);if(today>bday)bday.setFullYear(today.getFullYear()+1);const diff=Math.floor((bday-today)/(1000*60*60*24));document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней";}
-updateBirthday();
-setInterval(updateBirthday,86400000);
+function updateBirthday(){ const today=new Date(); let bday=new Date(today.getFullYear(),10,19); if(today>bday) bday.setFullYear(today.getFullYear()+1); const diff=Math.floor((bday-today)/(1000*60*60*24)); document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней"; }
+updateBirthday(); setInterval(updateBirthday,86400000);
 </script>
 
-<!-- ИНТЕРАКТИВНЫЙ ФОН: квадраты + частицы, только в зоне под видео -->
+<!-- НЕОНОВЫЙ ФОН: квадраты + свечащиеся частицы; зона стартует ПОД header -->
 <script>
 (function(){
+  // elements
+  const header = document.getElementById('page-header');
   const interactive = document.getElementById('interactive-bg');
   const c = document.getElementById('canvas-bg'), ctx = c.getContext('2d', { alpha: true });
   const p = document.getElementById('canvas-particles'), ptx = p.getContext('2d', { alpha: true });
-  let DPR = Math.max(1, window.devicePixelRatio || 1);
-  let W = 0, H = 0; // размеры зоны interactive-bg
 
-  function resizeCanvases(){
-    const rect = interactive.getBoundingClientRect();
-    // rect.top is relative to viewport; width/height are correct for zone size
-    W = Math.max(1, Math.floor(rect.width));
-    H = Math.max(1, Math.floor(rect.height));
-    c.width = W * DPR; c.height = H * DPR;
-    p.width = W * DPR; p.height = H * DPR;
-    c.style.width = p.style.width = W + 'px';
-    c.style.height = p.style.height = H + 'px';
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-    ptx.setTransform(DPR,0,0,DPR,0,0);
+  // device pixel ratio
+  let DPR = Math.max(1, window.devicePixelRatio || 1);
+  let zoneW = 1, zoneH = 1;
+
+  // mouse relative to zone
+  let mouse = { x: 0, y: 0, active: false };
+
+  function updateZoneSize(){
+    try{
+      // compute top of zone as bottom of header
+      const headerRect = header.getBoundingClientRect();
+      const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      const top = window.scrollY + headerRect.height; // header bottom relative to document
+      const zoneTop = headerRect.bottom + window.scrollY - window.scrollY; // simpler: headerRect.bottom (viewport) + scrollY - scrollY -> headerRect.bottom, but we only need height below header.
+      // We'll place interactive absolutely with top = header height in px from top of document:
+      const headerHeight = header.offsetHeight;
+      // compute available height from header bottom to full document height
+      const fullHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      const newTop = headerHeight; // px from top of page
+      const newHeight = Math.max(200, fullHeight - headerHeight); // at least some height
+      interactive.style.top = newTop + 'px';
+      interactive.style.height = newHeight + 'px';
+      // canvas sizes
+      zoneW = Math.max(1, Math.floor(interactive.clientWidth));
+      zoneH = Math.max(1, Math.floor(interactive.clientHeight));
+      DPR = Math.max(1, window.devicePixelRatio || 1);
+      c.width = zoneW * DPR; c.height = zoneH * DPR;
+      p.width = zoneW * DPR; p.height = zoneH * DPR;
+      c.style.width = p.style.width = zoneW + 'px';
+      c.style.height = p.style.height = zoneH + 'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      ptx.setTransform(DPR,0,0,DPR,0,0);
+    }catch(e){
+      // safe fallback
+      console.error('resize error', e);
+    }
   }
 
-  // resize on various events (images loaded, window resize, DOM changes)
-  window.addEventListener('resize', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); resizeCanvases(); initEntities(); });
-  window.addEventListener('load', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); resizeCanvases(); initEntities(); });
-  // also watch for images that may change layout
-  const ro = new MutationObserver(()=>{ resizeCanvases(); });
-  ro.observe(document.body, { childList:true, subtree:true, attributes:true });
-
-  // mouse relative to interactive zone (viewport coords)
-  let mouse = { x: 0, y: 0, active: false };
+  // track mouse relative to interactive zone
   window.addEventListener('mousemove', (e)=>{
     const rect = interactive.getBoundingClientRect();
-    // if cursor inside the zone (rect.top..rect.bottom)
-    if(e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right){
+    if(e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom){
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
       mouse.active = true;
@@ -225,29 +272,44 @@ setInterval(updateBirthday,86400000);
   });
   window.addEventListener('mouseleave', ()=> mouse.active = false);
 
+  // re-init on resize / load / DOM changes
+  function safeResize(){
+    updateZoneSize();
+    initEntities();
+  }
+  window.addEventListener('resize', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); safeResize(); });
+  window.addEventListener('load', ()=>{ DPR = Math.max(1, window.devicePixelRatio || 1); safeResize(); interactive.classList.add('visible'); });
+  // observe DOM changes that may change document height (images loading)
+  const mo = new MutationObserver(()=>{ updateZoneSize(); });
+  mo.observe(document.body, { childList:true, subtree:true, attributes:true });
+
   // helpers
   const rand = (a,b)=> a + Math.random()*(b-a);
   function neonBase() {
-    return Math.random()<0.5 ? {r:80,g:100,b:230} : {r:170,g:80,b:220};
+    return Math.random()<0.5 ? {r:70,g:90,b:230} : {r:170,g:70,b:220};
   }
 
-  /* --- squares (neon) --- */
-  const S_COUNT = 90, SIZE_MIN = 8, SIZE_MAX = 30, SPEED = 0.02, MOUSE_FORCE = 0.12, BLUR = 18;
+  /* SQUARES */
+  const S_COUNT = 90;
+  const SIZE_MIN = 8, SIZE_MAX = 30;
+  const SPEED = 0.02;
+  const MOUSE_FORCE = 0.12;
+  const BLUR = 18;
+
   class Square {
-    constructor(zoneW, zoneH){
-      this.zoneW = zoneW; this.zoneH = zoneH;
-      this.init(true);
+    constructor(){
+      this.reinit();
     }
-    init(initial=false){
-      this.x = rand(0, this.zoneW);
-      this.y = rand(0, this.zoneH);
+    reinit(){
+      this.x = rand(0, zoneW);
+      this.y = rand(0, zoneH);
       this.size = rand(SIZE_MIN, SIZE_MAX);
       this.baseX = this.x; this.baseY = this.y;
       this.z = 0.6 + Math.random()*1.4;
       this.vx = (Math.random()-0.5) * SPEED * this.z * 50;
       this.vy = (Math.random()-0.5) * SPEED * this.z * 50;
       this.color = neonBase();
-      this.alpha = 0.15 + Math.random()*0.6;
+      this.alpha = 0.12 + Math.random()*0.6;
       this.rot = Math.random()*Math.PI*2;
       this.rotSpeed = (Math.random()-0.5) * 0.002 * this.z;
     }
@@ -256,41 +318,39 @@ setInterval(updateBirthday,86400000);
       this.baseX += Math.sin(this.rot) * 0.02 * this.z;
       this.baseY += Math.cos(this.rot) * 0.02 * this.z;
       this.x += this.vx; this.y += this.vy;
-      // attraction to base to keep soft motion
+      // gentle attraction
       this.x += (this.baseX - this.x) * 0.006;
       this.y += (this.baseY - this.y) * 0.006;
-
-      // mouse repulse (relative coords)
+      // mouse repulse inside zone
       if(mouse.active){
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
         if(dist < 170){
           const f = (170 - dist) / 170;
-          // push away gently
           this.x += (dx/dist) * MOUSE_FORCE * this.z * f * 8;
           this.y += (dy/dist) * MOUSE_FORCE * this.z * f * 8;
         }
       }
       // wrap
-      if(this.x < -80) this.x = this.zoneW + 80;
-      if(this.x > this.zoneW + 80) this.x = -80;
-      if(this.y < -80) this.y = this.zoneH + 80;
-      if(this.y > this.zoneH + 80) this.y = -80;
+      if(this.x < -80) this.x = zoneW + 80;
+      if(this.x > zoneW + 80) this.x = -80;
+      if(this.y < -80) this.y = zoneH + 80;
+      if(this.y > zoneH + 80) this.y = -80;
     }
-    draw(ctx){
+    draw(){
       const size = this.size * (0.65 + this.z*0.3);
       const {r,g,b} = this.color;
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rot * 0.18);
       ctx.globalCompositeOperation = 'lighter';
-      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.7,this.alpha)})`;
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.8,this.alpha)})`;
       ctx.shadowBlur = BLUR * this.z;
       ctx.shadowColor = `rgba(${r},${g},${b},0.75)`;
       ctx.fillRect(-size/2, -size/2, size, size);
-      // bright core
-      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1,this.alpha+0.25)})`;
+      // core
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1,this.alpha + 0.25)})`;
       ctx.shadowBlur = BLUR * 0.45 * this.z;
       ctx.fillRect(-size*0.35/2, -size*0.35/2, size*0.35, size*0.35);
       ctx.restore();
@@ -300,73 +360,90 @@ setInterval(updateBirthday,86400000);
 
   let squares = [];
 
-  /* --- soft particles (glow) --- */
+  /* PARTICLES (мягкие свечащиеся кружки) */
   let particles = [];
   function initEntities(){
-    // recreate squares + particles for current zone size
+    // zone may be zero before sizes ready
+    if(zoneW < 2 || zoneH < 2) return;
     squares = [];
-    for(let i=0;i<S_COUNT;i++) squares.push(new Square(W, H));
+    for(let i=0;i<S_COUNT;i++){
+      const s = new Square();
+      // place squares mostly in upper part of zone to keep variety
+      s.x = rand(0, zoneW);
+      s.y = rand(0, zoneH);
+      squares.push(s);
+    }
     particles = [];
     for(let i=0;i<60;i++){
       particles.push({
-        x: rand(0, W),
-        y: rand(0, H),
-        r: rand(0.8, 3),
-        a: rand(0.06, 0.3),
-        v: rand(0.05, 0.25),
+        x: rand(0, zoneW),
+        y: rand(0, zoneH),
+        r: rand(0.8, 3.2),
+        a: rand(0.06, 0.28),
+        v: rand(0.02, 0.25),
         phase: Math.random()*Math.PI*2
       });
     }
   }
 
   // animation loops
-  function animateSquares(){
-    ctx.clearRect(0,0,W,H);
-    // subtle background gradient for depth
-    const g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0, 'rgba(6,0,20,0.08)');
-    g.addColorStop(1, 'rgba(20,0,50,0.12)');
+  function loopSquares(){
+    if(zoneW <= 0 || zoneH <= 0) { requestAnimationFrame(loopSquares); return; }
+    // clear & background gradient
+    ctx.clearRect(0,0,zoneW,zoneH);
+    const g = ctx.createLinearGradient(0,0,0,zoneH);
+    g.addColorStop(0, 'rgba(6,0,20,0.06)');
+    g.addColorStop(1, 'rgba(20,0,50,0.1)');
     ctx.fillStyle = g;
-    ctx.fillRect(0,0,W,H);
-
-    for(const s of squares){ s.update(); s.draw(ctx); }
-    requestAnimationFrame(animateSquares);
+    ctx.fillRect(0,0,zoneW,zoneH);
+    for(const s of squares){ s.update(); s.draw(); }
+    requestAnimationFrame(loopSquares);
   }
 
-  function animateParticles(){
-    ptx.clearRect(0,0,W,H);
+  function loopParticles(){
+    if(zoneW <= 0 || zoneH <= 0) { requestAnimationFrame(loopParticles); return; }
+    ptx.clearRect(0,0,zoneW,zoneH);
     ptx.globalCompositeOperation = 'lighter';
     for(const o of particles){
-      // gentle floating + react to mouse (small ripple)
-      const ox = o.x, oy = o.y;
+      // reaction to mouse
       let mx = 0, my = 0;
       if(mouse.active){
         const dx = (o.x - mouse.x), dy = (o.y - mouse.y);
-        const d = Math.sqrt(dx*dx + dy*dy);
+        const d = Math.sqrt(dx*dx + dy*dy) || 1;
         if(d < 140){
           const f = (140 - d)/140;
           mx = (dx/d)*f*6;
           my = (dy/d)*f*6;
         }
       }
-      // small sinus drift
       o.phase += 0.002;
-      const sway = Math.sin(o.phase)*0.5;
+      const sway = Math.sin(o.phase)*0.6;
       ptx.beginPath();
-      ptx.arc(ox + mx + sway, oy + my, o.r, 0, Math.PI*2);
+      ptx.arc(o.x + mx + sway, o.y + my, o.r, 0, Math.PI*2);
       ptx.fillStyle = `rgba(180,120,255,${o.a})`;
       ptx.fill();
       o.y += o.v;
-      if(o.y > H + 10) o.y = -10;
+      if(o.y > zoneH + 10) o.y = -10;
     }
-    requestAnimationFrame(animateParticles);
+    requestAnimationFrame(loopParticles);
   }
 
-  // init after we know sizes
-  resizeCanvases();
-  initEntities();
-  animateSquares();
-  animateParticles();
+  // initial sizing + start loops
+  function start(){
+    updateZoneSize();
+    initEntities();
+    loopSquares();
+    loopParticles();
+    interactive.classList.add('visible');
+  }
+
+  // first run after DOM load
+  document.addEventListener('DOMContentLoaded', ()=>{ start(); });
+  // also run on full load
+  window.addEventListener('load', ()=>{ start(); });
+  // and on resize (debounced)
+  let rTO;
+  window.addEventListener('resize', ()=>{ clearTimeout(rTO); rTO=setTimeout(()=>{ updateZoneSize(); initEntities(); }, 120); });
 
 })();
 </script>
