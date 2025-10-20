@@ -23,12 +23,12 @@
   .lang-switcher button:hover{background:white;color:black;}
 
   /* canvas under video */
-  #canvas-container{position:relative;width:100%;height:350px;overflow:hidden;z-index:1;}
-  #canvas-bg{position:absolute;top:0;left:0;width:100%;height:100%;display:block;}
+  #canvas-container{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+  #canvas-bg{width:100%;height:100%;display:block;}
 
-  .content{position:relative;z-index:2;padding:50px 20px;text-align:center;}
+  /* content */
+  .content{position:relative;z-index:2;padding:20px;text-align:center;}
 
-  /* site blocks */
   section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
   .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;}
   .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.6);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;}
@@ -61,20 +61,21 @@
   <button onclick="setLang('en')">EN</button>
 </div>
 
-<!-- header -->
+<!-- header with video -->
 <header class="header">
   <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
     <source src="video.mp4" type="video/mp4">
     <img src="IMBA.png" alt="Background" class="fallback-img">
   </video>
+
+  <!-- canvas under video -->
+  <div id="canvas-container">
+    <canvas id="canvas-bg"></canvas>
+  </div>
+
   <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
   <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
 </header>
-
-<!-- canvas under video -->
-<div id="canvas-container">
-  <canvas id="canvas-bg"></canvas>
-</div>
 
 <!-- main content -->
 <div class="content">
@@ -113,12 +114,12 @@
 
   <!-- socials -->
   <div class="socials">
-    <a href="#"><img src="images/tiktok.png" alt="TikTok" /></a>
-    <a href="#"><img src="images/steam.png" alt="Steam" /></a>
-    <a href="#"><img src="images/twitch.png" alt="Twitch" /></a>
-    <a href="#"><img src="images/spotify.png" alt="Spotify" /></a>
-    <a href="#"><img src="images/roblox.png" alt="Roblox" /></a>
-    <a href="#"><img src="images/fanpay.png" alt="FanPay" /></a>
+    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
+    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam" /></a>
+    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch" /></a>
+    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify" /></a>
+    <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox" /></a>
+    <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay" /></a>
   </div>
 
   <!-- music -->
@@ -135,6 +136,11 @@
       <img src="images/screenshot1.png" alt="Screenshot 1" />
       <img src="images/screenshot2.png" alt="Screenshot 2" />
       <img src="images/screenshot3.png" alt="Screenshot 3" />
+      <img src="images/screenshot4.png" alt="Screenshot 4" />
+      <img src="images/screenshot5.png" alt="Screenshot 5" />
+      <img src="images/screenshot6.png" alt="Screenshot 6" />
+      <img src="images/screenshot7.png" alt="Screenshot 7" />
+      <img src="images/IMBA2.png" alt="IMBA2" />
     </div>
   </section>
 
@@ -145,19 +151,46 @@
   </section>
 </div>
 
+<!-- modal -->
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+  <img class="modal-content" id="modal-img">
+</div>
+
 <!-- scripts -->
 <script>
-  // music button
-  const button = document.getElementById("musicButton");
-  const audio = document.getElementById("mySong");
+  // music
+  const button=document.getElementById("musicButton");
+  const audio=document.getElementById("mySong");
   let isPlaying=false;
-  button.addEventListener("click",()=>{
-    if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; }
-    else{ audio.pause(); button.textContent="▶ Play Music"; }
-    isPlaying=!isPlaying;
-  });
+  button.addEventListener("click",()=>{ if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; } else{ audio.pause(); button.textContent="▶ Play Music"; } isPlaying=!isPlaying; });
 
-  // birthday countdown
+  // modal
+  const modal=document.getElementById("modal");
+  const modalImg=document.getElementById("modal-img");
+  const images=document.querySelectorAll(".screenshots img");
+  const closeBtn=document.querySelector(".close");
+  const prevBtn=document.querySelector(".prev");
+  const nextBtn=document.querySelector(".next");
+  let currentIndex=0;
+  function openModal(index){ currentIndex=index; modal.style.display="block"; modalImg.src=images[index].src; }
+  function closeModal(){ modal.style.display="none"; }
+  function showPrev(){ currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src; }
+  function showNext(){ currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src; }
+  images.forEach((img,index)=> img.addEventListener("click",()=>openModal(index)));
+  closeBtn.addEventListener("click",closeModal);
+  prevBtn.addEventListener("click",showPrev);
+  nextBtn.addEventListener("click",showNext);
+  window.addEventListener("click",(e)=>{ if(e.target===modal) closeModal(); });
+
+  // language
+  const langData={ /* как раньше */ };
+  function setLang(lang){ /* как раньше */ }
+  document.addEventListener("DOMContentLoaded",()=>setLang("ru"));
+
+  // birthday
   function updateBirthday(){
     const today=new Date();
     let birthday=new Date(today.getFullYear(),10,19);
@@ -165,43 +198,34 @@
     const diff=Math.floor((birthday-today)/(1000*60*60*24));
     document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней";
   }
-  updateBirthday();
-  setInterval(updateBirthday,1000*60*60*24);
-
-  // Minecraft-style squares under video
-  (function(){
-    const canvas = document.getElementById('canvas-bg');
-    const ctx = canvas.getContext('2d', { alpha:true });
-    let W, H;
-    function resize(){ W=canvas.parentElement.offsetWidth; H=canvas.parentElement.offsetHeight; canvas.width=W; canvas.height=H; }
-    window.addEventListener('resize', resize); resize();
-
-    const COUNT=80, SIZE_MIN=8, SIZE_MAX=25;
-    const pixels=[];
-    for(let i=0;i<COUNT;i++){
-      pixels.push({
-        x:Math.random()*W,
-        y:Math.random()*H,
-        size: SIZE_MIN + Math.random()*(SIZE_MAX-SIZE_MIN),
-        color: Math.random()<0.5 ? `rgba(80,80,220,0.6)` : `rgba(200,80,200,0.6)`,
-        vx: (Math.random()-0.5)*0.3,
-        vy: (Math.random()-0.5)*0.3
-      });
-    }
-
-    function frame(){
-      ctx.clearRect(0,0,W,H);
-      pixels.forEach(p=>{
-        p.x+=p.vx; p.y+=p.vy;
-        if(p.x<0)p.x=W; if(p.x>W)p.x=0;
-        if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-        ctx.fillStyle=p.color;
-        ctx.fillRect(p.x-p.size/2, p.y-p.size/2, p.size, p.size);
-      });
-      requestAnimationFrame(frame);
-    }
-    frame();
-  })();
+  updateBirthday(); setInterval(updateBirthday,1000*60*60*24);
 </script>
+
+<!-- canvas under video -->
+<script>
+(function(){
+  const canvas=document.getElementById('canvas-bg');
+  const ctx=canvas.getContext('2d',{alpha:true});
+  let W,H;
+  function resize(){ W=canvas.parentElement.offsetWidth; H=canvas.parentElement.offsetHeight; canvas.width=W; canvas.height=H; }
+  window.addEventListener('resize',resize); resize();
+
+  const COUNT=90,SIZE_MIN=8,SIZE_MAX=30,BLUR=15;
+  const pixels=[];
+  function rand(a,b){ return a+Math.random()*(b-a); }
+  function neonColor(){ if(Math.random()<0.5) return `rgba(${80+Math.floor(Math.random()*40)},${80+Math.floor(Math.random()*60)},${200+Math.floor(Math.random()*55)},0.6)`; else return `rgba(${150+Math.floor(Math.random()*60)},${70+Math.floor(Math.random()*60)},${200+Math.floor(Math.random()*55)},0.6)`; }
+
+  class Pixel{
+    constructor(){ this.x=rand(0,W); this.y=rand(0,H); this.size=rand(SIZE_MIN,SIZE_MAX); this.vx=(Math.random()-0.5)*0.3; this.vy=(Math.random()-0.5)*0.3; this.color=neonColor(); this.rot=Math.random()*Math.PI*2; this.rotSpeed=(Math.random()-0.5)*0.02; }
+    update(){ this.x+=this.vx; this.y+=this.vy; this.rot+=this.rotSpeed; if(this.x<-50)this.x=W+50; if(this.x>W+50)this.x=-50; if(this.y<-50)this.y=H+50; if(this.y>H+50)this.y=-50; }
+    draw(){ const s=this.size; ctx.save(); ctx.translate(this.x,this.y); ctx.rotate(this.rot); ctx.shadowBlur=BLUR; ctx.shadowColor=this.color; ctx.fillStyle=this.color; ctx.fillRect(-s/2,-s/2,s,s); ctx.restore(); ctx.shadowBlur=0; }
+  }
+
+  for(let i=0;i<COUNT;i++) pixels.push(new Pixel());
+  function animate(){ ctx.clearRect(0,0,W,H); pixels.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); }
+  animate();
+})();
+</script>
+
 </body>
 </html>
