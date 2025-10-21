@@ -19,11 +19,11 @@
       background: url('images/screenshot4.png') no-repeat center center/cover;
       color: #fff;
       overflow-x: hidden;
-      position: relative;
       min-height: 100vh;
+      position: relative;
     }
 
-    /* Видео */
+    /* Видеофон */
     #video-bg {
       position: fixed;
       top: 0;
@@ -31,18 +31,41 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -2;
+      z-index: -3;
       display: none;
     }
 
-    /* Canvas для частиц */
+    /* Canvas частиц */
     #particles {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -2;
+    }
+
+    /* Кнопка переключения видео */
+    .video-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: 2px solid #c084fc;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.55rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+
+    .video-toggle:hover {
+      background: #c084fc;
+      color: #000;
+      transform: scale(1.05);
     }
 
     header {
@@ -102,29 +125,6 @@
       filter: drop-shadow(0 0 15px #c084fc);
     }
 
-    /* Кнопка видео */
-    .video-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      border: 2px solid #c084fc;
-      border-radius: 12px;
-      padding: 10px 16px;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.55rem;
-      cursor: pointer;
-      z-index: 5;
-      transition: all 0.3s;
-    }
-
-    .video-toggle:hover {
-      background: #c084fc;
-      color: #000;
-      transform: scale(1.05);
-    }
-
     footer {
       text-align: center;
       padding: 30px;
@@ -134,13 +134,18 @@
   </style>
 </head>
 <body>
+  <!-- Видео -->
   <video id="video-bg" autoplay muted loop>
     <source src="video.mp4" type="video/mp4" />
   </video>
+
+  <!-- Частицы -->
   <canvas id="particles"></canvas>
 
+  <!-- Кнопка -->
   <button class="video-toggle" id="toggleVideo">🎥 Включить видео</button>
 
+  <!-- Контент -->
   <header>
     <h1>Tbl_3a9k</h1>
     <p>Добро пожаловать на мой сайт!</p>
@@ -161,19 +166,19 @@
     </div>
 
     <div class="socials">
-      <a href="#"><img src="tiktok.png" width="30" /></a>
-      <a href="#"><img src="steam.png" width="30" /></a>
-      <a href="#"><img src="twitch.png" width="30" /></a>
-      <a href="#"><img src="spotify.png" width="30" /></a>
-      <a href="#"><img src="roblox.png" width="30" /></a>
-      <a href="#"><img src="fanpay.png" width="30" /></a>
+      <a href="#"><img src="images/tiktok.png" width="30" /></a>
+      <a href="#"><img src="images/steam.png" width="30" /></a>
+      <a href="#"><img src="images/twitch.png" width="30" /></a>
+      <a href="#"><img src="images/spotify.png" width="30" /></a>
+      <a href="#"><img src="images/roblox.png" width="30" /></a>
+      <a href="#"><img src="images/fanpay.png" width="30" /></a>
     </div>
   </section>
 
   <footer>© 2025 Tbl_3a9k</footer>
 
   <script>
-    // Тоггл видеофона
+    // === Видео-переключатель ===
     const toggleBtn = document.getElementById("toggleVideo");
     const video = document.getElementById("video-bg");
     let isVideoOn = false;
@@ -191,11 +196,11 @@
       }
     });
 
-    // Частицы
+    // === Частицы ===
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     let w, h;
-    const COUNT = 100;
+    const COUNT = 80;
     const particles = [];
 
     function resize() {
