@@ -1,240 +1,429 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tbl_3a9k — Био</title>
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+<meta charset="UTF-8" />
+<title>Tbl_3a9k — Био🤍</title>
+<link rel="icon" href="favicon.png" type="image/png" />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;min-height:100vh;}
+  
+  /* Global animated background - covers entire site */
+  #global-canvas-bg{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    z-index:1;
+    pointer-events:none;
+  }
+  
+  .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
+  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:4;position:relative;}
+  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:4;position:relative;}
+  .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;}
+  .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;}
+  
+  /* Video overlay to darken video slightly for better text readability */
+  .header::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.2);
+    z-index:3;
+  }
+  
+  @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background: url('images/screenshot4.png') no-repeat center center/cover;
-      color: #fff;
-      overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-    }
+  /* language switcher */
+  .lang-switcher{position:absolute;top:20px;right:20px;z-index:200;}
+  .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
+  .lang-switcher button:hover{background:white;color:black;}
 
-    /* Видеофон */
-    #video-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -3;
-      display: none;
-    }
+  /* content sections - positioned above animated background */
+  .content{position:relative;z-index:5;padding:100px 20px;text-align:center;background:rgba(0,0,0,0.1);}
 
-    /* Canvas частиц */
-    #particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-    }
+  /* site blocks */
+  section.about{position:relative;z-index:5;}
+  section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
+  .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;position:relative;z-index:5;}
+  .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.8);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;backdrop-filter:blur(10px);}
+  .info ul,.life ul{list-style:none;padding:0;font-size:12px;line-height:1.6em;}
+  .life-avatar{width:120px;height:120px;border-radius:50%;border:2px solid white;object-fit:cover;display:block;margin:0 auto 15px;box-shadow:0 0 12px rgba(255,255,255,0.2);}
+  .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;position:relative;z-index:5;}
+  .socials a img{width:50px;height:50px;border:2px solid white;padding:5px;border-radius:10px;transition:transform .25s,box-shadow .25s;}
+  .socials a img:hover{transform:scale(1.1);box-shadow:0 0 15px white;}
+  .music-btn{margin-top:30px;background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,color .25s;position:relative;z-index:5;}
+  .music-btn:hover{background:white;color:black;box-shadow:0 0 15px white;transform:scale(1.05);}
+  .screenshots{position:relative;z-index:5;}
+  .screenshots h2{font-size:16px;margin-bottom:20px;}
+  .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
+  .screenshots img{width:300px;height:auto;border:2px solid white;border-radius:10px;cursor:pointer;transition:transform .25s;}
+  .screenshots img:hover{transform:scale(1.05);}
+  
+  /* Birthday section - ensure it's above animated background */
+  .birthday{
+    background:rgba(0,0,0,0.8);
+    padding:30px;
+    border-radius:15px;
+    margin:50px auto;
+    max-width:400px;
+    backdrop-filter:blur(10px);
+    position:relative;
+    z-index:5;
+  }
 
-    /* Кнопка переключения видео */
-    .video-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      border: 2px solid #c084fc;
-      border-radius: 12px;
-      padding: 10px 16px;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.55rem;
-      cursor: pointer;
-      z-index: 10;
-      transition: all 0.3s;
-    }
-
-    .video-toggle:hover {
-      background: #c084fc;
-      color: #000;
-      transform: scale(1.05);
-    }
-
-    header {
-      text-align: center;
-      padding: 60px 20px;
-      font-size: 1rem;
-      color: #fff;
-      text-shadow: 0 0 10px #9f7aea;
-    }
-
-    section {
-      text-align: center;
-      padding: 20px;
-    }
-
-    h2 {
-      color: #c084fc;
-      margin-bottom: 15px;
-      font-size: 0.9rem;
-    }
-
-    p {
-      font-size: 0.7rem;
-      color: #ddd;
-      margin-bottom: 10px;
-      line-height: 1.6;
-    }
-
-    .info {
-      margin-top: 20px;
-      font-size: 0.7rem;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .socials a {
-      border: 2px solid #fff;
-      border-radius: 10px;
-      padding: 10px;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      filter: drop-shadow(0 0 5px #9f7aea);
-    }
-
-    .socials a:hover {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 15px #c084fc);
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 0.6rem;
-      color: #999;
-    }
-  </style>
+  /* modal */
+  .modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,0.9);}
+  .modal-content{display:block;margin:auto;max-width:80%;max-height:80%;}
+  .close,.prev,.next{position:absolute;color:white;font-size:30px;cursor:pointer;user-select:none;}
+  .close{top:20px;right:35px;}
+  .prev,.next{top:50%;transform:translateY(-50%);font-size:40px;padding:16px;}
+  .prev{left:10px;} .next{right:10px;}
+</style>
 </head>
 <body>
-  <!-- Видео -->
-  <video id="video-bg" autoplay muted loop>
-    <source src="video.mp4" type="video/mp4" />
+
+<!-- Global animated background canvas - covers entire site -->
+<canvas id="global-canvas-bg" aria-hidden="true"></canvas>
+
+<!-- language switcher -->
+<div class="lang-switcher">
+  <button onclick="setLang('ru')">RU</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
+
+<!-- header -->
+<header class="header">
+  <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
+    <source src="video.mp4" type="video/mp4">
+    <img src="IMBA.png" alt="Background" class="fallback-img">
   </video>
+  <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
+  <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
+</header>
 
-  <!-- Частицы -->
-  <canvas id="particles"></canvas>
+<!-- content with animated bg behind it -->
+<div class="content">
+  <!-- About -->
+  <section class="about">
+    <h2 id="about-title">qq, Я Tbl_3a9k</h2>
+    <p id="about-1">Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
+    <p id="about-2">Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻</p>
+    <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
+  </section>
 
-  <!-- Кнопка -->
-  <button class="video-toggle" id="toggleVideo">🎥 Включить видео</button>
-
-  <!-- Контент -->
-  <header>
-    <h1>Tbl_3a9k</h1>
-    <p>Добро пожаловать на мой сайт!</p>
-  </header>
-
-  <section>
-    <h2>Обо мне</h2>
-    <p>Мечтаю о мощном ПК 💻</p>
-    <p>Мой сетап: GTX 1660 Ti, i5-10300H</p>
-
+  <!-- Info + Life -->
+  <section class="info-life">
     <div class="info">
-      <p>Country: Kazakhstan</p>
-      <p>Age: 13</p>
-      <p>Discord: tbl_3a9k</p>
-      <p>Playing only Minecraft</p>
-      <p>Servers: Dexland, FunTime, FunSky</p>
-      <p>My dream: new PC</p>
+      <ul id="info-list">
+        <li>🏳️ • Мои цели:</li>
+        <li>👤 • Иметь свой стабильный заработок</li>
+        <li>💬 • Не зависеть от родителей</li>
+        <li>⛏️ • Обновить сетап</li>
+        <li>🎮 • Зарабатываю благодаря игре Minecraft</li>
+        <li>💫 • Моя основная мечта: Быть счастливым</li>
+        <li>💻 • Мой первый успех: 11.09.25 --> 61к💲</li>
+      </ul>
     </div>
-
-    <div class="socials">
-      <a href="#"><img src="images/tiktok.png" width="30" /></a>
-      <a href="#"><img src="images/steam.png" width="30" /></a>
-      <a href="#"><img src="images/twitch.png" width="30" /></a>
-      <a href="#"><img src="images/spotify.png" width="30" /></a>
-      <a href="#"><img src="images/roblox.png" width="30" /></a>
-      <a href="#"><img src="images/fanpay.png" width="30" /></a>
+    <div class="life">
+      <h2 id="life-title">🧩 Моя личная жизнь</h2>
+      <img src="images/avatar.png" alt="Аватар" class="life-avatar">
+      <ul id="life-list">
+        <li>🎓 Учусь в <b>8 классе</b></li>
+        <li>🏀 Иногда играю в <b>баскетбол</b></li>
+        <li>💞 Провожу время с близкими людьми</li>
+        <li>💰 Уже пробую зарабатывать онлайн</li>
+      </ul>
     </div>
   </section>
 
-  <footer>© 2025 Tbl_3a9k</footer>
+  <!-- socials -->
+  <div class="socials">
+    <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
+    <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam" /></a>
+    <a href="https://www.twitch.tv/tbl_3a9k" target="_blank" rel="noopener"><img src="images/twitch.png" alt="Twitch" /></a>
+    <a href="https://open.spotify.com/user/31zywyv4vpxmybv7sjz6gxf776ee" target="_blank" rel="noopener"><img src="images/spotify.png" alt="Spotify" /></a>
+    <a href="https://www.roblox.com/users/3276902015/profile?friendshipSourceType=PlayerSearch" target="_blank" rel="noopener"><img src="images/roblox.png" alt="Roblox" /></a>
+    <a href="https://funpay.com/users/15229317/" target="_blank" rel="noopener"><img src="images/fanpay.png" alt="FanPay" /></a>
+    <a href="https://tiktok.com/@sj1109z" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
+  </div>
 
-  <script>
-    // === Видео-переключатель ===
-    const toggleBtn = document.getElementById("toggleVideo");
-    const video = document.getElementById("video-bg");
-    let isVideoOn = false;
+  <!-- music -->
+  <button class="music-btn" id="musicButton">▶ Play Music</button>
+  <audio id="mySong">
+    <source src="music.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
 
-    toggleBtn.addEventListener("click", () => {
-      isVideoOn = !isVideoOn;
-      if (isVideoOn) {
-        video.style.display = "block";
-        video.play();
-        toggleBtn.textContent = "❌ Выключить видео";
-      } else {
-        video.pause();
-        video.style.display = "none";
-        toggleBtn.textContent = "🎥 Включить видео";
+  <!-- screenshots -->
+  <section class="screenshots">
+    <h2 id="screenshots-title">📸 Мои скриншоты</h2>
+    <div class="grid">
+      <img src="images/screenshot1.png" alt="Screenshot 1" />
+      <img src="images/screenshot2.png" alt="Screenshot 2" />
+      <img src="images/screenshot3.png" alt="Screenshot 3" />
+      <img src="images/screenshot4.png" alt="Screenshot 4" />
+      <img src="images/screenshot5.png" alt="Screenshot 5" />
+      <img src="images/screenshot6.png" alt="Screenshot 6" />
+      <img src="images/screenshot7.png" alt="Screenshot 7" />
+      <img src="images/IMBA2.png" alt="IMBA2" />
+    </div>
+  </section>
+
+  <!-- birthday - now with animated background behind it -->
+  <section class="birthday">
+    <h2>🎂 До моего Дня Рождения</h2>
+    <p id="birthday-days">Осталось: 90 дней</p>
+  </section>
+</div>
+
+<!-- modal -->
+<div id="modal" class="modal">
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+  <img class="modal-content" id="modal-img">
+</div>
+
+<!-- existing scripts (language, modal, music) -->
+<script>
+  // music button
+  const button = document.getElementById("musicButton");
+  const audio = document.getElementById("mySong");
+  let isPlaying=false;
+  button.addEventListener("click",()=>{
+    if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; }
+    else{ audio.pause(); button.textContent="▶ Play Music"; }
+    isPlaying=!isPlaying;
+  });
+
+  // modal images
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const images = document.querySelectorAll(".screenshots img");
+  const closeBtn = document.querySelector(".close");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
+  let currentIndex=0;
+  function openModal(index){ currentIndex=index; modal.style.display="block"; modalImg.src = images[index].src; }
+  function closeModal(){ modal.style.display="none"; }
+  function showPrev(){ currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src; }
+  function showNext(){ currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src; }
+  images.forEach((img,index)=> img.addEventListener("click",()=>openModal(index)));
+  closeBtn.addEventListener("click",closeModal);
+  prevBtn.addEventListener("click",showPrev);
+  nextBtn.addEventListener("click",showNext);
+  window.addEventListener("click",(e)=>{ if(e.target===modal) closeModal(); });
+
+  // language switch (keeps your translations)
+  const langData = {
+    ru:{ title:"Tbl_3a9k - Обо мне:", subtitle:"я чувствовал себя счастливым только благодаря тебе.🤍",
+         aboutTitle:"qq, Я Tbl_3a9k ", about1:"Мне 13 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+         about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7 💻",
+         about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+         infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить сетап","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: Быть счастливым","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
+         lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Уже пробую зарабатывать онлайн"],
+         screenshotsTitle:"📸 Мои скриншоты" },
+    en:{ title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍",
+         aboutTitle:"qq, I'm Tbl_3a9k ", about1:"I'm 13 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+         about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7 💻",
+         about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
+         infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
+         lifeList:["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"],
+         screenshotsTitle:"📸 My Screenshots" }
+  };
+  function setLang(lang){
+    document.getElementById("title-text").textContent = langData[lang].title;
+    document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
+    document.getElementById("about-title").textContent = langData[lang].aboutTitle;
+    document.getElementById("about-1").textContent = langData[lang].about1;
+    document.getElementById("about-2").textContent = langData[lang].about2;
+    document.getElementById("about-3").textContent = langData[lang].about3;
+    const infoListEl = document.getElementById("info-list"); infoListEl.innerHTML = "";
+    langData[lang].infoList.forEach(item=>{ const li=document.createElement("li"); li.textContent=item; infoListEl.appendChild(li); });
+    const lifeListEl = document.getElementById("life-list"); lifeListEl.innerHTML = "";
+    langData[lang].lifeList.forEach(item=>{ const li=document.createElement("li"); li.textContent=item; lifeListEl.appendChild(li); });
+    document.getElementById("screenshots-title").textContent = langData[lang].screenshotsTitle;
+  }
+  document.addEventListener("DOMContentLoaded", ()=> setLang("ru") );
+
+  // birthday countdown
+  function updateBirthday(){
+    const today=new Date();
+    let birthday=new Date(today.getFullYear(),10,19); // 19 Nov
+    if(today>birthday) birthday.setFullYear(today.getFullYear()+1);
+    const diff=Math.floor((birthday-today)/(1000*60*60*24));
+    document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней";
+  }
+  updateBirthday();
+  setInterval(updateBirthday,1000*60*60*24);
+</script>
+
+<!-- Enhanced Minecraft-style neon squares background - covers entire page -->
+<script>
+(function(){
+  const canvas = document.getElementById('global-canvas-bg');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let DPR = Math.max(1, window.devicePixelRatio || 1);
+  let W = window.innerWidth, H = window.innerHeight;
+
+  function resize() {
+    DPR = Math.max(1, window.devicePixelRatio || 1);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = Math.floor(W * DPR);
+    canvas.height = Math.floor(H * DPR);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  
+  window.addEventListener('resize', resize);
+  resize();
+
+  const COUNT = 120;
+  const SIZE_MIN = 6, SIZE_MAX = 35;
+  const SPEED = 0.015;
+  const MOUSE_FORCE = 0.12;
+  const BLUR = 20;
+
+  let mouse = { x: W/2, y: H/2, active: false };
+  window.addEventListener('mousemove', (e)=>{ 
+    mouse.x = e.clientX; 
+    mouse.y = e.clientY; 
+    mouse.active = true; 
+  });
+  window.addEventListener('mouseleave', ()=>{ mouse.active = false; });
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function neonBase() {
+    const colors = [
+      // Minecraft-inspired neon colors
+      { r: 64, g: 224, b: 208 },   // turquoise
+      { r: 138, g: 43, b: 226 },   // blue violet
+      { r: 0, g: 191, b: 255 },    // deep sky blue
+      { r: 75, g: 0, b: 130 },     // indigo
+      { r: 255, g: 20, b: 147 },   // deep pink
+      { r: 50, g: 205, b: 50 },    // lime green
+      { r: 255, g: 215, b: 0 },    // gold
+      { r: 255, g: 69, b: 0 }      // red orange
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  class Pixel {
+    constructor() { this.init(true); }
+    init(initial=false){
+      this.x = rand(0, W);
+      this.y = rand(0, H);
+      this.size = rand(SIZE_MIN, SIZE_MAX);
+      this.baseX = this.x;
+      this.baseY = this.y;
+      this.z = 0.5 + Math.random()*1.5;
+      this.vx = (Math.random()-0.5) * SPEED * this.z * 50;
+      this.vy = (Math.random()-0.5) * SPEED * this.z * 50;
+      this.color = neonBase();
+      this.alpha = 0.1 + Math.random()*0.7;
+      this.rot = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random()-0.5) * 0.003 * this.z;
+      this.pulsePhase = Math.random() * Math.PI * 2;
+      this.pulseSpeed = 0.02 + Math.random() * 0.03;
+      if(initial){
+        this.x = rand(0,W); this.y = rand(0,H);
       }
-    });
-
-    // === Частицы ===
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-    let w, h;
-    const COUNT = 80;
-    const particles = [];
-
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
     }
+    update(){
+      this.rot += this.rotSpeed;
+      this.pulsePhase += this.pulseSpeed;
+      
+      // Floating movement
+      this.baseX += Math.sin(this.rot) * 0.025 * this.z;
+      this.baseY += Math.cos(this.rot) * 0.025 * this.z;
 
-    window.addEventListener("resize", resize);
-    resize();
+      this.x += this.vx;
+      this.y += this.vy;
+      this.x += (this.baseX - this.x) * 0.008;
+      this.y += (this.baseY - this.y) * 0.008;
 
-    for (let i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        size: Math.random() * 2 + 1,
-        dx: (Math.random() - 0.5) * 1.2,
-        dy: (Math.random() - 0.5) * 1.2
-      });
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = "#b794f4";
-      for (let p of particles) {
-        ctx.fillRect(p.x, p.y, p.size, p.size);
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0 || p.x > w) p.dx *= -1;
-        if (p.y < 0 || p.y > h) p.dy *= -1;
+      // Mouse interaction
+      if(mouse.active){
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const force = Math.max(0, (250 - dist) / 250);
+        if(force>0){
+          this.x -= dx * MOUSE_FORCE * this.z * force * 0.04;
+          this.y -= dy * MOUSE_FORCE * this.z * force * 0.04;
+        }
       }
-      requestAnimationFrame(draw);
-    }
 
-    draw();
-  </script>
+      // Wrap around screen
+      if(this.x < -80) this.x = W + 80;
+      if(this.x > W + 80) this.x = -80;
+      if(this.y < -80) this.y = H + 80;
+      if(this.y > H + 80) this.y = -80;
+    }
+    draw(){
+      const pulse = 0.8 + 0.2 * Math.sin(this.pulsePhase);
+      const size = this.size * (0.6 + this.z*0.4) * pulse;
+      const r = this.color.r, g = this.color.g, b = this.color.b;
+      
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot * 0.2);
+      ctx.globalCompositeOperation = 'lighter';
+      
+      // Outer glow
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(0.4, this.alpha*0.6*pulse)})`;
+      ctx.shadowBlur = BLUR * this.z * pulse;
+      ctx.shadowColor = `rgba(${r},${g},${b},0.8)`;
+      ctx.fillRect(-size/2, -size/2, size, size);
+      
+      // Inner core
+      ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1, this.alpha+0.3*pulse)})`;
+      ctx.shadowBlur = BLUR * 0.3 * this.z;
+      ctx.shadowColor = `rgba(${r},${g},${b},1)`;
+      const coreSize = size * 0.6;
+      ctx.fillRect(-coreSize/2, -coreSize/2, coreSize, coreSize);
+      
+      ctx.restore();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  const pixels = [];
+  for(let i=0;i<COUNT;i++) pixels.push(new Pixel());
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    
+    // Dark gradient background
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0, 'rgba(5,0,15,0.15)');
+    g.addColorStop(0.5, 'rgba(15,0,30,0.1)');
+    g.addColorStop(1, 'rgba(25,0,50,0.2)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,W,H);
+    
+    // Draw all pixels
+    for(let i=0;i<pixels.length;i++){
+      pixels[i].update();
+      pixels[i].draw();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
 </body>
 </html>
+
+
