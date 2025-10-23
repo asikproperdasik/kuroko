@@ -19,25 +19,40 @@
     height:100vh;
     z-index:1;
     pointer-events:none;
+    transition: opacity 0.5s ease;
   }
   
-  .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;}
+  /* Background toggle button - hidden by default */
+  .bg-toggle{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:200;
+    background:transparent;
+    border:2px solid white;
+    color:white;
+    font-family:'Press Start 2P';
+    font-size:8px;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:5px;
+    transition:all 0.3s ease;
+    opacity:0;
+    visibility:hidden;
+  }
+  .bg-toggle:hover{
+    background:white;
+    color:black;
+    box-shadow:0 0 10px white;
+  }
+  .bg-toggle.visible{
+    opacity:1;
+    visibility:visible;
+  }
+  
+  .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;background:rgba(0,0,0,0.3);}
   .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:4;position:relative;}
   .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:4;position:relative;}
-  .bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;}
-  .fallback-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:2;}
-  
-  /* Video overlay to darken video slightly for better text readability */
-  .header::after{
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.2);
-    z-index:3;
-  }
   
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
@@ -94,18 +109,17 @@
 <!-- Global animated background canvas - covers entire site -->
 <canvas id="global-canvas-bg" aria-hidden="true"></canvas>
 
+<!-- Background toggle button - hidden by default -->
+<button class="bg-toggle" id="bg-toggle" title="Toggle Background">BG</button>
+
 <!-- language switcher -->
 <div class="lang-switcher">
   <button onclick="setLang('ru')">RU</button>
   <button onclick="setLang('en')">EN</button>
 </div>
 
-<!-- header -->
+<!-- header - video removed, only particles background -->
 <header class="header">
-  <video autoplay muted loop playsinline class="bg-video" poster="IMBA.png">
-    <source src="video.mp4" type="video/mp4">
-    <img src="IMBA.png" alt="Background" class="fallback-img">
-  </video>
   <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
   <p id="subtitle-text">бақытты сезіндім мен сенен ғана.🤍</p>
 </header>
@@ -195,6 +209,25 @@
 
 <!-- existing scripts (language, modal, music) -->
 <script>
+  // Background toggle functionality
+  const bgToggle = document.getElementById("bg-toggle");
+  const canvas = document.getElementById("global-canvas-bg");
+  let bgVisible = true;
+  
+  // Show toggle button on double-click anywhere
+  document.addEventListener("dblclick", () => {
+    bgToggle.classList.add("visible");
+    setTimeout(() => {
+      bgToggle.classList.remove("visible");
+    }, 3000); // Hide after 3 seconds
+  });
+  
+  bgToggle.addEventListener("click", () => {
+    bgVisible = !bgVisible;
+    canvas.style.opacity = bgVisible ? "1" : "0";
+    bgToggle.textContent = bgVisible ? "BG" : "NO BG";
+  });
+
   // music button
   const button = document.getElementById("musicButton");
   const audio = document.getElementById("mySong");
@@ -425,5 +458,3 @@
 </script>
 </body>
 </html>
-
-
