@@ -4,129 +4,212 @@
 <meta charset="UTF-8" />
 <title>Tbl_3a9k — Био🤍</title>
 <link rel="icon" href="favicon.png" type="image/png" />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Cinzel+Decorative:wght@700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
   *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
-  body{font-family:'Press Start 2P',cursive;background:#000;color:#fff;overflow-x:hidden;position:relative;min-height:100vh;}
-  
-  /* Global animated background - covers entire site */
-  #global-canvas-bg{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100vh;
-    z-index:1;
+  body{font-family:'Press Start 2P',cursive;background:#0a0005;color:#fff;overflow-x:hidden;position:relative;min-height:100vh;}
+  /* Dark overlay behind all content so text stays readable over particles */
+  .content::before{
+    content:'';
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(5,0,10,0.55);
+    z-index:-1;
     pointer-events:none;
-    transition: opacity 0.5s ease;
   }
-  
-  /* Background toggle button - hidden by default */
+
+  #global-canvas-bg{
+    position:fixed;top:0;left:0;width:100vw;height:100vh;
+    z-index:0;pointer-events:none;transition:opacity 0.5s ease;
+  }
+
   .bg-toggle{
-    position:fixed;
-    top:20px;
-    left:20px;
-    z-index:200;
-    background:transparent;
-    border:2px solid white;
-    color:white;
-    font-family:'Press Start 2P';
-    font-size:8px;
-    padding:8px 12px;
-    cursor:pointer;
-    border-radius:5px;
-    transition:all 0.3s ease;
-    opacity:0;
-    visibility:hidden;
+    position:fixed;top:20px;left:20px;z-index:200;
+    background:transparent;border:2px solid white;color:white;
+    font-family:'Press Start 2P';font-size:8px;padding:8px 12px;
+    cursor:pointer;border-radius:5px;transition:all 0.3s ease;
+    opacity:0;visibility:hidden;
   }
-  .bg-toggle:hover{
-    background:white;
-    color:black;
-    box-shadow:0 0 10px white;
+  .bg-toggle:hover{background:white;color:black;box-shadow:0 0 10px white;}
+  .bg-toggle.visible{opacity:1;visibility:visible;}
+
+  .header{
+    position:relative;height:100vh;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;text-align:center;
+    padding:20px;overflow:hidden;
+    background:url('image.png') center/cover no-repeat;
   }
-  .bg-toggle.visible{
-    opacity:1;
-    visibility:visible;
+  .header::after{
+    content:'';position:absolute;inset:0;
+    background:rgba(0,0,0,0.45);
+    z-index:1;
   }
-  
-  .header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;overflow:hidden;background:rgba(0,0,0,0.3);}
-  .header h1{font-size:24px;animation:fadeInDown 1.2s ease-out;z-index:4;position:relative;}
-  .header p{font-size:14px;margin-top:10px;animation:fadeInUp 1.2s ease-out;z-index:4;position:relative;}
-  
+  .header h1{font-size:28px;animation:fadeInDown 1.2s ease-out;z-index:4;position:relative;
+    font-family:'Cinzel Decorative', cursive;
+    text-shadow:0 0 20px rgba(255,182,193,0.8),0 0 40px rgba(255,105,180,0.4);}
+  .header p{font-size:16px;margin-top:14px;animation:fadeInUp 1.2s ease-out;z-index:4;position:relative;
+    font-family:'Playfair Display', serif; font-style:italic; letter-spacing:1px;
+    text-shadow:0 0 12px rgba(255,182,193,0.6);}
+  /* header text above overlay */
+
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 
-  /* language switcher */
   .lang-switcher{position:absolute;top:20px;right:20px;z-index:200;}
-  .lang-switcher button{background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;}
-  .lang-switcher button:hover{background:white;color:black;}
+  .lang-switcher button{
+    background:transparent;border:2px solid #ffb6c1;color:#ffb6c1;
+    font-family:'Press Start 2P';font-size:10px;padding:5px 10px;margin-left:5px;cursor:pointer;
+    transition:all 0.2s;
+  }
+  .lang-switcher button:hover{background:#ffb6c1;color:#000;box-shadow:0 0 10px rgba(255,182,193,0.7);}
 
-  /* content sections - positioned above animated background */
-  .content{position:relative;z-index:5;padding:100px 20px;text-align:center;background:rgba(0,0,0,0.1);}
-
-  /* site blocks */
-  section.about{position:relative;z-index:5;}
-  section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
-  .info-life{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:50px;position:relative;z-index:5;}
-  .info,.life{flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;background:rgba(0,0,0,0.8);box-shadow:0 0 15px rgba(255,255,255,0.06);text-align:left;backdrop-filter:blur(10px);}
-  .info ul,.life ul{list-style:none;padding:0;font-size:12px;line-height:1.6em;}
-  .life-avatar{width:120px;height:120px;border-radius:50%;border:2px solid white;object-fit:cover;display:block;margin:0 auto 15px;box-shadow:0 0 12px rgba(255,255,255,0.2);}
-  .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;position:relative;z-index:5;}
-  .socials a img{width:50px;height:50px;border:2px solid white;padding:5px;border-radius:10px;transition:transform .25s,box-shadow .25s;}
-  .socials a img:hover{transform:scale(1.1);box-shadow:0 0 15px white;}
-  .music-btn{margin-top:30px;background:transparent;border:2px solid white;color:white;font-family:'Press Start 2P';font-size:10px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,color .25s;position:relative;z-index:5;}
-  .music-btn:hover{background:white;color:black;box-shadow:0 0 15px white;transform:scale(1.05);}
-  .screenshots{position:relative;z-index:5;}
-  .screenshots h2{font-size:16px;margin-bottom:20px;}
-  .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
-  .screenshots img{width:300px;height:auto;border:2px solid white;border-radius:10px;cursor:pointer;transition:transform .25s;}
-  .screenshots img:hover{transform:scale(1.05);}
-  
-  /* Birthday section - ensure it's above animated background */
-  .birthday{
-    background:rgba(0,0,0,0.8);
-    padding:30px;
-    border-radius:15px;
-    margin:50px auto;
-    max-width:400px;
-    backdrop-filter:blur(10px);
-    position:relative;
-    z-index:5;
+  .emoji-divider{
+    position:relative;z-index:1;
+    display:flex;justify-content:center;align-items:center;
+    gap:18px;flex-wrap:wrap;
+    padding:12px 20px;
+    background:transparent;
+  }
+  .emoji-divider span{
+    font-size:18px;
+    animation:dividerFloat 3s ease-in-out infinite;
+    display:inline-block;
+  }
+  .emoji-divider span:nth-child(1){animation-delay:0s;}
+  .emoji-divider span:nth-child(2){animation-delay:0.2s;}
+  .emoji-divider span:nth-child(3){animation-delay:0.4s;}
+  .emoji-divider span:nth-child(4){animation-delay:0.6s;}
+  .emoji-divider span:nth-child(5){animation-delay:0.8s;}
+  .emoji-divider span:nth-child(6){animation-delay:1.0s;}
+  .emoji-divider span:nth-child(7){animation-delay:1.2s;}
+  .emoji-divider span:nth-child(8){animation-delay:1.4s;}
+  .emoji-divider span:nth-child(9){animation-delay:1.6s;}
+  .emoji-divider span:nth-child(10){animation-delay:1.8s;}
+  .emoji-divider span:nth-child(11){animation-delay:2.0s;}
+  .emoji-divider span:nth-child(12){animation-delay:2.2s;}
+  .emoji-divider span:nth-child(13){animation-delay:2.4s;}
+  @keyframes dividerFloat{
+    0%,100%{transform:translateY(0px);}
+    50%{transform:translateY(-5px);}
   }
 
-  /* modal */
+  .content{position:relative;z-index:1;padding:100px 20px;text-align:center;background:transparent;}
+
+  section.about h2{text-shadow:0 0 18px rgba(255,105,180,0.9), 0 0 35px rgba(255,182,193,0.5), 0 0 60px rgba(255,105,180,0.2);}
+  section.about{position:relative;z-index:5;}
+  section.about p{margin-top:15px;font-size:12px;line-height:1.6;}
+
+  .info-life{
+    display:flex;justify-content:center;gap:40px;flex-wrap:wrap;
+    margin-bottom:50px;position:relative;z-index:5;
+  }
+
+  /* Hover glow on bio cards */
+  .info,.life{
+    flex:1;min-width:280px;max-width:400px;padding:20px;border-radius:15px;
+    background:rgba(0,0,0,0.75);
+    box-shadow:0 0 15px rgba(255,182,193,0.1);
+    text-align:left;backdrop-filter:blur(10px);
+    border:1.5px solid rgba(255,182,193,0.15);
+    transition:transform 0.3s ease,box-shadow 0.3s ease,border-color 0.3s ease;
+    cursor:default;
+  }
+  .info:hover,.life:hover{
+    transform:scale(1.04) translateY(-4px);
+    box-shadow:0 0 35px rgba(255,105,180,0.55),0 0 70px rgba(255,182,193,0.2);
+    border-color:rgba(255,105,180,0.6);
+  }
+
+  .info ul,.life ul{list-style:none;padding:0;font-size:12px;line-height:1.6em;}
+  .life-avatar{
+    width:120px;height:120px;border-radius:50%;border:2px solid #ffb6c1;
+    object-fit:cover;display:block;margin:0 auto 15px;
+    box-shadow:0 0 18px rgba(255,182,193,0.5);
+    transition:box-shadow 0.3s ease,transform 0.3s ease;
+  }
+  .life:hover .life-avatar{box-shadow:0 0 30px rgba(255,105,180,0.8);transform:scale(1.05);}
+
+  .socials{margin-top:30px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;position:relative;z-index:5;}
+  .socials a img{
+    width:50px;height:50px;border:2px solid #ffb6c1;padding:5px;border-radius:10px;
+    transition:transform .25s,box-shadow .25s;
+  }
+  .socials a img:hover{transform:scale(1.1);box-shadow:0 0 18px rgba(255,182,193,0.8);}
+
+  .music-btn{
+    margin-top:30px;background:transparent;border:2px solid #ffb6c1;color:#ffb6c1;
+    font-family:'Press Start 2P';font-size:10px;padding:10px 20px;border-radius:10px;
+    cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,color .25s;
+    position:relative;z-index:5;
+  }
+  .music-btn:hover{background:#ffb6c1;color:#000;box-shadow:0 0 20px rgba(255,182,193,0.7);transform:scale(1.05);}
+
+  .screenshots{position:relative;z-index:5;}
+  .screenshots h2{font-size:16px;margin-bottom:20px;text-shadow:0 0 15px rgba(255,182,193,0.6);}
+  .screenshots .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
+  .screenshots img{
+    width:300px;height:auto;border:2px solid rgba(255,182,193,0.5);border-radius:10px;
+    cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;
+  }
+  .screenshots img:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,105,180,0.5);border-color:#ffb6c1;}
+
+  .birthday-row{
+    display:flex;justify-content:center;gap:30px;flex-wrap:wrap;
+    margin:50px auto;position:relative;z-index:5;
+  }
+  .birthday{
+    background:rgba(0,0,0,0.75);padding:30px;border-radius:15px;
+    flex:1;min-width:240px;max-width:340px;backdrop-filter:blur(10px);
+    position:relative;z-index:5;
+    border:1.5px solid rgba(255,182,193,0.2);
+    transition:transform 0.3s ease,box-shadow 0.3s ease;
+    text-align:center;
+  }
+  .birthday:hover{transform:scale(1.03) translateY(-3px);box-shadow:0 0 30px rgba(255,105,180,0.5);}
+  .birthday h2{font-size:12px;margin-bottom:12px;}
+  .birthday p{font-size:11px;margin-top:8px;color:#ffb6c1;}
+
+  .end-images{
+    display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
+    margin:40px auto 0;position:relative;z-index:5;
+  }
+  .end-images img{
+    max-width:420px;width:100%;border-radius:14px;
+    border:2px solid rgba(255,182,193,0.3);
+    box-shadow:0 0 18px rgba(255,105,180,0.2);
+    transition:transform 0.3s ease,box-shadow 0.3s ease;
+  }
+  .end-images img:hover{transform:scale(1.03);box-shadow:0 0 28px rgba(255,105,180,0.5);}
+
   .modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,0.9);}
   .modal-content{display:block;margin:auto;max-width:80%;max-height:80%;}
   .close,.prev,.next{position:absolute;color:white;font-size:30px;cursor:pointer;user-select:none;}
   .close{top:20px;right:35px;}
   .prev,.next{top:50%;transform:translateY(-50%);font-size:40px;padding:16px;}
-  .prev{left:10px;} .next{right:10px;}
+  .prev{left:10px;}.next{right:10px;}
 </style>
 </head>
 <body>
 
-<!-- Global animated background canvas - covers entire site -->
 <canvas id="global-canvas-bg" aria-hidden="true"></canvas>
-
-<!-- Background toggle button - hidden by default -->
 <button class="bg-toggle" id="bg-toggle" title="Toggle Background">BG</button>
 
-<!-- language switcher -->
 <div class="lang-switcher">
   <button onclick="setLang('ru')">RU</button>
   <button onclick="setLang('en')">EN</button>
 </div>
 
-<!-- header - video removed, only particles background -->
 <header class="header">
-  <h1 id="title-text">Tbl_3a9k - Обо мне:</h1>
+  <h1 id="title-text"><span style="font-family:'Press Start 2P',cursive;font-size:20px;">Tbl_3a9k</span><span style="font-family:'Cinzel Decorative',cursive;"> - Обо мне:</span></h1>
   <p id="subtitle-text">надо чето говорить-я не хочу.</p>
 </header>
 
-<!-- content with animated bg behind it -->
+<!-- Spring emoji divider -->
+<div class="emoji-divider">
+  <span>🌸</span><span>💗</span><span>🌿</span><span>🤍</span><span>🌸</span><span>💗</span><span>🌷</span><span>💗</span><span>🌸</span><span>🤍</span><span>🌿</span><span>💗</span><span>🌸</span>
+</div>
+
 <div class="content">
-  <!-- About -->
   <section class="about">
     <h2 id="about-title">qq, Я Tbl_3a9k</h2>
     <p id="about-1">Мне 14 лет, я живу в Казахстане и обожаю играть в Minecraft🎮</p>
@@ -134,7 +217,6 @@
     <p id="about-3">Пообщаться со мной? Discord — <strong>tbl_3a9k</strong>. гудлак</p>
   </section>
 
-  <!-- Info + Life -->
   <section class="info-life">
     <div class="info">
       <ul id="info-list">
@@ -159,7 +241,6 @@
     </div>
   </section>
 
-  <!-- socials -->
   <div class="socials">
     <a href="https://tiktok.com/@tbl_3a9k.tt" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
     <a href="https://steamcommunity.com/profiles/76561199146062072/" target="_blank" rel="noopener"><img src="images/steam.png" alt="Steam" /></a>
@@ -170,14 +251,12 @@
     <a href="https://tiktok.com/@goloda4" target="_blank" rel="noopener"><img src="images/tiktok.png" alt="TikTok" /></a>
   </div>
 
-  <!-- music -->
   <button class="music-btn" id="musicButton">▶ Play Music</button>
   <audio id="mySong">
     <source src="music.mp3" type="audio/mpeg">
     Ваш браузер не поддерживает аудио.
   </audio>
 
-  <!-- screenshots -->
   <section class="screenshots">
     <h2 id="screenshots-title">📸 Мои скриншоты</h2>
     <div class="grid">
@@ -192,14 +271,27 @@
     </div>
   </section>
 
-  <!-- birthday - now with animated background behind it -->
-  <section class="birthday">
-    <h2>🎂 До моего Дня Рождения</h2>
-    <p id="birthday-days">Осталось: 90 дней</p>
-  </section>
+  <div class="birthday-row">
+    <section class="birthday">
+      <h2>🎂 До моего Дня Рождения</h2>
+      <p>👤 Tbl_3a9k — 19 ноября</p>
+      <p id="birthday-days">Загрузка...</p>
+    </section>
+    <section class="birthday">
+      <h2>🎂 До ДР Романа</h2>
+      <p>👤 Роман — 19 января</p>
+      <p id="birthday-roman">Загрузка...</p>
+    </section>
+  </div>
+
+  <!-- End images -->
+  <div class="end-images">
+    <img src="end.png" alt="end" />
+    <img src="end1.png" alt="end1" />
+  </div>
+
 </div>
 
-<!-- modal -->
 <div id="modal" class="modal">
   <span class="close">&times;</span>
   <span class="prev">&#10094;</span>
@@ -207,271 +299,349 @@
   <img class="modal-content" id="modal-img">
 </div>
 
-<!-- existing scripts (language, modal, music) -->
 <script>
-  // Background toggle functionality
   const bgToggle = document.getElementById("bg-toggle");
   const canvas = document.getElementById("global-canvas-bg");
   let bgVisible = true;
-  
-  // Show toggle button on double-click anywhere
   document.addEventListener("dblclick", () => {
     bgToggle.classList.add("visible");
-    setTimeout(() => {
-      bgToggle.classList.remove("visible");
-    }, 3000); // Hide after 3 seconds
+    setTimeout(() => bgToggle.classList.remove("visible"), 3000);
   });
-  
   bgToggle.addEventListener("click", () => {
     bgVisible = !bgVisible;
     canvas.style.opacity = bgVisible ? "1" : "0";
     bgToggle.textContent = bgVisible ? "BG" : "NO BG";
   });
 
-  // music button
   const button = document.getElementById("musicButton");
   const audio = document.getElementById("mySong");
-  let isPlaying=false;
-  button.addEventListener("click",()=>{
-    if(!isPlaying){ audio.play().catch(()=>{}); button.textContent="⏸ Pause Music"; }
-    else{ audio.pause(); button.textContent="▶ Play Music"; }
-    isPlaying=!isPlaying;
+  let isPlaying = false;
+  button.addEventListener("click", () => {
+    if (!isPlaying) { audio.play().catch(() => {}); button.textContent = "⏸ Pause Music"; }
+    else { audio.pause(); button.textContent = "▶ Play Music"; }
+    isPlaying = !isPlaying;
   });
 
-  // modal images
   const modal = document.getElementById("modal");
   const modalImg = document.getElementById("modal-img");
   const images = document.querySelectorAll(".screenshots img");
   const closeBtn = document.querySelector(".close");
   const prevBtn = document.querySelector(".prev");
   const nextBtn = document.querySelector(".next");
-  let currentIndex=0;
-  function openModal(index){ currentIndex=index; modal.style.display="block"; modalImg.src = images[index].src; }
-  function closeModal(){ modal.style.display="none"; }
-  function showPrev(){ currentIndex=(currentIndex-1+images.length)%images.length; modalImg.src=images[currentIndex].src; }
-  function showNext(){ currentIndex=(currentIndex+1)%images.length; modalImg.src=images[currentIndex].src; }
-  images.forEach((img,index)=> img.addEventListener("click",()=>openModal(index)));
-  closeBtn.addEventListener("click",closeModal);
-  prevBtn.addEventListener("click",showPrev);
-  nextBtn.addEventListener("click",showNext);
-  window.addEventListener("click",(e)=>{ if(e.target===modal) closeModal(); });
+  let currentIndex = 0;
+  function openModal(i) { currentIndex = i; modal.style.display = "block"; modalImg.src = images[i].src; }
+  function closeModal() { modal.style.display = "none"; }
+  function showPrev() { currentIndex = (currentIndex - 1 + images.length) % images.length; modalImg.src = images[currentIndex].src; }
+  function showNext() { currentIndex = (currentIndex + 1) % images.length; modalImg.src = images[currentIndex].src; }
+  images.forEach((img, i) => img.addEventListener("click", () => openModal(i)));
+  closeBtn.addEventListener("click", closeModal);
+  prevBtn.addEventListener("click", showPrev);
+  nextBtn.addEventListener("click", showNext);
+  window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
 
-  // language switch (keeps your translations)
   const langData = {
-    ru:{ title:"Tbl_3a9k - Обо мне:", subtitle:"стою среди толпы молчу..",
-         aboutTitle:"qq, Я Tbl_3a9k ", about1:"Мне 14 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
-         about2:"Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7-3770 💻",
-         about3:"Пообщаться со мной? Discord — tbl_3a9k. гудлак",
-         infoList:["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить ПК","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: стать успешным человеком до 18","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
-         lifeList:["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Зарабатываю онлайн"],
-         screenshotsTitle:"📸 Мои скриншоты" },
-    en:{ title:"Tbl_3a9k - About Me:", subtitle:"I felt happy only because of you.🤍",
-         aboutTitle:"qq, I'm Tbl_3a9k ", about1:"I'm 14 years old, I live in Kazakhstan and I love playing Minecraft🎮",
-         about2:"My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7-3770 💻",
-         about3:"Wanna chat with me? Discord — tbl_3a9k. good luck",
-         infoList:["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
-         lifeList:["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"],
-         screenshotsTitle:"📸 My Screenshots" }
+    ru: {
+      title: "Tbl_3a9k - Обо мне:", subtitle: "стою среди толпы молчу..",
+      aboutTitle: "qq, Я Tbl_3a9k ", about1: "Мне 14 лет, я живу в Казахстане и обожаю играть в Minecraft🎮",
+      about2: "Моя мечта — собрать мощный ПК, но пока я кайфую со своей GTX 1070 Ti и i7-3770 💻",
+      about3: "Пообщаться со мной? Discord — tbl_3a9k. гудлак",
+      infoList: ["🏳️ • Мои цели:","👤 • Иметь свой стабильный заработок","💬 • Не зависеть от родителей","⛏️ • Обновить ПК","🎮 • Зарабатываю благодаря игре Minecraft","💫 • Моя основная мечта: стать успешным человеком до 18","💻 • Мой первый успех: 11.09.25 --> 61к💲"],
+      lifeList: ["🎓 Учусь в 8 классе","🏀 Иногда играю в баскетбол","💞 Провожу время с близкими людьми","💰 Зарабатываю онлайн"],
+      screenshotsTitle: "📸 Мои скриншоты"
+    },
+    en: {
+      title: "Tbl_3a9k - About Me:", subtitle: "I felt happy only because of you.🤍",
+      aboutTitle: "qq, I'm Tbl_3a9k ", about1: "I'm 14 years old, I live in Kazakhstan and I love playing Minecraft🎮",
+      about2: "My dream is to build a powerful PC, but for now I'm enjoying my GTX 1070 Ti and i7-3770 💻",
+      about3: "Wanna chat with me? Discord — tbl_3a9k. good luck",
+      infoList: ["🏳️ • My goals:","👤 • Have my own stable income","💬 • Not depend on parents","⛏️ • Upgrade my setup","🎮 • Earn money thanks to Minecraft","💫 • My main dream: To be happy","💻 • My first success: 11.09.25 --> 61k💲"],
+      lifeList: ["🎓 Study in 8th grade","🏀 Sometimes play basketball","💞 Spend time with close people","💰 Already trying to earn online"],
+      screenshotsTitle: "📸 My Screenshots"
+    }
   };
-  function setLang(lang){
-    document.getElementById("title-text").textContent = langData[lang].title;
+  function setLang(lang) {
+    document.getElementById("title-text").innerHTML = '<span style="font-family:\'Press Start 2P\',cursive;font-size:20px;">Tbl_3a9k</span><span style="font-family:\'Cinzel Decorative\',cursive;"> ' + (lang === 'ru' ? '- Обо мне:' : '- About Me:') + '</span>';
     document.getElementById("subtitle-text").textContent = langData[lang].subtitle;
     document.getElementById("about-title").textContent = langData[lang].aboutTitle;
     document.getElementById("about-1").textContent = langData[lang].about1;
     document.getElementById("about-2").textContent = langData[lang].about2;
     document.getElementById("about-3").textContent = langData[lang].about3;
-    const infoListEl = document.getElementById("info-list"); infoListEl.innerHTML = "";
-    langData[lang].infoList.forEach(item=>{ const li=document.createElement("li"); li.textContent=item; infoListEl.appendChild(li); });
-    const lifeListEl = document.getElementById("life-list"); lifeListEl.innerHTML = "";
-    langData[lang].lifeList.forEach(item=>{ const li=document.createElement("li"); li.textContent=item; lifeListEl.appendChild(li); });
+    const infoEl = document.getElementById("info-list"); infoEl.innerHTML = "";
+    langData[lang].infoList.forEach(item => { const li = document.createElement("li"); li.textContent = item; infoEl.appendChild(li); });
+    const lifeEl = document.getElementById("life-list"); lifeEl.innerHTML = "";
+    langData[lang].lifeList.forEach(item => { const li = document.createElement("li"); li.textContent = item; lifeEl.appendChild(li); });
     document.getElementById("screenshots-title").textContent = langData[lang].screenshotsTitle;
   }
-  document.addEventListener("DOMContentLoaded", ()=> setLang("ru") );
+  document.addEventListener("DOMContentLoaded", () => setLang("ru"));
 
-  // birthday countdown
-  function updateBirthday(){
-    const today=new Date();
-    let birthday=new Date(today.getFullYear(),10,19); // 19 Nov
-    if(today>birthday) birthday.setFullYear(today.getFullYear()+1);
-    const diff=Math.floor((birthday-today)/(1000*60*60*24));
-    document.getElementById("birthday-days").textContent="Осталось: "+diff+" дней";
+  function updateBirthday() {
+    const today = new Date();
+
+    // My birthday — Nov 19
+    let myBday = new Date(today.getFullYear(), 10, 19);
+    if (today > myBday) myBday.setFullYear(today.getFullYear() + 1);
+    const myDiff = Math.floor((myBday - today) / (1000 * 60 * 60 * 24));
+    document.getElementById("birthday-days").textContent = myDiff === 0 ? "🎉 Сегодня!" : "Осталось: " + myDiff + " дней";
+
+    // Roman's birthday — Jan 19
+    let romanBday = new Date(today.getFullYear(), 0, 19);
+    if (today > romanBday) romanBday.setFullYear(today.getFullYear() + 1);
+    const romanDiff = Math.floor((romanBday - today) / (1000 * 60 * 60 * 24));
+    document.getElementById("birthday-roman").textContent = romanDiff === 0 ? "🎉 Сегодня!" : "Осталось: " + romanDiff + " дней";
   }
   updateBirthday();
-  setInterval(updateBirthday,1000*60*60*24);
+  setInterval(updateBirthday, 1000 * 60 * 60 * 24);
 </script>
 
-<!-- Optimized Minecraft-style neon squares background - much better performance -->
+<!-- 🌸 SPRING BACKGROUND — cherry blossoms, small hearts, sparkles, mouse interaction -->
 <script>
-(function(){
+(function () {
   const canvas = document.getElementById('global-canvas-bg');
   const ctx = canvas.getContext('2d', { alpha: true });
-  let DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1)); // Limit DPR for performance
+  let DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
   let W = window.innerWidth, H = window.innerHeight;
 
   function resize() {
     DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width = Math.floor(W * DPR);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width  = Math.floor(W * DPR);
     canvas.height = Math.floor(H * DPR);
-    canvas.style.width = W + 'px';
+    canvas.style.width  = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   }
-  
   window.addEventListener('resize', resize);
   resize();
 
-  // Reduced particle count and optimized settings for better performance
-  const COUNT = Math.min(60, Math.floor((W * H) / 15000)); // Dynamic count based on screen size
-  const SIZE_MIN = 8, SIZE_MAX = 25;
-  const SPEED = 0.01;
-  const MOUSE_FORCE = 0.08;
+  // Dense particle counts
+  const PETAL_COUNT  = Math.min(30, Math.floor((W * H) / 40000));
+  const HEART_COUNT  = Math.min(12, Math.floor((W * H) / 90000));
+  const SPARK_COUNT  = Math.min(20, Math.floor((W * H) / 60000));
 
-  let mouse = { x: W/2, y: H/2, active: false };
-  let mouseTimeout;
-  
-  window.addEventListener('mousemove', (e)=>{ 
-    mouse.x = e.clientX; 
-    mouse.y = e.clientY; 
-    mouse.active = true;
-    clearTimeout(mouseTimeout);
-    mouseTimeout = setTimeout(() => { mouse.active = false; }, 100);
+  let mouse = { x: W / 2, y: H / 2, active: false };
+  let mt;
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true;
+    clearTimeout(mt); mt = setTimeout(() => { mouse.active = false; }, 120);
   });
-  window.addEventListener('mouseleave', ()=>{ mouse.active = false; });
+  window.addEventListener('mouseleave', () => { mouse.active = false; });
 
-  function rand(a,b){ return a + Math.random()*(b-a); }
-  
-  // Pre-calculate colors for better performance
-  const colors = [
-    'rgba(64,224,208,',   // turquoise
-    'rgba(138,43,226,',   // blue violet
-    'rgba(0,191,255,',    // deep sky blue
-    'rgba(75,0,130,',     // indigo
-    'rgba(255,20,147,',   // deep pink
-    'rgba(50,205,50,',    // lime green
-    'rgba(255,215,0,',    // gold
-    'rgba(255,69,0,'      // red orange
+  function rand(a, b) { return a + Math.random() * (b - a); }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  const petalCols = [
+    'rgba(255,182,193,','rgba(255,218,225,','rgba(255,240,245,',
+    'rgba(255,255,255,','rgba(255,192,203,','rgba(220,255,220,',
+    'rgba(230,210,255,','rgba(255,228,240,'
+  ];
+  const heartCols = [
+    'rgba(255,105,180,','rgba(255,20,147,','rgba(255,182,193,',
+    'rgba(255,0,127,',  'rgba(220,80,180,'
+  ];
+  const sparkCols = [
+    'rgba(255,215,0,','rgba(255,255,180,','rgba(255,182,193,',
+    'rgba(200,255,200,','rgba(220,210,255,'
   ];
 
-  class Pixel {
+  // Draw heart path (centered at 0,0 with given size)
+  function heartPath(s) {
+    ctx.beginPath();
+    ctx.moveTo(0, s * 0.15);
+    ctx.bezierCurveTo(0, -s * 0.1, -s * 0.5, -s * 0.1, -s * 0.5, s * 0.15);
+    ctx.bezierCurveTo(-s * 0.5, s * 0.45, 0, s * 0.7, 0, s * 0.8);
+    ctx.bezierCurveTo(0, s * 0.7, s * 0.5, s * 0.45, s * 0.5, s * 0.15);
+    ctx.bezierCurveTo(s * 0.5, -s * 0.1, 0, -s * 0.1, 0, s * 0.15);
+    ctx.closePath();
+  }
+
+  // ── Petal ──────────────────────────────────────────
+  class Petal {
     constructor() { this.init(true); }
-    init(initial=false){
+    init(initial = false) {
+      this.w = rand(5, 15);
+      this.h = rand(7, 18);
       this.x = rand(0, W);
-      this.y = rand(0, H);
-      this.size = rand(SIZE_MIN, SIZE_MAX);
-      this.baseX = this.x;
-      this.baseY = this.y;
-      this.z = 0.5 + Math.random()*1.5;
-      this.vx = (Math.random()-0.5) * SPEED * this.z * 30;
-      this.vy = (Math.random()-0.5) * SPEED * this.z * 30;
-      this.colorBase = colors[Math.floor(Math.random() * colors.length)];
-      this.alpha = 0.2 + Math.random()*0.5;
-      this.rot = Math.random() * Math.PI * 2;
-      this.rotSpeed = (Math.random()-0.5) * 0.002 * this.z;
-      this.pulsePhase = Math.random() * Math.PI * 2;
-      this.pulseSpeed = 0.015 + Math.random() * 0.02;
-      if(initial){
-        this.x = rand(0,W); this.y = rand(0,H);
-      }
+      this.y = initial ? rand(0, H) : -this.h * 2;
+      this.z = rand(0.3, 1.7);
+      this.vy = rand(0.45, 1.4) * this.z;
+      this.vx = rand(-0.4, 0.4);
+      this.rot = rand(0, Math.PI * 2);
+      this.rotSpeed = rand(-0.035, 0.035);
+      this.swayP = rand(0, Math.PI * 2);
+      this.swayS = rand(0.01, 0.025);
+      this.swayA = rand(1.0, 2.8);
+      this.col = pick(petalCols);
+      this.alpha = rand(0.5, 0.92);
+      this.blossom = Math.random() < 0.45;
     }
-    update(){
-      this.rot += this.rotSpeed;
-      this.pulsePhase += this.pulseSpeed;
-      
-      // Simplified floating movement
-      this.baseX += Math.sin(this.rot) * 0.02 * this.z;
-      this.baseY += Math.cos(this.rot) * 0.02 * this.z;
-
-      this.x += this.vx;
+    update() {
+      this.rot += this.rotSpeed + Math.sin(this.swayP) * 0.01;
+      this.swayP += this.swayS;
       this.y += this.vy;
-      this.x += (this.baseX - this.x) * 0.005;
-      this.y += (this.baseY - this.y) * 0.005;
-
-      // Optimized mouse interaction - only when mouse is active
-      if(mouse.active){
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const distSq = dx*dx + dy*dy; // Use squared distance to avoid sqrt
-        if(distSq < 62500){ // 250^2
-          const force = Math.max(0, (62500 - distSq) / 62500);
-          this.x -= dx * MOUSE_FORCE * this.z * force * 0.03;
-          this.y -= dy * MOUSE_FORCE * this.z * force * 0.03;
-        }
+      this.x += this.vx + Math.sin(this.swayP) * this.swayA;
+      if (mouse.active) {
+        const dx = mouse.x - this.x, dy = mouse.y - this.y, d2 = dx*dx + dy*dy;
+        if (d2 < 30000) { const f = (30000 - d2) / 30000; this.x -= dx * f * 0.028; this.y -= dy * f * 0.018; }
       }
-
-      // Wrap around screen
-      if(this.x < -50) this.x = W + 50;
-      if(this.x > W + 50) this.x = -50;
-      if(this.y < -50) this.y = H + 50;
-      if(this.y > H + 50) this.y = -50;
+      // wrap Y: when off bottom, respawn at top
+      if (this.y > H + 30) { this.x = rand(0, W); this.y = -this.h * 2; }
+      if (this.x < -60) this.x = W + 60;
+      if (this.x > W + 60) this.x = -60;
     }
-    draw(){
-      const pulse = 0.7 + 0.3 * Math.sin(this.pulsePhase);
-      const size = this.size * (0.7 + this.z*0.3) * pulse;
-      
+    draw() {
       ctx.save();
       ctx.translate(this.x, this.y);
-      ctx.rotate(this.rot * 0.1);
-      ctx.globalCompositeOperation = 'lighter';
-      
-      // Simplified glow effect - single layer for better performance
-      const alpha = Math.min(0.8, this.alpha * pulse);
-      ctx.fillStyle = this.colorBase + alpha + ')';
-      ctx.shadowBlur = 8 * this.z * pulse;
-      ctx.shadowColor = this.colorBase + '0.6)';
-      ctx.fillRect(-size/2, -size/2, size, size);
-      
+      ctx.rotate(this.rot);
+      ctx.fillStyle = this.col + this.alpha + ')';
+      ctx.shadowBlur = 0;
+      if (this.blossom) {
+        // 5-petal cherry blossom
+        const r = this.w * 0.5;
+        for (let i = 0; i < 5; i++) {
+          const a = (i / 5) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.ellipse(Math.cos(a) * r * 0.5, Math.sin(a) * r * 0.5, r * 0.5, r * 0.32, a, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.w * 0.5, this.h * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.restore();
       ctx.shadowBlur = 0;
     }
   }
 
-  const pixels = [];
-  for(let i=0;i<COUNT;i++) pixels.push(new Pixel());
+  // ── Small Heart ────────────────────────────────────
+  class Heart {
+    constructor() { this.init(true); }
+    init(initial = false) {
+      this.size = rand(4, 13);   // small!
+      this.x = rand(0, W);
+      this.y = initial ? rand(0, H) : -this.size * 2;
+      this.z = rand(0.5, 1.6);
+      this.vy = rand(0.35, 1.0) * this.z;
+      this.vx = rand(-0.4, 0.4);
+      this.rot = rand(-0.5, 0.5);
+      this.rotS = rand(-0.02, 0.02);
+      this.pulseP = rand(0, Math.PI * 2);
+      this.pulseS = rand(0.025, 0.05);
+      this.swayP = rand(0, Math.PI * 2);
+      this.swayS = rand(0.01, 0.022);
+      this.swayA = rand(0.3, 1.1);
+      this.col = pick(heartCols);
+      this.alpha = rand(0.45, 0.85);
+    }
+    update() {
+      this.rot += this.rotS;
+      this.pulseP += this.pulseS;
+      this.swayP += this.swayS;
+      this.y += this.vy;
+      this.x += this.vx + Math.sin(this.swayP) * this.swayA;
+      if (mouse.active) {
+        const dx = mouse.x - this.x, dy = mouse.y - this.y, d2 = dx*dx + dy*dy;
+        if (d2 < 26000) { const f = (26000 - d2) / 26000; this.x -= dx * f * 0.032; this.y -= dy * f * 0.025; }
+      }
+      if (this.y > H + 20) { this.x = rand(0, W); this.y = -this.size * 2; }
+      if (this.x < -40) this.x = W + 40;
+      if (this.x > W + 40) this.x = -40;
+    }
+    draw() {
+      const pulse = 0.87 + 0.13 * Math.sin(this.pulseP);
+      const s = this.size * pulse;
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot);
+      ctx.fillStyle = this.col + (this.alpha * pulse) + ')';
+      ctx.shadowBlur = 0;
+      heartPath(s);
+      ctx.fill();
+      ctx.restore();
+      ctx.shadowBlur = 0;
+    }
+  }
 
-  // Performance monitoring
+  // ── Sparkle ────────────────────────────────────────
+  class Sparkle {
+    constructor() { this.init(true); }
+    init(initial = false) {
+      this.x = rand(0, W);
+      this.y = initial ? rand(0, H) : -10;
+      this.r = rand(1.2, 4.0);
+      this.z = rand(0.4, 1.6);
+      this.vy = rand(0.25, 0.85) * this.z;
+      this.vx = rand(-0.25, 0.25);
+      this.alpha = rand(0.4, 0.9);
+      this.twP = rand(0, Math.PI * 2);
+      this.twS = rand(0.04, 0.1);
+      this.swayP = rand(0, Math.PI * 2);
+      this.swayS = rand(0.015, 0.03);
+      this.col = pick(sparkCols);
+      this.star = Math.random() < 0.45;
+    }
+    update() {
+      this.twP += this.twS;
+      this.swayP += this.swayS;
+      this.y += this.vy;
+      this.x += this.vx + Math.sin(this.swayP) * 0.5;
+      if (this.y > H + 15) { this.x = rand(0, W); this.y = -10; }
+      if (this.x < -20) this.x = W + 20;
+      if (this.x > W + 20) this.x = -20;
+    }
+    draw() {
+      const tw = 0.5 + 0.5 * Math.sin(this.twP);
+      const a = this.alpha * tw;
+      const r = this.r * (0.75 + 0.45 * tw);
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.fillStyle = this.col + a + ')';
+      ctx.shadowBlur = 0;
+      if (this.star) {
+        ctx.beginPath();
+        for (let i = 0; i < 8; i++) {
+          const ang = (i / 8) * Math.PI * 2;
+          const rad = i % 2 === 0 ? r : r * 0.38;
+          ctx.lineTo(Math.cos(ang) * rad, Math.sin(ang) * rad);
+        }
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  const petals   = Array.from({ length: PETAL_COUNT  }, () => new Petal());
+  const hearts   = Array.from({ length: HEART_COUNT  }, () => new Heart());
+  const sparkles = Array.from({ length: SPARK_COUNT  }, () => new Sparkle());
+
   let lastTime = 0;
-  let frameCount = 0;
-  let fps = 60;
+  function frame(now) {
+    if (now - lastTime < 16.67) { requestAnimationFrame(frame); return; }
+    lastTime = now;
+    ctx.clearRect(0, 0, W, H);
 
-  function frame(currentTime){
-    // Simple FPS limiting for better performance
-    if (currentTime - lastTime < 16.67) { // ~60fps max
-      requestAnimationFrame(frame);
-      return;
-    }
-    
-    frameCount++;
-    if(frameCount % 60 === 0){
-      fps = Math.round(1000 / (currentTime - lastTime));
-    }
-    lastTime = currentTime;
-
-    ctx.clearRect(0,0,W,H);
-    
-    // Simplified background
-    const g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0, 'rgba(5,0,15,0.1)');
-    g.addColorStop(0.5, 'rgba(10,0,20,0.08)');
-    g.addColorStop(1, 'rgba(20,0,40,0.12)');
+    // Soft spring color wash
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0,   'rgba(255,220,235,0.04)');
+    g.addColorStop(0.5, 'rgba(210,245,225,0.03)');
+    g.addColorStop(1,   'rgba(235,210,255,0.05)');
     ctx.fillStyle = g;
-    ctx.fillRect(0,0,W,H);
-    
-    // Draw particles in batches for better performance
-    for(let i=0;i<pixels.length;i++){
-      pixels[i].update();
-      pixels[i].draw();
-    }
-    
+    ctx.fillRect(0, 0, W, H);
+
+    for (const s of sparkles) { s.update(); s.draw(); }
+    for (const p of petals)   { p.update(); p.draw(); }
+    for (const h of hearts)   { h.update(); h.draw(); }
+
     requestAnimationFrame(frame);
   }
-  
   requestAnimationFrame(frame);
 })();
 </script>
 </body>
 </html>
-
-
-
